@@ -12,10 +12,20 @@ datasource db {
   provider = "postgresql"
 }
 
+enum JenisKelamin {
+  LAKI_LAKI
+  PEREMPUAN
+}
+
 model Peserta {
   id Int @id @default(autoincrement())
   nama String
   umur Int
+  tanggal_lahir DateTime
+  jenis_kelamin JenisKelamin
+  tingkat_pendidikan String
+  instansi String
+  kontak String
   jawaban Jawaban[]
   hasil Hasil?
   createdAt DateTime @default(now())
