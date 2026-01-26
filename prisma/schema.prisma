@@ -1,0 +1,47 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client"
+  output   = "../app/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Peserta {
+  id Int @id @default(autoincrement())
+  nama String
+  umur Int
+  jawaban Jawaban[]
+  hasil Hasil?
+  createdAt DateTime @default(now())
+}
+
+model Soal {
+  id Int @id @default(autoincrement())
+  pertanyaan String
+  jawaban Jawaban[]
+}
+
+model Jawaban {
+  id Int @id @default(autoincrement())
+  pesertaId Int
+  soalId Int
+  skor Int
+
+  peserta Peserta @relation(fields: [pesertaId], references: [id])
+  soal Soal @relation(fields: [soalId], references: [id])
+}
+
+model Hasil {
+  id Int @id @default(autoincrement())
+  pesertaId Int @unique
+  skor Float
+
+  peserta Peserta @relation(fields: [pesertaId], references: [id])
+}
