@@ -101,8 +101,9 @@ export default function Home() {
       <div className="w-full max-w-xl bg-white shadow-md rounded-lg p-8">
         {step === "identitas" && (
           <>
-            <h2 className="text-2xl font-bold mb-4">Identitas Peserta</h2>
-
+          <div className="max-w-3xl mx-auto p-6">
+            <h2 className="text-2xl font-bold mb-6">Identitas Peserta</h2>
+          </div>
             <div className="mb-2">
               <p>Nama Lengkap</p>
             <input
@@ -196,8 +197,16 @@ export default function Home() {
           <>
             <h2 className="text-2xl font-bold mb-4">Psikotes</h2>
             {soals.map((s, index) => (
-              <div key={s.id} className="mb-5">
-                <p className="font-semibold">
+              <div key={s.id} className="bg-white shadow-md rounded-lg p-4 mb-4">
+                <h3 className="font-semibold text-yellow-700 mb-2">Pertanyaan {index + 1}</h3>
+                <p className="text-gray-800 mb-3">{s.pertanyaan}</p>
+                <textarea 
+                  className="w-full border-0 rounded p-2 focus:ring focus:ring-blue-300"
+                  placeholder="Tulis jawaban anda..."
+                  value={jawaban[s.id]}
+                  onChange={(e) => setJawaban({...jawaban, [s.id]: e.target.value,})}
+                ></textarea>
+                {/* <p className="font-semibold">
                   {index + 1}. {s.pertanyaan}
                 </p>
                 <input
@@ -208,15 +217,17 @@ export default function Home() {
                   onChange={(e) =>
                     setJawaban((prev) => ({ ...prev, [s.id]: e.target.value }))
                   }
-                />
+                /> */}
               </div>
             ))}
-            <button
+            <div className="flex justify-center mt-6">
+              <button
               onClick={submitTest}
-              className="w-full py-2 bg-green-500 text-white rounded-md hover:bg-green-600"
+              className="mt-6 bg-green-600 text-white px-6 py-2 rounded align-items-center justify-content-center"
             >
               Submit Jawaban
             </button>
+            </div>
           </>
         )}
       </div>

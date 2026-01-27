@@ -3,77 +3,203 @@
 import { useEffect, useState } from "react";
 
 type Soal = {
-    id: number;
-    pertanyaan: string;
+  id: number;
+  pertanyaan: string;
 };
 
 type Jawaban = {
-    id: number;
-    jawaban_text: string;
-    skor: number;
-    soal: Soal;
-}
+  id: number;
+  jawaban_text: string;
+  skor: number;
+  soal: Soal;
+};
 
 type Peserta = {
-    id: number;
-    nama: string;
-    umur: number;
-    tanggal_lahir: string;
-    jenis_kelamin: string;
-    tingkat_pendidikan: string;
-    instansi: string;
-    kontak: string;
-    hasil: {
-        skor: number;
-    } | null;
-    jawaban: Jawaban[];
-}
+  id: number;
+  nama: string;
+  umur: number;
+  tanggal_lahir: string;
+  jenis_kelamin: string;
+  tingkat_pendidikan: string;
+  instansi: string;
+  kontak: string;
+  jawaban: Jawaban[];
+};
 
 export default function AdminPage() {
-    const [data, setData] = useState<Peserta[]>([]);
+  const [pesertaList, setPesertaList] = useState<Peserta[]>([]);
+  const [selectedPeserta, setSelectedPeserta] = useState<Peserta | null>(null);
+  const [jawaban, setJawaban] = useState<Jawaban[]>([]);
 
-    useEffect(() => {
-        fetch("api/admin/jawaban")
-        .then((res) => res.json())
-        .then((data: Peserta[]) => setData(data))
-        .catch((err) => console.error(err));
-    }, []);
+  // ambil semua peserta
+  useEffect(() => {
+    fetch("/api/admin/peserta")
+      .then(res => res.json())
+      .then(data => setPesertaList(data));
+  }, []);
 
-    return(
-        <div className="p-6">
-            <h1 className="text-2xl font-bold mb-4">Data Jawaban Peserta</h1>
+  // pilih peserta
+  const handleSelectPeserta = async (id: number) => {
+  try {
+    const res = await fetch(`/api/admin/peserta/${id}`);
 
-            {data.map((peserta) => (
-                <div key={peserta.id} className="border rounded p-4 mb-6">
-                    <h2 className="font-bold text-lg">{peserta.nama}</h2>
-                    <p>Umur: {peserta.umur}</p>
-                    <p>Tanggal Lahir: {" "} {new Date(peserta.tanggal_lahir). toLocaleDateString("id-ID")}</p>
-                    <p>Jenis Kelamin: {peserta.jenis_kelamin}</p>
-                    <p>Tingkat Pendidikan: {peserta.tingkat_pendidikan}</p>
-                    <p>Instansi: {peserta.instansi}</p>
-                    <p>Kontak: {peserta.kontak}</p>
-                    <p className="font-semibold">Skor: {peserta.hasil?.skor ?? 0}</p>
+    if (!res.ok) {
+      const text = await res.text();
+      console.error("API error:", text);
+      alert("Gagal mengambil data peserta");
+      return;
+    }
 
-                    <hr className="my-3"/>
+    const data = await res.json();
+    setSelectedPeserta(data);
+    setJawaban(data.jawaban);
+  } catch (error) {
+    console.error("Fetch error:", error);
+    alert("Terjadi kesalahan saat mengambil data");
+  }
+};
 
-                    <h3 className="font-semibold mb-2">Jawaban:</h3>
-                    {peserta.jawaban.map((j, i) => (
-                        <div key={j.id} className="mb-2">
-                            <p className="font-medium">
-                                {i + 1}. {j.soal.pertanyaan}
-                            </p>
-                            <p className="ml-4 text-gray-700">
-                                Jawaban: {j.jawaban_text}
-                            </p>
-                            <p className="ml-4 text-sm">Skor: {j.skor}</p>
-                        </div>
-                    ))}
-                </div>
-            ))}
-        </div>
+
+  // ubah skor
+  const handleSkorChange = (id: number, skor: number) => {
+    setJawaban(prev =>
+      prev.map(j =>
+        j.id === id ? { ...j, skor } : j
+      )
     );
-}
+  };
 
-function then(arg0: (data: Peserta[]) => void) {
-    throw new Error("Function not implemented.");
+  // simpan semua skor
+  const simpanSemuaSkor = async () => {
+  try {
+    for (const j of jawaban) {
+      const res = await fetch("/api/admin/update-skor", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          jawabanId: j.id,
+          skor: j.skor,
+        }),
+      });
+
+      if (!res.ok) {
+        throw new Error("Gagal menyimpan salah satu skor");
+      }
+    }
+
+    alert("Semua skor berhasil disimpan!");
+  } catch (error) {
+    console.error(error);
+    alert("Terjadi error saat menyimpan skor");
+  }
+};
+
+const totalSkor = jawaban.reduce((total, j) => {
+    return total + (Number(j.skor) || 0);
+}, 0);
+
+
+ return (
+  <div className="min-h-screen bg-gray-50 p-6">
+    <div className="max-w-6xl mx-auto">
+
+      <h1 className="text-3xl font-bold mb-6 text-gray-800">
+        Admin Penilaian Psikotes
+      </h1>
+
+      {/* pilih peserta */}
+      <div className="mb-6">
+        <label className="block mb-2 font-semibold text-gray-700">
+          Pilih Peserta
+        </label>
+        <select
+          className="w-full md:w-1/2 border rounded-lg p-3 focus:ring focus:ring-blue-200"
+          onChange={(e) => handleSelectPeserta(Number(e.target.value))}
+        >
+          <option value="">-- Pilih Peserta --</option>
+          {pesertaList.map(p => (
+            <option key={p.id} value={p.id}>{p.nama}</option>
+          ))}
+        </select>
+      </div>
+
+      {/* identitas peserta */}
+      {selectedPeserta && (
+        <div className="bg-white shadow rounded-lg p-6 mb-6">
+          <h2 className="text-xl font-bold mb-4 text-yellow-600">
+            Identitas Peserta
+          </h2>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-gray-700">
+            <p><b>Nama <span style={{ marginLeft: 70 }}>:</span></b> {selectedPeserta.nama}</p>
+            <p><b>Umur <span style={{ marginLeft: 72 }}>:</span></b> {selectedPeserta.umur}</p>
+            <p><b>Tanggal Lahir <span style={{ marginLeft: 14 }}>:</span></b> {new Date(selectedPeserta.tanggal_lahir).toLocaleDateString("id-ID")}</p>
+            <p><b>Jenis Kelamin <span style={{ marginLeft: 13 }}>:</span></b> {selectedPeserta.jenis_kelamin}</p>
+            <p><b>Pendidikan <span style={{ marginLeft: 31 }}>:</span></b> {selectedPeserta.tingkat_pendidikan}</p>
+            <p><b>Instansi <span style={{ marginLeft: 57 }}>:</span></b> {selectedPeserta.instansi}</p>
+            <p><b>Kontak <span style={{ marginLeft: 62 }}>:</span></b> {selectedPeserta.kontak}</p>
+          </div>
+        </div>
+      )}
+
+      {/* tabel jawaban */}
+      {jawaban.length > 0 && (
+        <div className="bg-white shadow rounded-lg p-4">
+
+          <table className="w-full border-collapse">
+            <thead>
+              <tr className="bg-gray-600 text-white">
+                <th className="p-3 border">No</th>
+                <th className="p-3 border">Pertanyaan</th>
+                <th className="p-3 border">Jawaban Peserta</th>
+                <th className="p-3 border">Skor</th>
+              </tr>
+            </thead>
+            <tbody>
+              {jawaban.map((j, index) => (
+                <tr
+                  key={j.id}
+                  className="odd:bg-gray-50 hover:bg-yellow-50 transition"
+                >
+                  <td className="p-3 border text-center">{index + 1}</td>
+                  <td className="p-3 border">{j.soal.pertanyaan}</td>
+                  <td className="p-3 border">{j.jawaban_text}</td>
+                  <td className="p-3 border text-center">
+                    <input
+                      type="number"
+                      min={0}
+                      max={5}
+                      value={j.skor}
+                      onChange={(e) =>
+                        handleSkorChange(j.id, Number(e.target.value))
+                      }
+                      className="border rounded px-2 py-1 w-20 text-center focus:ring focus:ring-blue-300"
+                    />
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+
+          {/* total skor */}
+          <div className="flex justify-between items-center mt-6">
+            <div className="bg-green-100 text-green-800 px-5 py-3 rounded-lg text-lg font-bold shadow">
+              Total Skor: {totalSkor}
+            </div>
+
+            <button
+              onClick={simpanSemuaSkor}
+              className="bg-blue-600 hover:bg-blue-700 transition text-white px-6 py-3 rounded-lg font-semibold shadow"
+            >
+              Simpan Semua Skor
+            </button>
+          </div>
+
+        </div>
+      )}
+
+    </div>
+  </div>
+);
+
 }
