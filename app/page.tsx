@@ -129,7 +129,7 @@ export default function Home() {
             />
             </div>
 
-            <div className="mb-2">
+            <div className="mb-4">
               <p>Jenis Kelamin</p>
               <select
                 value={jenis_kelamin}
