@@ -51,14 +51,14 @@ export default function Home() {
     const data = {
       nama,
       umur: Number(umur),
-      tanggal_lahir: tanggal_lahir,
-      jenis_kelamin: jenis_kelamin,
-      tingkat_pendidikan: tingkat_pendidikan,
-      instansi: instansi,
-      kontak: kontak,
+      tanggal_lahir,
+      jenis_kelamin,
+      tingkat_pendidikan,
+      instansi,
+      kontak,
       jawaban: Object.keys(jawaban).map((id) => ({
         soalId: Number(id),
-        skor: jawaban[Number(id)],
+        jawaban: jawaban[Number(id)],
       })),
     };
 
@@ -75,8 +75,8 @@ export default function Home() {
       return;
     }
 
-    const hasil = await res.json();
-    alert("Skor: " + hasil.skor);
+    // const hasil = await res.json();
+    // alert("Skor: " + hasil.skor);
 
     // Reset form atau arahkan ke halaman lain
     setStep("identitas");
@@ -129,12 +129,12 @@ export default function Home() {
             />
             </div>
 
-            <div className="mb-4">
+            <div className="mb-2">
               <p>Jenis Kelamin</p>
               <select
                 value={jenis_kelamin}
                 onChange={(e) => setJenisKelamin(e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-md"
+                className="w-full mb-3 px-4 py-2 border border-gray-300 rounded-md"
               >
               <option value="">Pilih Jenis Kelamin</option>
                 {jenisKelaminOption.map((j) => (
@@ -190,7 +190,7 @@ export default function Home() {
           <>
             <h2 className="text-2xl font-bold mb-4">Psikotes</h2>
             {soals.map((s, index) => (
-              <div key={s.id} className="mb-4">
+              <div key={s.id} className="mb-5">
                 <p className="font-semibold">
                   {index + 1}. {s.pertanyaan}
                 </p>
