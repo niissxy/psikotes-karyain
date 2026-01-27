@@ -1,28 +1,16 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
-export async function GET() {
-    try {
-        const data = await prisma.peserta.findMany({
-            include: {
-                jawaban: {
-                    include: {
-                        soal: true,
-                    },
-                },
-                hasil: true,
-            },
-            orderBy: {
-                id: "desc",
-            },
-        });
+export async function GET(req: Request) {
+    const { searchParams } = new URL(req.url);
+    const pesertaId = Number(searchParams.get("pesertaId"));
 
-        return NextResponse.json(data);
-    } catch (error) {
-        console.error(error);
-        return NextResponse.json(
-            { error: "Gagal mengambil data" },
-            { status: 500 }
-        );
-    }
+    const jawaban = await prisma.jawaban.findMany({
+        where: {pesertaId},
+        include: {
+            soal: true,
+        },
+    });
+
+    return NextResponse.json(jawaban);
 }
