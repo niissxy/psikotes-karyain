@@ -75,8 +75,11 @@ export default function Home() {
       return;
     }
 
-    // const hasil = await res.json();
-    // alert("Skor: " + hasil.skor);
+   const hasil = await res.json();
+   alert("Jawaban Berhasil Disimpan!")
+
+   if (hasil.success) {
+    alert("Jawaban Berhasil Disimpan!");
 
     // Reset form atau arahkan ke halaman lain
     setStep("identitas");
@@ -88,6 +91,9 @@ export default function Home() {
     setInstansi("");
     setKontak("");
     setJawaban({});
+   } else {
+    alert("Gagal Menyimpan Jawaban")
+   }
   };
 
   return (
