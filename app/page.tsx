@@ -21,6 +21,7 @@ export default function Home() {
   const [tingkat_pendidikan, setTingkatPendidikan] = useState("");
   const [instansi, setInstansi] = useState("");
   const [kontak, setKontak] = useState("");
+  const [portofolio, setPortofolio] = useState<File | null>(null);
   const [jawaban, setJawaban] = useState<Record<number, string>>({});
   const [step, setStep] = useState<"identitas" | "soal">("identitas");
 
