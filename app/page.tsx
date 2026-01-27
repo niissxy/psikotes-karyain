@@ -7,10 +7,20 @@ type Soal = {
   pertanyaan: string;
 };
 
+const jenisKelaminOption = [
+  { value: "LAKI_LAKI", label: "Laki-Laki" },
+  { value: "PEREMPUAN", label: "Perempuan" }
+]
+
 export default function Home() {
   const [soals, setSoals] = useState<Soal[]>([]);
   const [nama, setNama] = useState("");
   const [umur, setUmur] = useState("");
+  const [tanggal_lahir, setTanggalLahir] = useState("")
+  const [jenis_kelamin, setJenisKelamin] = useState("");
+  const [tingkat_pendidikan, setTingkatPendidikan] = useState("");
+  const [instansi, setInstansi] = useState("");
+  const [kontak, setKontak] = useState("");
   const [jawaban, setJawaban] = useState<Record<number, string>>({});
   const [step, setStep] = useState<"identitas" | "soal">("identitas");
 
@@ -23,8 +33,8 @@ export default function Home() {
 
   // Validasi identitas
   const startTest = () => {
-    if (!nama.trim() || !umur.trim()) {
-      alert("Harap isi nama dan umur terlebih dahulu!");
+    if (!nama.trim() || !umur.trim() || !tanggal_lahir.trim() || !jenis_kelamin.trim() || !tingkat_pendidikan.trim() || !instansi.trim() || !kontak.trim()) {
+      alert("Harap isi identitas terlebih dahulu!");
       return;
     }
     setStep("soal");
@@ -32,9 +42,20 @@ export default function Home() {
 
   // Submit jawaban
   const submitTest = async () => {
+
+    if (Object.keys(jawaban).length === 0){
+      alert("Harap isi jawaban terlebih dahulu!");
+      return;
+    }
+
     const data = {
       nama,
       umur: Number(umur),
+      tanggal_lahir: tanggal_lahir,
+      jenis_kelamin: jenis_kelamin,
+      tingkat_pendidikan: tingkat_pendidikan,
+      instansi: instansi,
+      kontak: kontak,
       jawaban: Object.keys(jawaban).map((id) => ({
         soalId: Number(id),
         skor: jawaban[Number(id)],
@@ -61,6 +82,11 @@ export default function Home() {
     setStep("identitas");
     setNama("");
     setUmur("");
+    setTanggalLahir("");
+    setJenisKelamin("");
+    setTingkatPendidikan("");
+    setInstansi("");
+    setKontak("");
     setJawaban({});
   };
 
@@ -71,15 +97,18 @@ export default function Home() {
           <>
             <h2 className="text-2xl font-bold mb-4">Identitas Peserta</h2>
 
-            <p>Nama Lengkap</p>
+            <div className="mb-2">
+              <p>Nama Lengkap</p>
             <input
               className="w-full mb-3 px-4 py-2 border border-gray-300 rounded-md"
               placeholder="Nama"
               value={nama}
               onChange={(e) => setNama(e.target.value)}
             />
-
-            <p>Umur</p>
+            </div>
+      
+            <div className="mb-2">
+              <p>Umur</p>
             <input
               className="w-full mb-3 px-4 py-2 border border-gray-300 rounded-md"
               type="number"
@@ -87,6 +116,67 @@ export default function Home() {
               value={umur}
               onChange={(e) => setUmur(e.target.value)}
             />
+            </div>
+
+            <div className="mb-2">
+              <p>Tanggal Lahir</p>
+            <input 
+              className="w-full mb-3 px-4 py-2 border border-gray-300 rounded-md"
+              type="date"
+              placeholder="Tanggal Lahir"
+              value={tanggal_lahir}
+              onChange={(e) => setTanggalLahir(e.target.value)} 
+            />
+            </div>
+
+            <div className="mb-2">
+              <p>Jenis Kelamin</p>
+              <select
+                value={jenis_kelamin}
+                onChange={(e) => setJenisKelamin(e.target.value)}
+                className="w-full px-4 py-2 border border-gray-300 rounded-md"
+              >
+              <option value="">Pilih Jenis Kelamin</option>
+                {jenisKelaminOption.map((j) => (
+              <option key={j.value} value={j.value}>
+                {j.label}
+              </option>
+              ))}
+              </select>
+            </div>
+
+            <div className="mb-2">
+              <p>Tingkat Pendidikan</p>
+              <input
+                className="w-full mb-3 px-4 py-2 border border-gray-300 rounded-md" 
+                type="text"
+                placeholder="Tingkat Pendidikan"
+                value={tingkat_pendidikan}
+                onChange={(e) => setTingkatPendidikan(e.target.value)} 
+              />
+            </div>
+
+            <div className="mb-2">
+              <p>Instansi</p>
+              <input
+                className="w-full mb-3 px-4 py-2 border border-gray-300 rounded-md" 
+                type="text" 
+                placeholder="Instansi"
+                value={instansi}
+                onChange={(e) => setInstansi(e.target.value)}
+              />
+            </div>
+
+            <div className="mb-2">
+              <p>Kontak</p>
+              <input
+                className="w-full mb-3 px-4 py-2 border border-gray-300 rounded-md" 
+                type="text" 
+                placeholder="Kontak"
+                value={kontak}
+                onChange={(e) => setKontak(e.target.value)}
+              />
+            </div>
             <button
               onClick={startTest}
               className="w-full py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
