@@ -26,6 +26,7 @@ model Peserta {
   tingkat_pendidikan String
   instansi String
   kontak String
+  portofolio String?
   jawaban Jawaban[]
   hasil Hasil?
   createdAt DateTime @default(now())
