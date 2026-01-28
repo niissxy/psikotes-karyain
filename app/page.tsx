@@ -49,24 +49,30 @@ export default function Home() {
       return;
     }
 
-    const data = {
-      nama,
-      umur: Number(umur),
-      tanggal_lahir,
-      jenis_kelamin,
-      tingkat_pendidikan,
-      instansi,
-      kontak,
-      jawaban: Object.keys(jawaban).map((id) => ({
-        soalId: Number(id),
-        jawaban: jawaban[Number(id)],
-      })),
-    };
+   const formData = new FormData();
+
+   formData.append("nama", nama);
+   formData.append("umur", umur);
+   formData.append("tanggal_lahir", tanggal_lahir);
+   formData.append("jenis_kelamin", jenis_kelamin);
+   formData.append("tingkat_pendidikan", tingkat_pendidikan);
+   formData.append("instansi", instansi);
+   formData.append("kontak", kontak);
+
+   formData.append("jawaban", JSON.stringify (
+    Object.keys(jawaban).map((id) => ({
+      soalId: Number(id),
+      jawaban: jawaban[Number(id)],
+    }))
+   ));
+
+   if (portofolio) {
+    formData.append("portofolio", portofolio);
+   }
 
     const res = await fetch("/api/submit", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
+      body: formData,
     });
 
     if (!res.ok) {
@@ -92,6 +98,7 @@ export default function Home() {
     setInstansi("");
     setKontak("");
     setJawaban({});
+    setPortofolio(null);
    } else {
     alert("Gagal Menyimpan Jawaban")
    }
@@ -185,6 +192,15 @@ export default function Home() {
                 onChange={(e) => setKontak(e.target.value)}
               />
             </div>
+            <div className="mb-2">
+              <p>Portofolio</p>
+              <input 
+                type="file" 
+                accept=".pdf,.doc,.docx"
+                onChange={(e) => setPortofolio(e.target.files?.[0] || null)}
+                className="w-full mb-3 px-4 py-2 border border-gray-300 rounded-md"
+              />
+            </div>
             <button
               onClick={startTest}
               className="w-full py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
@@ -196,7 +212,7 @@ export default function Home() {
 
         {step === "soal" && (
           <>
-            <h2 className="text-2xl font-bold mb-4">Psikotes</h2>
+            <h2 className="text-2xl text-end font-bold mb-4">Psikotes</h2>
             {soals.map((s, index) => (
               <div key={s.id} className="bg-white shadow-md rounded-lg p-4 mb-4">
                 <h3 className="font-semibold text-yellow-700 mb-2">Pertanyaan {index + 1}</h3>
@@ -204,7 +220,7 @@ export default function Home() {
                 <textarea 
                   className="w-full border-0 rounded p-2 focus:ring focus:ring-blue-300"
                   placeholder="Tulis jawaban anda..."
-                  value={jawaban[s.id]}
+                  value={jawaban[s.id] || ""}
                   onChange={(e) => setJawaban({...jawaban, [s.id]: e.target.value,})}
                 ></textarea>
                 {/* <p className="font-semibold">

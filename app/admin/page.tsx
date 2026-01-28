@@ -23,6 +23,7 @@ type Peserta = {
   tingkat_pendidikan: string;
   instansi: string;
   kontak: string;
+  portofolio: string;
   jawaban: Jawaban[];
 };
 
@@ -131,13 +132,24 @@ const totalSkor = jawaban.reduce((total, j) => {
           </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-gray-700">
-            <p><b>Nama <span style={{ marginLeft: 70 }}>:</span></b> {selectedPeserta.nama}</p>
-            <p><b>Umur <span style={{ marginLeft: 72 }}>:</span></b> {selectedPeserta.umur}</p>
-            <p><b>Tanggal Lahir <span style={{ marginLeft: 14 }}>:</span></b> {new Date(selectedPeserta.tanggal_lahir).toLocaleDateString("id-ID")}</p>
-            <p><b>Jenis Kelamin <span style={{ marginLeft: 13 }}>:</span></b> {selectedPeserta.jenis_kelamin}</p>
-            <p><b>Pendidikan <span style={{ marginLeft: 31 }}>:</span></b> {selectedPeserta.tingkat_pendidikan}</p>
-            <p><b>Instansi <span style={{ marginLeft: 57 }}>:</span></b> {selectedPeserta.instansi}</p>
-            <p><b>Kontak <span style={{ marginLeft: 62 }}>:</span></b> {selectedPeserta.kontak}</p>
+            <p><b>Nama <span style={{ marginLeft: 70 }}>: </span></b> {selectedPeserta.nama}</p>
+            <p><b>Umur <span style={{ marginLeft: 73 }}>: </span></b> {selectedPeserta.umur}</p>
+            <p><b>Tanggal Lahir <span style={{ marginLeft: 14 }}>: </span></b> {new Date(selectedPeserta.tanggal_lahir).toLocaleDateString("id-ID")}</p>
+            <p><b>Jenis Kelamin <span style={{ marginLeft: 13 }}>: </span></b> {selectedPeserta.jenis_kelamin}</p>
+            <p><b>Pendidikan <span style={{ marginLeft: 31 }}>: </span></b> {selectedPeserta.tingkat_pendidikan}</p>
+            <p><b>Instansi <span style={{ marginLeft: 57 }}>: </span></b> {selectedPeserta.instansi}</p>
+            <p><b>Kontak <span style={{ marginLeft: 62 }}>: </span></b> {selectedPeserta.kontak}</p>
+              {selectedPeserta.portofolio && ( 
+              <p><b>Portofolio <span style={{ marginLeft: 43 }}>: </span></b> 
+              <a 
+                href={selectedPeserta.portofolio}
+                download
+                target="_blank" 
+                className="text-blue-600 underline"
+                >
+                  {selectedPeserta.portofolio.split("/").pop()}
+                </a>
+                </p> )}
           </div>
         </div>
       )}
