@@ -6,18 +6,12 @@ import bcrypt from "bcryptjs";
 
 export const authOptions: AuthOptions = {
   providers: [
-    GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID!,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-    }),
-
     CredentialsProvider({
       name: "credentials",
       credentials: {
         email: { label: "Email", type: "email" },
         password: { label: "Password", type: "password" },
       },
-
       async authorize(credentials) {
         if (!credentials?.email || !credentials.password) return null;
 
@@ -38,6 +32,11 @@ export const authOptions: AuthOptions = {
         };
       },
     }),
+
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID!,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+    }),
   ],
 
   session: {
@@ -52,32 +51,28 @@ export const authOptions: AuthOptions = {
     async signIn({ user, account }) {
       if (!user.email) return false;
 
-      const existingUser = await prisma.user.findUnique({
-        where: { email: user.email },
-      });
-
-      // REGISTER GOOGLE
-      if (!existingUser) {
-        await prisma.user.create({
-          data: {
-            name: user.name,
-            email: user.email,
-            image: user.image,
-            role: "USER",
-          },
+      // REGISTER GOOGLE jika user belum ada
+      if (account?.provider === "google") {
+        const existingUser = await prisma.user.findUnique({
+          where: { email: user.email },
         });
-
-        // redirect ke login setelah register google
-        return "/login";
+        if (!existingUser) {
+          await prisma.user.create({
+            data: {
+              name: user.name,
+              email: user.email,
+              image: user.image,
+              role: "USER",
+            },
+          });
+        }
       }
 
       return true;
     },
 
     async jwt({ token, user }) {
-      if (user) {
-        token.role = (user as any).role;
-      }
+      if (user) token.role = (user as any).role;
       return token;
     },
 
@@ -86,10 +81,9 @@ export const authOptions: AuthOptions = {
       return session;
     },
 
-    // 🔹 Redirect after login based on role
     async redirect({ url, baseUrl }) {
-      if (url.startsWith(baseUrl)) return url;
-      return baseUrl;
+      // redirect setelah login
+      return url.startsWith(baseUrl) ? url : baseUrl;
     },
   },
 };
