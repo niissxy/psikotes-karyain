@@ -81,6 +81,7 @@ export default function SoalPage() {
     }))
    ));
 
+  //  formData.append("portofolio", fileInput.files[0]);
 
    if (portofolio) {
     formData.append("portofolio", portofolio);
