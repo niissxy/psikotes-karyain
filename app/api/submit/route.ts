@@ -58,6 +58,7 @@ export async function POST(req: Request) {
           pesertaId: peserta.id,
           soalId: j.soalId,
           jawaban_text: j.jawaban,
+          jawaban_gambar: j.jawaban,
           skor: 0,
         },
       });

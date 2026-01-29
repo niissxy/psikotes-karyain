@@ -6,18 +6,15 @@ const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
 });
 
-const prismaClientSingleton = () => {
-  return new PrismaClient({
-    adapter: new PrismaPg(pool),
-  });
-};
+const adapter = new PrismaPg(pool);
 
 const globalForPrisma = globalThis as unknown as {
-  prisma?: ReturnType<typeof prismaClientSingleton>;
+  prisma: PrismaClient | undefined;
 };
 
 export const prisma =
-  globalForPrisma.prisma ?? prismaClientSingleton();
+  globalForPrisma.prisma ??
+  new PrismaClient({ adapter });
 
 if (process.env.NODE_ENV !== "production") {
   globalForPrisma.prisma = prisma;

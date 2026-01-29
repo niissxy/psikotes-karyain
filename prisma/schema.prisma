@@ -17,6 +17,11 @@ enum JenisKelamin {
   PEREMPUAN
 }
 
+enum TipeSoal {
+  PILIHAN
+  UPLOAD
+}
+
 model Peserta {
   id Int @id @default(autoincrement())
   nama String
@@ -36,7 +41,17 @@ model Soal {
   id Int @id @default(autoincrement())
   pertanyaan String
   gambar String?
+  tipe TipeSoal
   jawaban Jawaban[]
+  pilihan PilihanJawaban[]
+}
+
+model PilihanJawaban {
+  id Int @id @default(autoincrement())
+  label String
+  teks String?
+  soalId Int
+  soal Soal @relation(fields: [soalId], references: [id])
 }
 
 model Jawaban {
@@ -44,6 +59,7 @@ model Jawaban {
   pesertaId Int
   soalId Int
   jawaban_text String
+  jawaban_gambar String?
   skor Int
 
   peserta Peserta @relation(fields: [pesertaId], references: [id])

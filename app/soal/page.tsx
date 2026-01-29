@@ -5,7 +5,17 @@ import { useEffect, useState } from "react";
 type Soal = {
   id: number;
   pertanyaan: string;
+  tipe: "PILIHAN" | "UPLOAD";
+  gambar?: string | null;
+  pilihan: { id: number; label: string; teks?: string }[];
 };
+
+type Pilihan = {
+  id: number;
+  label: string;
+  teks: string;
+};
+
 
 const jenisKelaminOption = [
   { value: "LAKI_LAKI", label: "Laki-Laki" },
@@ -25,12 +35,17 @@ export default function SoalPage() {
   const [jawaban, setJawaban] = useState<Record<number, string>>({});
   const [step, setStep] = useState<"identitas" | "soal">("identitas");
 
+   const [jawabanFile, setJawabanFile] = useState<Record<number, File>>({});
+
   // Ambil soal dari API
   useEffect(() => {
-    fetch("/api/soal")
-      .then((res) => res.json())
-      .then((data: Soal[]) => setSoals(data));
-  }, []);
+  fetch("/api/soal")
+    .then((res) => res.json())
+    .then((data) => {
+      console.log("DATA SOAL:", data);
+      setSoals(data);
+    });
+}, []);
 
   // Validasi identitas
   const startTest = () => {
@@ -70,6 +85,10 @@ export default function SoalPage() {
     formData.append("portofolio", portofolio);
    }
 
+    Object.entries(jawabanFile).forEach(([soalId, file]) => {
+      formData.append(`file_${soalId}`, file);
+    });
+
     const res = await fetch("/api/submit", {
       method: "POST",
       body: formData,
@@ -105,6 +124,7 @@ export default function SoalPage() {
   };
 
   return (
+    
     <div className="flex items-center justify-center min-h-screen bg-white text-black p-4 font-sans">
       <div className="w-full max-w-xl bg-white shadow-md rounded-lg p-8">
         {step === "identitas" && (
@@ -211,43 +231,79 @@ export default function SoalPage() {
         )}
 
         {step === "soal" && (
-          <>
-            <h2 className="text-2xl text-end font-bold mb-4">Psikotes</h2>
-            {soals.map((s, index) => (
-              <div key={s.id} className="bg-white shadow-md rounded-lg p-4 mb-4">
-                <h3 className="font-semibold text-yellow-700 mb-2">Pertanyaan {index + 1}</h3>
-                <p className="text-gray-800 mb-3">{s.pertanyaan}</p>
-                <textarea 
-                  className="w-full border-0 rounded p-2 focus:ring focus:ring-blue-300"
-                  placeholder="Tulis jawaban anda..."
-                  value={jawaban[s.id] || ""}
-                  onChange={(e) => setJawaban({...jawaban, [s.id]: e.target.value,})}
-                ></textarea>
-                {/* <p className="font-semibold">
-                  {index + 1}. {s.pertanyaan}
-                </p>
-                <input
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md"
-                  type="text"
-                  placeholder="Jawaban..."
-                  value={jawaban[s.id] || ""}
-                  onChange={(e) =>
-                    setJawaban((prev) => ({ ...prev, [s.id]: e.target.value }))
-                  }
-                /> */}
-              </div>
-            ))}
-            <div className="flex justify-center mt-6">
-              <button
+        <>
+          {soals.map((s, index) => (
+            <div key={s.id} className="bg-white shadow-md rounded-lg p-4 mb-4">
+              <h3 className="font-semibold text-yellow-700 mb-2">
+                Pertanyaan {index + 1}
+              </h3>
+
+              <p className="text-gray-800 mb-3">{s.pertanyaan}</p>
+
+              {s.gambar && (
+                <img
+                  src={s.gambar}
+                  alt="gambar soal"
+                  className="mb-3 max-w-full rounded"
+                />
+              )}
+
+              {/* ===== TIPE PILIHAN ===== */}
+              {s.tipe === "PILIHAN" && (
+                <div className="space-y-2">
+                  {s.pilihan.map((p) => (
+                    <label key={p.id} className="flex items-center gap-2">
+                      <input
+                        type="radio"
+                        name={`soal-${s.id}`}
+                        value={p.label}
+                        checked={jawaban[s.id] === p.label}
+                        onChange={(e) =>
+                          setJawaban({ ...jawaban, [s.id]: e.target.value })
+                        }
+                      />
+                      <span>
+                        {p.label}. {p.teks ?? ""}
+                      </span>
+                    </label>
+                  ))}
+                </div>
+              )}
+
+              {/* ===== TIPE UPLOAD ===== */}
+              {s.tipe === "UPLOAD" && (
+                <div>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) =>
+                      setJawaban({
+                        ...jawaban,
+                        [s.id]: e.target.files?.[0]?.name || "",
+                      })
+                    }
+                    className="w-full px-3 py-2 border rounded"
+                  />
+                  <p className="text-sm text-gray-500 mt-1">
+                    Upload jawaban berupa gambar
+                  </p>
+                </div>
+              )}
+            </div>
+          ))}
+
+          <div className="flex justify-center mt-6">
+            <button
               onClick={submitTest}
-              className="mt-6 bg-green-600 text-white px-6 py-2 rounded align-items-center justify-content-center"
+              className="mt-6 bg-green-600 text-white px-6 py-2 rounded"
             >
               Submit Jawaban
             </button>
-            </div>
-          </>
-        )}
-      </div>
+          </div>
+        </>
+      )}
+
     </div>
-  );
+  </div>
+);
 }
