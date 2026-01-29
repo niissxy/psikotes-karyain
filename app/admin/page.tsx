@@ -154,14 +154,15 @@ const totalSkor = jawaban.reduce((total, j) => {
             <p><b>Kontak <span style={{ marginLeft: 62 }}>: </span></b> {selectedPeserta.kontak}</p>
               {selectedPeserta.portofolio && ( 
               <p><b>Portofolio <span style={{ marginLeft: 43 }}>: </span></b> 
-              <a 
-                href={selectedPeserta.portofolio}
-                download
-                target="_blank" 
-                className="text-blue-600 underline"
-                >
-                  {selectedPeserta.portofolio.split("/").pop()}
-                </a>
+              <a
+  href={selectedPeserta.portofolio}
+  target="_blank"
+  rel="noopener noreferrer"
+  className="text-blue-600 underline"
+>
+  {selectedPeserta.portofolio.split("/").pop()}
+</a>
+
                 </p> )}
           </div>
         </div>
@@ -200,15 +201,27 @@ const totalSkor = jawaban.reduce((total, j) => {
   </div>
 </td>
 
-
-                 <td className="p-3 border">
+<td className="p-3 border">
   {j.soal.tipe === "UPLOAD" ? (
     j.jawaban_gambar ? (
-      <img
-        src={j.jawaban_gambar}
-        alt="Jawaban Gambar"
-        className="w-40 rounded shadow"
-      />
+      <div className="flex flex-col gap-2">
+        {/* Tampilkan gambar */}
+        <img
+          src={j.jawaban_gambar}
+          alt="Jawaban Gambar"
+          className="w-40 rounded shadow"
+        />
+        {/* Link download */}
+        <a
+          href={j.jawaban_gambar}
+          target="_blank"
+          rel="noopener noreferrer"
+          download
+          className="text-blue-600 underline"
+        >
+          Download Jawaban
+        </a>
+      </div>
     ) : (
       <span className="text-red-500">Tidak ada gambar</span>
     )
@@ -216,6 +229,7 @@ const totalSkor = jawaban.reduce((total, j) => {
     j.jawaban_text
   )}
 </td>
+
 
                   <td className="p-3 border text-center">
                     <input
