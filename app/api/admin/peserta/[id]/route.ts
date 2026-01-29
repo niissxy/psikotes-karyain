@@ -3,34 +3,42 @@ import { prisma } from "@/lib/prisma";
 
 export async function GET(
   req: Request,
-  context: { params: Promise<{ id: string }> }
+  context: { params: Promise<{ id: string }> } // params adalah Promise
 ) {
   try {
-    const { id } = await context.params; // ✅ WAJIB pakai await
-
+    const { id } = await context.params;
     const peserta = await prisma.peserta.findUnique({
-      where: { id: Number(id) },
+      where: { id: Number(id) }, // prisma harus Number
       include: {
         jawaban: {
           include: { soal: true },
         },
-        hasil: true,
       },
     });
 
     if (!peserta) {
-      return NextResponse.json(
-        { error: "Peserta tidak ditemukan" },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: "Peserta tidak ditemukan" }, { status: 404 });
     }
 
-    return NextResponse.json(peserta);
-  } catch (error) {
-    console.error("API ERROR:", error);
-    return NextResponse.json(
-      { error: "Server error" },
-      { status: 500 }
-    );
+    // fix path gambar soal
+    const jawabanWithGambar = peserta.jawaban.map((j) => ({
+      ...j,
+      soal: {
+        ...j.soal,
+        gambar: j.soal.gambar
+          ? j.soal.gambar.startsWith("/")
+            ? j.soal.gambar
+            : `/soal-images/${j.soal.gambar}`
+          : null,
+      },
+    }));
+
+    return NextResponse.json({
+      ...peserta,
+      jawaban: jawabanWithGambar,
+    });
+  } catch (err) {
+    console.error("API ERROR:", err);
+    return NextResponse.json({ error: "Server error" }, { status: 500 });
   }
 }

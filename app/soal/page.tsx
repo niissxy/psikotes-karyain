@@ -35,7 +35,7 @@ export default function SoalPage() {
   const [jawaban, setJawaban] = useState<Record<number, string>>({});
   const [step, setStep] = useState<"identitas" | "soal">("identitas");
 
-   const [jawabanFile, setJawabanFile] = useState<Record<number, File>>({});
+  const [jawabanFile, setJawabanFile] = useState<Record<number, File>>({});
 
   // Ambil soal dari API
   useEffect(() => {
@@ -81,13 +81,14 @@ export default function SoalPage() {
     }))
    ));
 
+
    if (portofolio) {
     formData.append("portofolio", portofolio);
    }
 
-    Object.entries(jawabanFile).forEach(([soalId, file]) => {
-      formData.append(`file_${soalId}`, file);
-    });
+Object.entries(jawabanFile).forEach(([soalId, file]) => {
+  formData.append(`file_${soalId}`, file);
+});
 
     const res = await fetch("/api/submit", {
       method: "POST",
@@ -276,18 +277,28 @@ export default function SoalPage() {
                   <input
                     type="file"
                     accept="image/*"
-                    onChange={(e) =>
-                      setJawaban({
-                        ...jawaban,
-                        [s.id]: e.target.files?.[0]?.name || "",
-                      })
-                    }
-                    className="w-full px-3 py-2 border rounded"
-                  />
-                  <p className="text-sm text-gray-500 mt-1">
-                    Upload jawaban berupa gambar
-                  </p>
-                </div>
+                    onChange={(e) => {
+                    const file = e.target.files?.[0];
+                    if (!file) return;
+
+                    // simpan file
+                    setJawabanFile({
+                    ...jawabanFile,
+                    [s.id]: file,
+                  });
+
+                // simpan tanda bahwa soal ini dijawab
+                setJawaban({
+                ...jawaban,
+                [s.id]: file.name,
+              });
+            }}
+              className="w-full px-3 py-2 border rounded"
+            />
+            <p className="text-sm text-gray-500 mt-1">
+              Upload jawaban berupa gambar
+            </p>
+            </div>
               )}
             </div>
           ))}

@@ -4,6 +4,8 @@ import fs from "fs";
 import path from "path";
 import { JenisKelamin } from "@prisma/client";
 
+export const runtime = "nodejs";
+
 export async function POST(req: Request) {
   try {
     const formData = await req.formData();
@@ -32,6 +34,28 @@ export async function POST(req: Request) {
   portofolioUrl = `/uploads/${filename}`;
 }
 
+const jawaban13 = formData.get("jawaban13") as File | null;
+
+let jawaban13Url: string | null = null;
+
+if (jawaban13) {
+  const bytes = await jawaban13.arrayBuffer();
+  const buffer = Buffer.from(bytes);
+
+  const filename = Date.now() + "-jawaban13-" + jawaban13.name;
+  const uploadDir = path.join(process.cwd(), "public/uploads/jawaban");
+
+  if (!fs.existsSync(uploadDir)) {
+    fs.mkdirSync(uploadDir, { recursive: true });
+  }
+
+  const uploadPath = path.join(uploadDir, filename);
+  fs.writeFileSync(uploadPath, buffer);
+
+  jawaban13Url = `/uploads/jawaban/${filename}`;
+}
+
+
 
     const peserta = await prisma.peserta.create({
       data: {
@@ -52,29 +76,41 @@ export async function POST(req: Request) {
 
     // let totalSkor = 0;
 
-    for (const j of jawaban) {
-      await prisma.jawaban.create({
-        data: {
-          pesertaId: peserta.id,
-          soalId: j.soalId,
-          jawaban_text: j.jawaban,
-          jawaban_gambar: j.jawaban,
-          skor: 0,
-        },
-      });
+  for (const j of jawaban) {
+  let jawabanText = j.jawaban;
+  let jawabanGambar: string | null = null;
 
-      // totalSkor += Number(j.skor) || 0;
+  // ambil file berdasarkan soalId
+  const file = formData.get(`file_${j.soalId}`) as File | null;
+
+  if (file) {
+    const bytes = await file.arrayBuffer();
+    const buffer = Buffer.from(bytes);
+
+    const filename = Date.now() + "-" + file.name;
+    const uploadDir = path.join(process.cwd(), "public/uploads/jawaban");
+
+    if (!fs.existsSync(uploadDir)) {
+      fs.mkdirSync(uploadDir, { recursive: true });
     }
 
-    // const maxScore = jumlahSoal * 5;
-    // const skorFinal = Math.round((totalSkor / maxScore) * 100);
+    const uploadPath = path.join(uploadDir, filename);
+    fs.writeFileSync(uploadPath, buffer);
 
-    // const hasil = await prisma.hasil.create({
-    //   data: {
-    //     pesertaId: peserta.id,
-    //     skor: skorFinal,
-    //   },
-    // });
+    jawabanGambar = `/uploads/jawaban/${filename}`;
+    jawabanText = ""; // karena ini soal upload
+  }
+
+  await prisma.jawaban.create({
+    data: {
+      pesertaId: peserta.id,
+      soalId: j.soalId,
+      jawaban_text: jawabanText,
+      jawaban_gambar: jawabanGambar,
+      skor: 0,
+    },
+  });
+}
 
     return NextResponse.json({
       success: true,

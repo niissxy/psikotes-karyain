@@ -5,11 +5,14 @@ import { useEffect, useState } from "react";
 type Soal = {
   id: number;
   pertanyaan: string;
+  gambar?: string | null;
+  tipe: "PILIHAN" | "UPLOAD";
 };
 
 type Jawaban = {
   id: number;
   jawaban_text: string;
+  jawaban_gambar?: string;
   skor: number;
   soal: Soal;
 };
@@ -33,24 +36,33 @@ export default function AdminPage() {
   const [jawaban, setJawaban] = useState<Jawaban[]>([]);
 
   // ambil semua peserta
-  useEffect(() => {
-    fetch("/api/admin/peserta")
-      .then(res => res.json())
-      .then(data => setPesertaList(data));
-  }, []);
+ useEffect(() => {
+  fetch("/api/admin/peserta")
+    .then(async (res) => {
+      if (!res.ok) {
+        const text = await res.text();
+        console.error("API error:", text);
+        throw new Error("Gagal fetch peserta");
+      }
+      return res.json();
+    })
+    .then((data) => setPesertaList(data))
+    .catch((err) => {
+      console.error("Fetch error:", err);
+    });
+}, []);
+
 
   // pilih peserta
   const handleSelectPeserta = async (id: number) => {
   try {
     const res = await fetch(`/api/admin/peserta/${id}`);
-
     if (!res.ok) {
       const text = await res.text();
       console.error("API error:", text);
       alert("Gagal mengambil data peserta");
       return;
     }
-
     const data = await res.json();
     setSelectedPeserta(data);
     setJawaban(data.jawaban);
@@ -59,6 +71,7 @@ export default function AdminPage() {
     alert("Terjadi kesalahan saat mengambil data");
   }
 };
+
 
 
   // ubah skor
@@ -174,8 +187,36 @@ const totalSkor = jawaban.reduce((total, j) => {
                   className="odd:bg-gray-50 hover:bg-yellow-50 transition"
                 >
                   <td className="p-3 border text-center">{index + 1}</td>
-                  <td className="p-3 border">{j.soal.pertanyaan}</td>
-                  <td className="p-3 border">{j.jawaban_text}</td>
+                  <td className="p-3 border">
+  <div>
+    <p>{j.soal.pertanyaan}</p>
+    {j.soal.gambar && (
+      <img
+        src={j.soal.gambar}
+        alt="Gambar Soal"
+        className="mt-2 w-40 rounded shadow"
+      />
+    )}
+  </div>
+</td>
+
+
+                 <td className="p-3 border">
+  {j.soal.tipe === "UPLOAD" ? (
+    j.jawaban_gambar ? (
+      <img
+        src={j.jawaban_gambar}
+        alt="Jawaban Gambar"
+        className="w-40 rounded shadow"
+      />
+    ) : (
+      <span className="text-red-500">Tidak ada gambar</span>
+    )
+  ) : (
+    j.jawaban_text
+  )}
+</td>
+
                   <td className="p-3 border text-center">
                     <input
                       type="number"

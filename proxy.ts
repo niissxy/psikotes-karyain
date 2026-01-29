@@ -11,6 +11,7 @@ export async function proxy(req: NextRequest) {
     "/api/auth",
     "/favicon.ico",
     "/_next",
+    "/soal-images",
   ];
   if (publicPaths.some((path) => pathname.startsWith(path))) {
     return NextResponse.next();

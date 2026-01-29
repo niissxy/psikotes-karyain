@@ -2,6 +2,20 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
 export async function GET() {
-  const peserta = await prisma.peserta.findMany();
-  return NextResponse.json(peserta);
+  try {
+    const pesertaList = await prisma.peserta.findMany({
+      include: {
+        jawaban: {
+          include: { 
+            soal: true 
+          }, // termasuk soal untuk setiap jawaban
+        },
+      },
+    });
+
+    return NextResponse.json(pesertaList);
+  } catch (err) {
+    console.error(err);
+    return NextResponse.json({ error: "Server error" }, { status: 500 });
+  }
 }
