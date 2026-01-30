@@ -11,7 +11,13 @@ export async function GET(
       where: { id: Number(id) }, // prisma harus Number
       include: {
         jawaban: {
-          include: { soal: true },
+          include: { 
+            soal: {
+              include: {
+                pilihan: true,
+              }
+            }
+           }
         },
       },
     });

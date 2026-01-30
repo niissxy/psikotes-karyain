@@ -23,7 +23,8 @@ async function main() {
         { label: "B", teks: "Kabur" },
         { label: "C", teks: "Konkrit" },
         { label: "D", teks: "Teoretis" }
-      ]
+      ],
+      kunci_jawaban: "D. Teoretis",
     },
 
     {
@@ -36,7 +37,8 @@ async function main() {
         { label: "B", teks: "30%" },
         { label: "C", teks: "50%" },
         { label: "D", teks: "60%" }
-      ]
+      ],
+      kunci_jawaban: "B. 30%"
     },
 
     {
@@ -49,7 +51,8 @@ async function main() {
         { label: "B", teks: "Rp 45.000" },
         { label: "C", teks:"Rp 50.000" },
         { label: "D", teks:"Rp 55.000" },
-      ]
+      ],
+      kunci_jawaban: "C. Rp. 50.000"
     },
 
     {
@@ -62,7 +65,8 @@ async function main() {
         { label: "B", teks: "12 hari" },
         { label: "C", teks:"14 hari" },
         { label: "D", teks:"16 hari" },
-      ]
+      ],
+      kunci_jawaban: "B. 12 hari"
     },
 
      {
@@ -75,7 +79,8 @@ async function main() {
         { label: "B", teks: "6" },
         { label: "C", teks:"4" },
         { label: "D", teks:"10" },
-      ]
+      ],
+      kunci_jawaban: "A. 8"
     },
 
     {
@@ -88,7 +93,8 @@ async function main() {
         { label: "B", teks: "Budi paling tua" },
         { label: "C", teks:"Andi mungkin lebih tua dari Citra" },
         { label: "D", teks:"Tidak bisa disimpulkan" },
-      ]
+      ],
+      kunci_jawaban: "C. Cuaca"
     },
 
     {
@@ -101,7 +107,8 @@ async function main() {
         { label: "B", teks: "Santi tidak suka buku" },
         { label: "C", teks:"Santi pergi ke toko buku" },
         { label: "D", teks:"Tidak bisa disimpulkan" },
-      ]
+      ],
+      kunci_jawaban: "B. Santi tidak suka buku"
     },
 
     {
@@ -114,7 +121,8 @@ async function main() {
         { label: "B", teks: "Senin" },
         { label: "C", teks:"Sabtu" },
         { label: "D", teks:"Minggu" },
-      ]
+      ],
+      kunci_jawaban: "C. Sabtu"
     },
 
     {
@@ -127,7 +135,8 @@ async function main() {
         { label: "B", teks: "Semua pulpen adalah pensil" },
         { label: "C", teks:"Tidak semua alat tulis adalah pensil" },
         { label: "D", teks:"Tidak dapat disimpulkan" },
-      ]
+      ],
+      kunci_jawaban: "D. Tidak dapat disimpulkan"
     },
 
     {
@@ -140,7 +149,8 @@ async function main() {
         { label: "B", teks: "Rani-Dika-Tika" },
         { label: "C", teks:"Tika-Rani-Dina" },
         { label: "D", teks:"Dina-Tika-Rani" },
-      ]
+      ],
+      kunci_jawaban: "A. Dina-Rani-Tika"
     },
 
     {
@@ -153,7 +163,8 @@ async function main() {
         { label: "B", teks: "Beberapa kucing adalah burung" },
         { label: "C", teks:"Semua kucing adalah burung" },
         { label: "D", teks:"Tidak dapat disimpulkan" },
-      ]
+      ],
+      kunci_jawaban: "D. Tidak dapat disimpulkan"
     },
 
     {
@@ -166,7 +177,8 @@ async function main() {
         { label: "B", teks: "Senin" },
         { label: "C", teks:"Sabtu" },
         { label: "D", teks:"Minggu" },
-      ]
+      ],
+      kunci_jawaban: "C. Sabtu"
     },
 
      {
@@ -174,7 +186,8 @@ async function main() {
       pertanyaan: "Tes Warteg",
       gambar: "/soal-images/tes-warteg.png",
       tipe: "UPLOAD",
-      pilihan: []
+      pilihan: [],
+      kunci_jawaban: "GAMBAR"
     },
 
     {
@@ -187,7 +200,8 @@ async function main() {
         { label: "B", teks: "Buku" },
         { label: "C", teks:"Sekolah" },
         { label: "D", teks:"Pelajaran" },
-      ]
+      ],
+      kunci_jawaban: "A. Murid"
     },
     
     {
@@ -200,7 +214,8 @@ async function main() {
         { label: "B", teks: "Lembut" },
         { label: "C", teks:"Ringan" },
         { label: "D", teks:"Kecil" },
-      ]
+      ],
+      kunci_jawaban: "B. Lembut"
     },
 
     {
@@ -213,7 +228,8 @@ async function main() {
         { label: "B", teks: "Sungai" },
         { label: "C", teks:"Laut" },
         { label: "D", teks:"Dermaga" },
-      ]
+      ],
+      kunci_jawaban: "C. Laut"
     },
 
     {
@@ -226,7 +242,8 @@ async function main() {
         { label: "B", teks: "Beku" },
         { label: "C", teks:"Cair" },
         { label: "D", teks:"Air" },
-      ]
+      ],
+      kunci_jawaban: "A. Dingin"
     },
 
     {
@@ -239,7 +256,8 @@ async function main() {
         { label: "B", teks: "Malam" },
         { label: "C", teks:"Bintang" },
         { label: "D", teks:"Awan" },
-      ]
+      ],
+      kunci_jawaban: "B. Malam"
     },
 
     {
@@ -252,7 +270,8 @@ async function main() {
         { label: "B", teks: "Harimau" },
         { label: "C", teks:"Sapi" },
         { label: "D", teks:"Singa" },
-      ]
+      ],
+      kunci_jawaban: "C. Sapi"
     },
 
     {
@@ -265,7 +284,8 @@ async function main() {
         { label: "B", teks: "Harum" },
         { label: "C", teks:"Tajam" },
         { label: "D", teks:"Indah" },
-      ]
+      ],
+      kunci_jawaban: "A. Merah"
     },
 
     {
@@ -278,7 +298,8 @@ async function main() {
         { label: "B", teks: "9" },
         { label: "C", teks:"8" },
         { label: "D", teks:"6" },
-      ]
+      ],
+      kunci_jawaban: "B. 9"
     },
 
     {
@@ -291,7 +312,8 @@ async function main() {
         { label: "B", teks: "78" },
         { label: "C", teks:"100" },
         { label: "D", teks:"104" },
-      ]
+      ],
+      kunci_jawaban: "D. 104"
     },
 
     {
@@ -305,7 +327,8 @@ async function main() {
         { label: "C"},
         { label: "D"},
         { label: "E" },
-      ]
+      ],
+      kunci_jawaban: "B"
     },
 
     {
@@ -319,7 +342,8 @@ async function main() {
         { label: "C"},
         { label: "D"},
         { label: "E" },
-      ]
+      ],
+      kunci_jawaban: "E"
     },
 
     {
@@ -333,7 +357,8 @@ async function main() {
         { label: "C"},
         { label: "D"},
         { label: "E" },
-      ]
+      ],
+      kunci_jawaban: "A"
     },
 
     {
@@ -350,7 +375,8 @@ async function main() {
         { label: "F" },
         { label: "G" },
         { label: "H" },
-      ]
+      ],
+      kunci_jawaban: "F"
     },
 
     {
@@ -367,7 +393,8 @@ async function main() {
         { label: "F" },
         { label: "G" },
         { label: "H" },
-      ]
+      ],
+      kunci_jawaban: "B"
     },
 
     {
@@ -384,7 +411,8 @@ async function main() {
         { label: "F" },
         { label: "G" },
         { label: "H" },
-      ]
+      ],
+      kunci_jawaban: "G"
     },
 
     {
@@ -399,7 +427,8 @@ async function main() {
         { label: "D"},
         { label: "E" },
         { label: "F" },
-      ]
+      ],
+      kunci_jawaban: "C"
     },
 
     {
@@ -414,7 +443,8 @@ async function main() {
         { label: "D"},
         { label: "E" },
         { label: "F" },
-      ]
+      ],
+      kunci_jawaban: "F"
     },
 
     {
@@ -427,7 +457,8 @@ async function main() {
         { label: "B"},
         { label: "C"},
         { label: "D"},
-      ]
+      ],
+      kunci_jawaban: "C"
     },
 
     {
@@ -440,7 +471,8 @@ async function main() {
         { label: "B"},
         { label: "C"},
         { label: "D"},
-      ]
+      ],
+      kunci_jawaban: "C"
     },
 
      {
@@ -453,7 +485,8 @@ async function main() {
         { label: "B"},
         { label: "C"},
         { label: "D"},
-      ]
+      ],
+      kunci_jawaban: "C"
     },
 
      {
@@ -466,7 +499,8 @@ async function main() {
         { label: "B"},
         { label: "C"},
         { label: "D"},
-      ]
+      ],
+      kunci_jawaban: "B"
     },
 
     {
@@ -479,7 +513,8 @@ async function main() {
         { label: "B"},
         { label: "C"},
         { label: "D"},
-      ]
+      ],
+      kunci_jawaban: "C"
     },
 
     {
@@ -492,7 +527,8 @@ async function main() {
         { label: "B"},
         { label: "C"},
         { label: "D"},
-      ]
+      ],
+      kunci_jawaban: "B"
     },
 
     {
@@ -505,7 +541,8 @@ async function main() {
         { label: "B"},
         { label: "C"},
         { label: "D"},
-      ]
+      ],
+      kunci_jawaban: "A"
     },
 
     {
@@ -518,7 +555,8 @@ async function main() {
         { label: "B"},
         { label: "C"},
         { label: "D"},
-      ]
+      ],
+      kunci_jawaban: "A"
     },
 
     {
@@ -531,7 +569,8 @@ async function main() {
         { label: "B"},
         { label: "C"},
         { label: "D"},
-      ]
+      ],
+      kunci_jawaban: "C"
     },
 
     {
@@ -544,7 +583,8 @@ async function main() {
         { label: "B"},
         { label: "C"},
         { label: "D"},
-      ]
+      ],
+      kunci_jawaban: "B"
     }
   ];
 
@@ -557,6 +597,7 @@ async function main() {
         pilihan: {
           create: s.pilihan
         },
+        kunci_jawaban: s.kunci_jawaban,
       },
     });
   }

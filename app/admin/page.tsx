@@ -7,6 +7,7 @@ type Soal = {
   pertanyaan: string;
   gambar?: string | null;
   tipe: "PILIHAN" | "UPLOAD";
+  pilihan: { id: number; label: string; teks?: string }[];
 };
 
 type Jawaban = {
@@ -155,14 +156,14 @@ const totalSkor = jawaban.reduce((total, j) => {
               {selectedPeserta.portofolio && ( 
               <p><b>Portofolio <span style={{ marginLeft: 43 }}>: </span></b> 
               <a
-  href={selectedPeserta.portofolio}
-  target="_blank"
-  className="text-blue-600 underline"
->
-  {selectedPeserta.portofolio.split("/").pop()}
-</a>
+                href={selectedPeserta.portofolio}
+                target="_blank"
+                className="text-blue-600 underline"
+              >
+                {selectedPeserta.portofolio.split("/").pop()}
+              </a>
 
-                </p> )}
+              </p> )}
           </div>
         </div>
       )}
@@ -188,17 +189,36 @@ const totalSkor = jawaban.reduce((total, j) => {
                 >
                   <td className="p-3 border text-center">{index + 1}</td>
                   <td className="p-3 border">
-  <div>
-    <p>{j.soal.pertanyaan}</p>
-    {j.soal.gambar && (
+                  <div className="space-y-2">
+                    {/* Pertanyaan */}
+                    <p className="font-semibold">{j.soal.pertanyaan}</p>
+
+                    {/* Gambar soal */}
+                    {j.soal.gambar && (
       <img
         src={j.soal.gambar}
         alt="Gambar Soal"
         className="mt-2 w-40 rounded shadow"
       />
     )}
+
+    {/* Pilihan jawaban */}
+    {j.soal.tipe === "PILIHAN" && j.soal.pilihan?.length > 0 && (
+      <ul className="mt-2 space-y-1">
+        {j.soal.pilihan.map((p) => (
+          <li
+  key={p.id}
+  className="px-2 py-1 rounded text-gray-700"
+>
+  {p.label}. {p.teks}
+</li>
+
+        ))}
+      </ul>
+    )}
   </div>
 </td>
+
 
 <td className="p-3 border">
   {j.soal.tipe === "UPLOAD" ? (
@@ -217,7 +237,7 @@ const totalSkor = jawaban.reduce((total, j) => {
           download
           className="text-blue-600 underline"
         >
-          Download Jawaban
+          Lihat Jawaban
         </a>
       </div>
     ) : (

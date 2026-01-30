@@ -7,7 +7,11 @@ export async function GET() {
       include: {
         jawaban: {
           include: { 
-            soal: true 
+            soal: {
+              include: {
+                pilihan: true,
+              }
+            }
           }, // termasuk soal untuk setiap jawaban
         },
       },

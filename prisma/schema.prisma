@@ -22,6 +22,11 @@ enum TipeSoal {
   UPLOAD
 }
 
+enum Role {
+  ADMIN
+  USER
+}
+
 model Peserta {
   id Int @id @default(autoincrement())
   nama String
@@ -42,6 +47,7 @@ model Soal {
   pertanyaan String
   gambar String?
   tipe TipeSoal
+  kunci_jawaban String
   jawaban Jawaban[]
   pilihan PilihanJawaban[]
 }
@@ -51,6 +57,7 @@ model PilihanJawaban {
   label String
   teks String?
   soalId Int
+
   soal Soal @relation(fields: [soalId], references: [id])
 }
 
@@ -82,9 +89,4 @@ model User {
   image String?
   role Role @default(USER)
   createdAt DateTime @default(now())
-}
-
-enum Role {
-  ADMIN
-  USER
 }
