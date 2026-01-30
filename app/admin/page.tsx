@@ -157,7 +157,6 @@ const totalSkor = jawaban.reduce((total, j) => {
               <a
   href={selectedPeserta.portofolio}
   target="_blank"
-  rel="noopener noreferrer"
   className="text-blue-600 underline"
 >
   {selectedPeserta.portofolio.split("/").pop()}
@@ -215,7 +214,6 @@ const totalSkor = jawaban.reduce((total, j) => {
         <a
           href={j.jawaban_gambar}
           target="_blank"
-          rel="noopener noreferrer"
           download
           className="text-blue-600 underline"
         >
