@@ -13,7 +13,8 @@ const prisma = new PrismaClient({ adapter });
 
 async function main() {
   const soals = [
-    {
+    { 
+      // 1
       pertanyaan: "Sinonim dari kata “abstrak” adalah…",
       gambar: null,
       tipe: "PILIHAN",
@@ -26,6 +27,7 @@ async function main() {
     },
 
     {
+      // 2
       pertanyaan: "Dalam satu kotak terdapat 5 bola merah, 3 bola biru, dan 2 bola kuning. Berapa peluang mengambil bola biru?",
       gambar: null,
       tipe: "PILIHAN",
@@ -38,6 +40,7 @@ async function main() {
     },
 
     {
+      // 3
       pertanyaan: "Uang Rp250.000 dibagi rata untuk 5 orang. Tiap orang mendapat…",
       gambar: null,
       tipe: "PILIHAN",
@@ -50,6 +53,7 @@ async function main() {
     },
 
     {
+      // 4
       pertanyaan: "Jika 4 orang dapat menyelesaikan sebuah pekerjaan dalam 18 hari, berapa hari yang dibutuhkan jika pekerjanya menjadi 6 orang?",
       gambar: null,
       tipe: "PILIHAN",
@@ -62,6 +66,7 @@ async function main() {
     },
 
      {
+      // 5
       pertanyaan: "3:2 adalah perbandingan jumlah pensil Andi dan Budi. Jika Andi punya 12 pensil, maka Budi punya… ",
       gambar: null,
       tipe: "PILIHAN",
@@ -74,6 +79,7 @@ async function main() {
     },
 
     {
+      // 6
       pertanyaan: "Andi lebih tua dari Budi. Budi lebih muda dari Citra. Kesimpulan paling tepat:",
       gambar: null,
       tipe: "PILIHAN",
@@ -86,6 +92,7 @@ async function main() {
     },
 
     {
+      // 7
       pertanyaan: "Jika Santi suka buku, maka dia pergi ke perpustakaan. Santi tidak pergi ke perpustakaan.",
       gambar: null,
       tipe: "PILIHAN",
@@ -98,6 +105,7 @@ async function main() {
     },
 
     {
+      // 8
       pertanyaan: "Jika hari ini hari Kamis, maka 100 hari ke depan adalah hari…",
       gambar: null,
       tipe: "PILIHAN",
@@ -110,6 +118,7 @@ async function main() {
     },
 
     {
+      // 9
       pertanyaan: "Jika semua pensil adalah alat tulis dan sebagian alat tulis adalah pulpen, maka…",
       gambar: null,
       tipe: "PILIHAN",
@@ -122,6 +131,7 @@ async function main() {
     },
 
     {
+      // 10
       pertanyaan: "Dalam sebuah lomba, Rani finis setelah Dina, tapi sebelum Tika. Urutan yang benar adalah…",
       gambar: null,
       tipe: "PILIHAN",
@@ -134,6 +144,7 @@ async function main() {
     },
 
     {
+      // 11
       pertanyaan: "Semua kucing adalah hewan. Beberapa hewan adalah burung. Maka…",
       gambar: null,
       tipe: "PILIHAN",
@@ -146,6 +157,7 @@ async function main() {
     },
 
     {
+      // 12
       pertanyaan: "Jika hari ini hari Kamis, maka 100 hari ke depan adalah hari…",
       gambar: null,
       tipe: "PILIHAN",
@@ -158,6 +170,7 @@ async function main() {
     },
 
      {
+      // 13
       pertanyaan: "Tes Warteg",
       gambar: "/soal-images/tes-warteg.png",
       tipe: "UPLOAD",
@@ -165,6 +178,7 @@ async function main() {
     },
 
     {
+      // 14
       pertanyaan: "Dokter : Pasien = Guru : …",
       gambar: null,
       tipe: "PILIHAN",
@@ -177,6 +191,7 @@ async function main() {
     },
     
     {
+      // 15
       pertanyaan: "Pisau : Tajam = Kapas : …",
       gambar: null,
       tipe: "PILIHAN",
@@ -189,6 +204,7 @@ async function main() {
     },
 
     {
+      // 16
       pertanyaan: "Mobil : Jalan = Kapal : …",
       gambar: null,
       tipe: "PILIHAN",
@@ -201,6 +217,7 @@ async function main() {
     },
 
     {
+      // 17
       pertanyaan: "Api : Panas = Es : …",
       gambar: null,
       tipe: "PILIHAN",
@@ -213,6 +230,7 @@ async function main() {
     },
 
     {
+      // 18
       pertanyaan: "Matahari : Siang = Bulan : …",
       gambar: null,
       tipe: "PILIHAN",
@@ -225,6 +243,7 @@ async function main() {
     },
 
     {
+      // 19
       pertanyaan: "Kucing, Harimau, Singa, Sapi",
       gambar: null,
       tipe: "PILIHAN",
@@ -237,6 +256,7 @@ async function main() {
     },
 
     {
+      // 20
       pertanyaan: "Melati : Putih = Mawar : …",
       gambar: null,
       tipe: "PILIHAN",
@@ -249,6 +269,7 @@ async function main() {
     },
 
     {
+      // 21
       pertanyaan: "52. 21, 18, 15, 12, …",
       gambar: null,
       tipe: "PILIHAN",
@@ -261,6 +282,7 @@ async function main() {
     },
 
     {
+      // 22
       pertanyaan: "53. 13, 26, 52, …",
       gambar: null,
       tipe: "PILIHAN",
@@ -273,6 +295,7 @@ async function main() {
     },
 
     {
+      // 23
       pertanyaan: "Mana gambar selanjutnya?",
       gambar: "/soal-images/tes-pic1.png",
       tipe: "PILIHAN",
@@ -286,6 +309,7 @@ async function main() {
     },
 
     {
+      // 24
       pertanyaan: "Mana gambar selanjutnya?",
       gambar: "/soal-images/tes-pic2.png",
       tipe: "PILIHAN",
@@ -299,6 +323,7 @@ async function main() {
     },
 
     {
+      // 25
       pertanyaan: "Mana gambar selanjutnya?",
       gambar: "/soal-images/tes-pic3.png",
       tipe: "PILIHAN",
@@ -312,6 +337,7 @@ async function main() {
     },
 
     {
+      // 26
       pertanyaan: "Mana gambar selanjutnya?",
       gambar: "/soal-images/tes-pic4.png",
       tipe: "PILIHAN",
@@ -328,6 +354,7 @@ async function main() {
     },
 
     {
+      // 27
       pertanyaan: "Mana gambar selanjutnya?",
       gambar: "/soal-images/tes-pic5.png",
       tipe: "PILIHAN",
@@ -344,6 +371,7 @@ async function main() {
     },
 
     {
+      // 28
       pertanyaan: "Mana gambar selanjutnya?",
       gambar: "/soal-images/tes-pic6.png",
       tipe: "PILIHAN",
@@ -360,6 +388,7 @@ async function main() {
     },
 
     {
+      // 29
       pertanyaan: "Mana gambar yang hilang?",
       gambar: "/soal-images/tes-pic7.png",
       tipe: "PILIHAN",
@@ -374,6 +403,7 @@ async function main() {
     },
 
     {
+      // 30
       pertanyaan: "Mana gambar yang hilang?",
       gambar: "/soal-images/tes-pic8.png",
       tipe: "PILIHAN",
@@ -386,6 +416,136 @@ async function main() {
         { label: "F" },
       ]
     },
+
+    {
+      // 31
+      pertanyaan: "",
+      gambar: "/soal-images/tes-pic9.png",
+      tipe: "PILIHAN",
+       pilihan: [
+        { label: "A"},
+        { label: "B"},
+        { label: "C"},
+        { label: "D"},
+      ]
+    },
+
+    {
+      // 32
+      pertanyaan: "",
+      gambar: "/soal-images/tes-pic10.png",
+      tipe: "PILIHAN",
+       pilihan: [
+        { label: "A"},
+        { label: "B"},
+        { label: "C"},
+        { label: "D"},
+      ]
+    },
+
+     {
+      // 33
+      pertanyaan: "",
+      gambar: "/soal-images/tes-pic11.png",
+      tipe: "PILIHAN",
+       pilihan: [
+        { label: "A"},
+        { label: "B"},
+        { label: "C"},
+        { label: "D"},
+      ]
+    },
+
+     {
+      // 34
+      pertanyaan: "",
+      gambar: "/soal-images/tes-pic12.png",
+      tipe: "PILIHAN",
+       pilihan: [
+        { label: "A"},
+        { label: "B"},
+        { label: "C"},
+        { label: "D"},
+      ]
+    },
+
+    {
+      // 35
+      pertanyaan: "",
+      gambar: "/soal-images/tes-pic13.png",
+      tipe: "PILIHAN",
+       pilihan: [
+        { label: "A"},
+        { label: "B"},
+        { label: "C"},
+        { label: "D"},
+      ]
+    },
+
+    {
+      // 36
+      pertanyaan: "",
+      gambar: "/soal-images/tes-pic14.png",
+      tipe: "PILIHAN",
+       pilihan: [
+        { label: "A"},
+        { label: "B"},
+        { label: "C"},
+        { label: "D"},
+      ]
+    },
+
+    {
+      // 37
+      pertanyaan: "",
+      gambar: "/soal-images/tes-pic15.png",
+      tipe: "PILIHAN",
+       pilihan: [
+        { label: "A"},
+        { label: "B"},
+        { label: "C"},
+        { label: "D"},
+      ]
+    },
+
+    {
+      // 38
+      pertanyaan: "",
+      gambar: "/soal-images/tes-pic16.png",
+      tipe: "PILIHAN",
+       pilihan: [
+        { label: "A"},
+        { label: "B"},
+        { label: "C"},
+        { label: "D"},
+      ]
+    },
+
+    {
+      // 39
+      pertanyaan: "",
+      gambar: "/soal-images/tes-pic17.png",
+      tipe: "PILIHAN",
+       pilihan: [
+        { label: "A"},
+        { label: "B"},
+        { label: "C"},
+        { label: "D"},
+      ]
+    },
+
+    {
+      // 40
+      pertanyaan: "",
+      gambar: "/soal-images/tes-pic18.png",
+      tipe: "PILIHAN",
+       pilihan: [
+        { label: "A"},
+        { label: "B"},
+        { label: "C"},
+        { label: "D"},
+      ]
+    }
   ];
 
   for (let s of soals) {
