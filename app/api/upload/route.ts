@@ -1,34 +1,55 @@
-import { v2 as cloudinary } from "cloudinary";
+import { supabase } from "@/lib/supabase";
+import { NextResponse } from "next/server";
 
-cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET,
-});
+export async function POST(req: Request) {
+  const formData = await req.formData();
+  const file = formData.get("file") as File;
+  const type = formData.get("type"); // "gambar" | "portofolio"
 
-/**
- * Upload file (image, PDF, DOC) ke Cloudinary
- */
-export async function uploadFile(file: File, folder: string): Promise<string> {
-  const arrayBuffer = await file.arrayBuffer();
-  const buffer = Buffer.from(arrayBuffer);
+  if (!file || !type) {
+    return NextResponse.json({ error: "File atau type kosong" }, { status: 400 });
+  }
 
-  return new Promise<string>((resolve, reject) => {
-    const stream = cloudinary.uploader.upload_stream(
-      {
-        folder,
-        resource_type: "auto", // "auto" supaya PDF, DOC, DOCX, maupun gambar bisa
-      },
-      (error, result) => {
-        if (error) return reject(error);
-        if (!result || !result.secure_url) return reject(new Error("Upload gagal"));
-        resolve(result.secure_url);
-      }
-    );
+  let bucket = "";
+  let allowedTypes: string[] = [];
 
-    stream.end(buffer);
+  if (type === "gambar") {
+    bucket = "jawaban-gambar";
+    allowedTypes = ["image/jpeg", "image/png", "image/jpg"];
+  } else if (type === "portofolio") {
+    bucket = "jawaban-portofolio";
+    allowedTypes = [
+      "application/pdf",
+      "application/msword",
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    ];
+  } else {
+    return NextResponse.json({ error: "Type tidak valid" }, { status: 400 });
+  }
+
+  if (!allowedTypes.includes(file.type)) {
+    return NextResponse.json({ error: "Format file tidak didukung" }, { status: 400 });
+  }
+
+  const fileName = `${Date.now()}-${file.name}`;
+  const buffer = Buffer.from(await file.arrayBuffer());
+
+  const { error } = await supabase.storage
+    .from(bucket)
+    .upload(fileName, buffer, {
+      contentType: file.type,
+      upsert: true,
+    });
+
+  if (error) {
+    return NextResponse.json({ error: error.message }, { status: 500 });
+  }
+
+  const { data } = supabase.storage.from(bucket).getPublicUrl(fileName);
+
+  return NextResponse.json({
+    url: data.publicUrl,
+    bucket,
+    fileName,
   });
 }
-
-// default export
-export default cloudinary;

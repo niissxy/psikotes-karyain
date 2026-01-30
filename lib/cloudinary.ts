@@ -8,10 +8,7 @@ cloudinary.config({
 });
 
 /**
- * Upload PDF/DOC/DOCX ke Cloudinary
- * file: File input HTML
- * folder: nama folder di Cloudinary
- * Return: URL yang bisa langsung diakses di browser
+ * Upload file PDF/DOC/DOCX/Gambar ke Cloudinary
  */
 export async function uploadFileServer(file: File, folder: string = "portofolio"): Promise<string> {
   if (!(file instanceof File)) throw new Error("File harus dari input HTML");
@@ -19,28 +16,28 @@ export async function uploadFileServer(file: File, folder: string = "portofolio"
   const arrayBuffer = await file.arrayBuffer();
   const buffer = Buffer.from(arrayBuffer);
 
-  // Ambil ekstensi asli
   const ext = file.name.split(".").pop()?.toLowerCase();
-  if (!ext || !["pdf", "doc", "docx"].includes(ext)) throw new Error("File harus PDF, DOC, atau DOCX");
+  if (!ext || !["pdf", "doc", "docx", "jpg", "jpeg", "png"].includes(ext)) {
+    throw new Error("File harus PDF, DOC, DOCX atau gambar");
+  }
 
-  const fileName = file.name.replace(/\.[^/.]+$/, ""); // nama tanpa ekstensi
+  const fileName = file.name.replace(/\.[^/.]+$/, "");
 
-  // Upload ke Cloudinary
+  // Upload sebagai raw (dokumen) atau image
+  const resourceType = ["jpg", "jpeg", "png"].includes(ext) ? "image" : "raw";
+
   const result = await cloudinary.uploader.upload(
     `data:${file.type};base64,${buffer.toString("base64")}`,
     {
-      resource_type: "raw",      // penting untuk PDF/DOC
+      resource_type: resourceType,
       folder,
-      public_id: fileName,       // nama file tanpa ekstensi
-      use_filename: true,        // pakai nama file asli
-      unique_filename: false,    // jangan ditambahkan random
+      public_id: fileName,
+      use_filename: true,
+      unique_filename: false,
       overwrite: true,
-      format: ext,               // <--- ini yang bikin Cloudinary simpan dengan tipe yang benar
     }
   );
 
   if (!result.secure_url) throw new Error("Upload gagal");
-
-  // Kembalikan URL dari Cloudinary (bisa dibuka langsung)
   return result.secure_url;
 }
