@@ -56,50 +56,39 @@ export default function AdminPage() {
     });
 }, []);
 
-
   // pilih peserta
   const handleSelectPeserta = async (id: number) => {
   try {
     Swal.fire({
       title: "Loading...",
       allowOutsideClick: false,
-      didOpen() {
-        Swal.showLoading();
-      },
+      didOpen: () => Swal.showLoading(),
     });
-    const res = await fetch(`/api/admin/peserta/${id}`);
-    if (!res.ok) {
-      const text = await res.text();
-      console.error("API error:", text);
-      Swal.close(); 
 
-      Swal.fire({
-        icon: "error",
-        title: "Error!",
-        text: "Gagal mengambil data peserta",
-        confirmButtonText: "OK",
-      });
-      // alert("Gagal mengambil data peserta");
-      return;
-    }
-    const data = await res.json();
-    setSelectedPeserta(data);
-    setJawaban(data.jawaban);
+    await loadPeserta(id);
 
     Swal.close();
-
   } catch (error) {
-    console.error("Fetch error:", error);
     Swal.fire({
       icon: "error",
       title: "Error!",
-      text: "Terjadi kesalahan saat mengambil data",
-      confirmButtonText: "OK",
-    })
-    // alert("Terjadi kesalahan saat mengambil data");
+      text: "Gagal mengambil data peserta",
+    });
   }
 };
 
+
+const loadPeserta = async (id: number) => {
+  const res = await fetch(`/api/admin/peserta/${id}`);
+  const data = await res.json();
+
+  const sortedJawaban = data.jawaban.sort(
+    (a: Jawaban, b: Jawaban) => a.id - b.id
+  );
+
+  setSelectedPeserta(data);
+  setJawaban(sortedJawaban);
+};
 
 
   // ubah skor
@@ -112,21 +101,18 @@ export default function AdminPage() {
   };
 
   // simpan semua skor
-  const simpanSemuaSkor = async () => {
-  // simpan posisi scroll saat ini
-  setScrollPos(window.scrollY);
+ const simpanSemuaSkor = async () => {
+  const currentScroll = window.scrollY;
 
   Swal.fire({
     title: "Menyimpan skor...",
     allowOutsideClick: false,
-    didOpen: () => {
-      Swal.showLoading();
-    },
+    didOpen: () => Swal.showLoading(),
   });
 
   try {
     for (const j of jawaban) {
-      await fetch("/api/admin/update-skor", {
+      const res = await fetch("/api/admin/update-skor", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -134,20 +120,26 @@ export default function AdminPage() {
           skor: j.skor,
         }),
       });
+
+      if (!res.ok) throw new Error("Gagal update skor");
+    }
+
+    if (selectedPeserta?.id) {
+      await loadPeserta(selectedPeserta.id);
     }
 
     Swal.close();
 
-    Swal.fire({
+    await Swal.fire({
       icon: "success",
       title: "Berhasil!",
       text: "Semua skor berhasil disimpan!",
     });
 
-    // kembalikan posisi scroll
+    // 🔁 BALIK KE POSISI SCROLL
     window.scrollTo({
-      top: scrollPos,
-      behavior: "smooth",
+      top: currentScroll,
+      behavior: "instant",
     });
 
   } catch (error) {
@@ -160,10 +152,15 @@ export default function AdminPage() {
 };
 
 
+
+const JUMLAH_SOAL = jawaban.length; // harusnya 40
+const skorPerSoal = 100 / JUMLAH_SOAL;
+
 const totalSkor = jawaban.reduce((total, j) => {
-    return total + (Number(j.skor) || 0);
+  return total + (Number(j.skor) || 0);
 }, 0);
 
+const nilaiAkhir = (totalSkor * skorPerSoal).toFixed(2);
 
  return (
   <div className="min-h-screen bg-gray-50 p-6">
@@ -314,12 +311,11 @@ const totalSkor = jawaban.reduce((total, j) => {
                       type="number"
                       min={0}
                       max={5}
-                      value={j.skor}
-                      onChange={(e) => {
-                      handleSkorChange(j.id, Number(e.target.value));
-                    }}
-
-                      className="border rounded px-2 py-1 w-20 text-center focus:ring focus:ring-blue-300"
+                      value={Number(j.skor) || 0}
+                      onChange={(e) =>
+                      handleSkorChange(j.id, Number(e.target.value))
+                    }
+                      className="border rounded px-2 py-1 w-20 text-center"
                     />
                   </td>
                 </tr>
@@ -330,7 +326,7 @@ const totalSkor = jawaban.reduce((total, j) => {
           {/* total skor */}
           <div className="flex justify-between items-center mt-6">
             <div className="bg-green-100 text-green-800 px-5 py-3 rounded-lg text-lg font-bold shadow">
-              Total Skor: {totalSkor}
+              Total Skor: {nilaiAkhir}
             </div>
 
             <button
