@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import Swal from "sweetalert2";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -24,7 +25,11 @@ export default function LoginPage() {
       if (session?.user.role === "ADMIN") router.push("/admin");
       else router.push("/soal");
     } else {
-      alert("Email atau password salah!");
+      // alert("Email atau password salah!");
+      Swal.fire({
+        icon: "error",
+        title: "Email atau password salah"
+      });
     }
   };
 

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Swal from "sweetalert2";
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -18,10 +19,20 @@ export default function RegisterPage() {
 
     const data = await res.json();
     if (data.success) {
-      alert("Register berhasil, silakan login!");
+      Swal.fire({
+        icon: "success",
+        title: "Berhasil!",
+        text: "Register berhasil, silakan login!"
+      });
+      // alert("Register berhasil, silakan login!");
       router.push("/login");
     } else {
-      alert(data.message);
+      Swal.fire({
+        icon: "success",
+        title: "Berhasil!",
+        text: (data.message),
+      });
+      // alert(data.message);
     }
   };
 

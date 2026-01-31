@@ -1,6 +1,7 @@
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import Swal from "sweetalert2";
 
 export default function RedirectPage() {
     const { data: session } = useSession();
@@ -16,5 +17,11 @@ export default function RedirectPage() {
         }
     }, [session]);
 
-    return <p>Redirecting...</p>
+    return Swal.fire({
+            title: "Loading...",
+            allowOutsideClick: false,
+            didOpen: () => {
+            Swal.showLoading();
+          },
+        });
 }
