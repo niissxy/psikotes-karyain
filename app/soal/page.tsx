@@ -38,6 +38,51 @@ export default function SoalPage() {
 
   const [jawabanFile, setJawabanFile] = useState<Record<number, File>>({});
 
+  const TOTAL_TIME = 25 * 60; // 25 menit (detik)
+  const [timeLeft, setTimeLeft] = useState<number>(TOTAL_TIME);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
+useEffect(() => {
+  if (step !== "soal") return;
+
+  const savedEndTime = localStorage.getItem("endTime");
+  let endTime: number;
+
+  if (!savedEndTime) {
+    endTime = Date.now() + TOTAL_TIME * 1000;
+    localStorage.setItem("endTime", endTime.toString());
+  } else {
+    endTime = Number(savedEndTime);
+  }
+
+  const remaining = Math.floor((endTime - Date.now()) / 1000);
+
+  if (remaining <= 0) {
+    setTimeLeft(0);
+    handleAutoSubmit();
+  } else {
+    setTimeLeft(remaining);
+  }
+}, [step]);
+
+const handleAutoSubmit = async () => {
+  if (isSubmitted) return;
+
+  setIsSubmitted(true);
+  localStorage.removeItem("endTime");
+
+  await Swal.fire({
+    icon: "warning",
+    title: "Waktu Habis!",
+    text: "Jawaban otomatis dikumpulkan",
+    allowOutsideClick: false,
+  });
+
+  submitTest();
+};
+
+
+
   // Ambil soal dari API
   useEffect(() => {
   fetch("/api/soal")
