@@ -136,7 +136,6 @@ const loadPeserta = async (id: number) => {
       text: "Semua skor berhasil disimpan!",
     });
 
-    // 🔁 BALIK KE POSISI SCROLL
     window.scrollTo({
       top: currentScroll,
       behavior: "instant",
