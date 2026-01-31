@@ -8,6 +8,7 @@ type Soal = {
   gambar?: string | null;
   tipe: "PILIHAN" | "UPLOAD";
   pilihan: { id: number; label: string; teks?: string }[];
+  kunci_jawaban: string;
 };
 
 type Jawaban = {
@@ -178,6 +179,7 @@ const totalSkor = jawaban.reduce((total, j) => {
                 <th className="p-3 border">No</th>
                 <th className="p-3 border">Pertanyaan</th>
                 <th className="p-3 border">Jawaban Peserta</th>
+                <th className="p-3 border">Kunci Jawaban</th>
                 <th className="p-3 border">Skor</th>
               </tr>
             </thead>
@@ -195,59 +197,67 @@ const totalSkor = jawaban.reduce((total, j) => {
 
                     {/* Gambar soal */}
                     {j.soal.gambar && (
-      <img
-        src={j.soal.gambar}
-        alt="Gambar Soal"
-        className="mt-2 w-40 rounded shadow"
-      />
-    )}
+                    <img
+                      src={j.soal.gambar}
+                      alt="Gambar Soal"
+                      className="mt-2 w-40 rounded shadow"
+                    />
+                  )}
 
-    {/* Pilihan jawaban */}
-    {j.soal.tipe === "PILIHAN" && j.soal.pilihan?.length > 0 && (
-      <ul className="mt-2 space-y-1">
-        {j.soal.pilihan.map((p) => (
-          <li
-  key={p.id}
-  className="px-2 py-1 rounded text-gray-700"
->
-  {p.label}. {p.teks}
-</li>
+              {/* Pilihan jawaban */}
+              {j.soal.tipe === "PILIHAN" && j.soal.pilihan?.length > 0 && (
+              <ul className="mt-2 space-y-1">
+                {j.soal.pilihan.map((p) => (
+              <li
+                key={p.id}
+                className="px-2 py-1 rounded text-gray-700"
+              >
+                {p.label}. {p.teks}
+              </li>
 
-        ))}
-      </ul>
-    )}
-  </div>
-</td>
+            ))}
+          </ul>
+        )}
+        </div>
+        </td>
 
 
-<td className="p-3 border">
-  {j.soal.tipe === "UPLOAD" ? (
-    j.jawaban_gambar ? (
-      <div className="flex flex-col gap-2">
-        {/* Tampilkan gambar */}
+        <td className="p-3 border">
+          {j.soal.tipe === "UPLOAD" ? (
+          j.jawaban_gambar ? (
+        <div className="flex flex-col gap-2">
+          {/* Tampilkan gambar */}
         <img
           src={j.jawaban_gambar}
           alt="Jawaban Gambar"
           className="w-40 rounded shadow"
         />
-        {/* Link download */}
-        <a
-          href={j.jawaban_gambar}
-          target="_blank"
-          download
-          className="text-blue-600 underline"
-        >
-          Lihat Jawaban
-        </a>
-      </div>
-    ) : (
-      <span className="text-red-500">Tidak ada gambar</span>
-    )
+          {/* Link download */}
+          <a
+            href={j.jawaban_gambar}
+            target="_blank"
+            download
+            className="text-blue-600 underline"
+          >
+            Lihat Jawaban
+          </a>
+        </div>
+        ) : (
+        <span className="text-red-500">Tidak ada gambar</span>
+        )
+      ) : (
+      j.jawaban_text
+      )}
+    </td>
+    <td className="p-3 border">
+  {j.soal.kunci_jawaban ? (
+    <p className="font-semibold text-green-700">
+      {j.soal.kunci_jawaban}
+    </p>
   ) : (
-    j.jawaban_text
+    <span className="text-gray-400">Belum ada kunci jawaban</span>
   )}
 </td>
-
 
                   <td className="p-3 border text-center">
                     <input
