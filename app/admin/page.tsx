@@ -37,6 +37,7 @@ export default function AdminPage() {
   const [pesertaList, setPesertaList] = useState<Peserta[]>([]);
   const [selectedPeserta, setSelectedPeserta] = useState<Peserta | null>(null);
   const [jawaban, setJawaban] = useState<Jawaban[]>([]);
+  const [scrollPos, setScrollPos] = useState(0);
 
   // ambil semua peserta
  useEffect(() => {
@@ -59,10 +60,19 @@ export default function AdminPage() {
   // pilih peserta
   const handleSelectPeserta = async (id: number) => {
   try {
+    Swal.fire({
+      title: "Loading...",
+      allowOutsideClick: false,
+      didOpen() {
+        Swal.showLoading();
+      },
+    });
     const res = await fetch(`/api/admin/peserta/${id}`);
     if (!res.ok) {
       const text = await res.text();
       console.error("API error:", text);
+      Swal.close(); 
+
       Swal.fire({
         icon: "error",
         title: "Error!",
@@ -75,6 +85,9 @@ export default function AdminPage() {
     const data = await res.json();
     setSelectedPeserta(data);
     setJawaban(data.jawaban);
+
+    Swal.close();
+
   } catch (error) {
     console.error("Fetch error:", error);
     Swal.fire({
@@ -100,9 +113,20 @@ export default function AdminPage() {
 
   // simpan semua skor
   const simpanSemuaSkor = async () => {
+  // simpan posisi scroll saat ini
+  setScrollPos(window.scrollY);
+
+  Swal.fire({
+    title: "Menyimpan skor...",
+    allowOutsideClick: false,
+    didOpen: () => {
+      Swal.showLoading();
+    },
+  });
+
   try {
     for (const j of jawaban) {
-      const res = await fetch("/api/admin/update-skor", {
+      await fetch("/api/admin/update-skor", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -110,30 +134,31 @@ export default function AdminPage() {
           skor: j.skor,
         }),
       });
-
-      if (!res.ok) {
-        throw new Error("Gagal menyimpan salah satu skor");
-      }
     }
+
+    Swal.close();
 
     Swal.fire({
       icon: "success",
       title: "Berhasil!",
       text: "Semua skor berhasil disimpan!",
-      confirmButtonText: "OK",
-    })
-    // alert("Semua skor berhasil disimpan!");
+    });
+
+    // kembalikan posisi scroll
+    window.scrollTo({
+      top: scrollPos,
+      behavior: "smooth",
+    });
+
   } catch (error) {
-    console.error(error);
     Swal.fire({
       icon: "error",
       title: "Error!",
       text: "Terjadi error saat menyimpan skor",
-      confirmButtonText: "OK",
-    })
-    // alert("Terjadi error saat menyimpan skor");
+    });
   }
 };
+
 
 const totalSkor = jawaban.reduce((total, j) => {
     return total + (Number(j.skor) || 0);
@@ -290,9 +315,10 @@ const totalSkor = jawaban.reduce((total, j) => {
                       min={0}
                       max={5}
                       value={j.skor}
-                      onChange={(e) =>
-                        handleSkorChange(j.id, Number(e.target.value))
-                      }
+                      onChange={(e) => {
+                      handleSkorChange(j.id, Number(e.target.value));
+                    }}
+
                       className="border rounded px-2 py-1 w-20 text-center focus:ring focus:ring-blue-300"
                     />
                   </td>

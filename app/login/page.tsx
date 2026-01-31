@@ -35,8 +35,11 @@ export default function LoginPage() {
       await Swal.fire({
         icon: "success",
         title: "Login berhasil!",
-        confirmButtonText: "OK",
-      })
+        showConfirmButton: false,
+        text: "Anda akan diarahkan dalam 3 detik",
+        timer: 3000,
+      });
+
       if (session?.user.role === "ADMIN") router.push("/admin");
       else router.push("/soal");
     } else {

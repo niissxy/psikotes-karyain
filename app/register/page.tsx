@@ -29,7 +29,9 @@ export default function RegisterPage() {
       Swal.fire({
         icon: "success",
         title: "Berhasil!",
-        text: "Register berhasil, silakan login!"
+        text: "Register berhasil, silakan login!",
+        showConfirmButton: false,
+        timer: 3000,
       });
       // alert("Register berhasil, silakan login!");
       router.push("/login");
