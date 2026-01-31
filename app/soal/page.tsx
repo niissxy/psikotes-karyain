@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Swal from "sweetalert2";
 
 type Soal = {
   id: number;
@@ -49,8 +50,18 @@ export default function SoalPage() {
 
   // Validasi identitas
   const startTest = () => {
-    if (!nama.trim() || !umur.trim() || !tanggal_lahir.trim() || !jenis_kelamin.trim() || !tingkat_pendidikan.trim() || !instansi.trim() || !kontak.trim()) {
-      alert("Harap isi identitas terlebih dahulu!");
+    if (!nama.trim() || 
+        !umur.trim() || 
+        !tanggal_lahir.trim() || 
+        !jenis_kelamin.trim() || 
+        !tingkat_pendidikan.trim() || 
+        !instansi.trim() || 
+        !kontak.trim()) {
+      Swal.fire ({
+        icon: "warning",
+        title: "Data belum lengkap",
+        text: "Harap isi identitas terlebih dahulu",
+      });
       return;
     }
     setStep("soal");
@@ -58,38 +69,52 @@ export default function SoalPage() {
 
   // Submit jawaban
   const submitTest = async () => {
-
-    if (Object.keys(jawaban).length === 0){
-      alert("Harap isi jawaban terlebih dahulu!");
+  try {
+    if (Object.keys(jawaban).length === 0) {
+      Swal.fire({
+        icon: "warning",
+        title: "Jawaban belum lengkap",
+        text: "Harap isi jawaban terlebih dahulu",
+        confirmButtonText: "OK",
+      })
       return;
     }
 
-   const formData = new FormData();
+    const formData = new FormData();
 
-   formData.append("nama", nama);
-   formData.append("umur", umur);
-   formData.append("tanggal_lahir", tanggal_lahir);
-   formData.append("jenis_kelamin", jenis_kelamin);
-   formData.append("tingkat_pendidikan", tingkat_pendidikan);
-   formData.append("instansi", instansi);
-   formData.append("kontak", kontak);
+    formData.append("nama", nama);
+    formData.append("umur", umur);
+    formData.append("tanggal_lahir", tanggal_lahir);
+    formData.append("jenis_kelamin", jenis_kelamin);
+    formData.append("tingkat_pendidikan", tingkat_pendidikan);
+    formData.append("instansi", instansi);
+    formData.append("kontak", kontak);
 
-   formData.append("jawaban", JSON.stringify (
-    Object.keys(jawaban).map((id) => ({
-      soalId: Number(id),
-      jawaban: jawaban[Number(id)],
-    }))
-   ));
+    formData.append(
+      "jawaban",
+      JSON.stringify(
+        Object.keys(jawaban).map((id) => ({
+          soalId: Number(id),
+          jawaban: jawaban[Number(id)],
+        }))
+      )
+    );
 
-  //  formData.append("portofolio", fileInput.files[0]);
+    if (portofolio) {
+      formData.append("portofolio", portofolio);
+    }
 
-   if (portofolio) {
-    formData.append("portofolio", portofolio);
-   }
+    Object.entries(jawabanFile).forEach(([soalId, file]) => {
+      formData.append(`file_${soalId}`, file);
+    });
 
-Object.entries(jawabanFile).forEach(([soalId, file]) => {
-  formData.append(`file_${soalId}`, file);
-});
+    Swal.fire({
+      title: "Mengirim jawaban...",
+      allowOutsideClick: false,
+      didOpen: () => {
+        Swal.showLoading();
+      },
+    });
 
     const res = await fetch("/api/submit", {
       method: "POST",
@@ -98,32 +123,48 @@ Object.entries(jawabanFile).forEach(([soalId, file]) => {
 
     if (!res.ok) {
       const text = await res.text();
-      console.error("Server error:", text);
-      alert("Terjadi error saat submit");
-      return;
+      throw new Error(text);
     }
 
-   const hasil = await res.json();
-   alert("Jawaban Berhasil Disimpan!")
+    const hasil = await res.json();
+    Swal.close();
 
-   if (hasil.success) {
-    alert("Jawaban Berhasil Disimpan!");
+    if (hasil.success) {
+      await Swal.fire({
+        icon: "success",
+        title: "Berhasil!",
+        text: "Jawaban berhasil disimpan",
+        confirmButtonText: "OK",
+      });
 
-    // Reset form atau arahkan ke halaman lain
-    setStep("identitas");
-    setNama("");
-    setUmur("");
-    setTanggalLahir("");
-    setJenisKelamin("");
-    setTingkatPendidikan("");
-    setInstansi("");
-    setKontak("");
-    setJawaban({});
-    setPortofolio(null);
-   } else {
-    alert("Gagal Menyimpan Jawaban")
-   }
-  };
+      setStep("identitas");
+      setNama("");
+      setUmur("");
+      setTanggalLahir("");
+      setJenisKelamin("");
+      setTingkatPendidikan("");
+      setInstansi("");
+      setKontak("");
+      setJawaban({});
+      setPortofolio(null);
+    } else {
+      Swal.fire({
+        icon: "error",
+        title: "Gagal",
+        text: "Gagal menyimpan jawaban",
+      });
+    }
+  } catch (error) {
+    console.error(error);
+    Swal.close();
+    Swal.fire({
+      icon: "error",
+      title: "Server Error",
+      text: "Terjadi kesalahan saat submit jawaban",
+    });
+  }
+};
+
 
   return (
     
