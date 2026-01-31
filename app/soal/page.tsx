@@ -215,7 +215,7 @@ Object.entries(jawabanFile).forEach(([soalId, file]) => {
               />
             </div>
             <div className="mb-2">
-              <p>Portofolio</p>
+              <p>Portofolio (max 10 MB)</p>
               <input 
                 type="file" 
                 accept=".pdf,.doc,.docx"
