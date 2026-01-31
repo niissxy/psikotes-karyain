@@ -94,7 +94,7 @@ async function main() {
         { label: "C", teks:"Andi mungkin lebih tua dari Citra" },
         { label: "D", teks:"Tidak bisa disimpulkan" },
       ],
-      kunci_jawaban: "C. Cuaca"
+      kunci_jawaban: "C. Andi mungkin lebih tua dari Citra"
     },
 
     {

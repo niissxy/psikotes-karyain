@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Swal from "sweetalert2";
+import Image from "next/image";
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -48,6 +49,17 @@ export default function RegisterPage() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-yellow-600 to-black">
       <div className="bg-white p-6 rounded shadow-md w-[320px]">
+
+         <div className="flex justify-center mb-4">
+                  <Image
+                    src="/logo.png"
+                    alt="Logo"
+                    width={100}
+                    height={100}
+                    unoptimized
+                  />
+                </div>
+
         <h2 className="text-2xl font-bold text-center mb-4">Register</h2>
 
         <input
