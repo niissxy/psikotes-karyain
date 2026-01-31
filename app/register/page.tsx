@@ -11,6 +11,13 @@ export default function RegisterPage() {
   const [password, setPassword] = useState("");
 
   const handleRegister = async () => {
+    Swal.fire({
+      title: "Loading...",
+      allowOutsideClick: false,
+      didOpen() {
+        Swal.showLoading();
+      },
+    })
     const res = await fetch("/api/register", {
       method: "POST",
       body: JSON.stringify({ name, email, password }),

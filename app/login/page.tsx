@@ -11,17 +11,32 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
 
   const handleLogin = async () => {
+    Swal.fire({
+      title: "Loading...",
+      allowOutsideClick: false,
+      didOpen: () => {
+        Swal.showLoading();
+      },
+    });
+
     const res = await signIn("credentials", {
       redirect: false,
       email,
       password,
     });
 
+    Swal.close();
+
     if (res?.ok) {
       // Ambil session untuk cek role
       const sessionRes = await fetch("/api/auth/session");
       const session = await sessionRes.json();
 
+      await Swal.fire({
+        icon: "success",
+        title: "Login berhasil!",
+        confirmButtonText: "OK",
+      })
       if (session?.user.role === "ADMIN") router.push("/admin");
       else router.push("/soal");
     } else {
