@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Swal from "sweetalert2";
 
 type Soal = {
   id: number;
@@ -62,7 +63,13 @@ export default function AdminPage() {
     if (!res.ok) {
       const text = await res.text();
       console.error("API error:", text);
-      alert("Gagal mengambil data peserta");
+      Swal.fire({
+        icon: "error",
+        title: "Error!",
+        text: "Gagal mengambil data peserta",
+        confirmButtonText: "OK",
+      });
+      // alert("Gagal mengambil data peserta");
       return;
     }
     const data = await res.json();
@@ -70,7 +77,13 @@ export default function AdminPage() {
     setJawaban(data.jawaban);
   } catch (error) {
     console.error("Fetch error:", error);
-    alert("Terjadi kesalahan saat mengambil data");
+    Swal.fire({
+      icon: "error",
+      title: "Error!",
+      text: "Terjadi kesalahan saat mengambil data",
+      confirmButtonText: "OK",
+    })
+    // alert("Terjadi kesalahan saat mengambil data");
   }
 };
 
@@ -103,10 +116,22 @@ export default function AdminPage() {
       }
     }
 
-    alert("Semua skor berhasil disimpan!");
+    Swal.fire({
+      icon: "success",
+      title: "Berhasil!",
+      text: "Semua skor berhasil disimpan!",
+      confirmButtonText: "OK",
+    })
+    // alert("Semua skor berhasil disimpan!");
   } catch (error) {
     console.error(error);
-    alert("Terjadi error saat menyimpan skor");
+    Swal.fire({
+      icon: "error",
+      title: "Error!",
+      text: "Terjadi error saat menyimpan skor",
+      confirmButtonText: "OK",
+    })
+    // alert("Terjadi error saat menyimpan skor");
   }
 };
 
