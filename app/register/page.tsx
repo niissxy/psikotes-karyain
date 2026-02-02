@@ -26,6 +26,9 @@ export default function RegisterPage() {
     });
 
     const data = await res.json();
+
+    Swal.close();
+    
     if (data.success) {
       Swal.fire({
         icon: "success",
