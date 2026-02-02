@@ -37,60 +37,145 @@ export default function AdminPage() {
   const [pesertaList, setPesertaList] = useState<Peserta[]>([]);
   const [selectedPeserta, setSelectedPeserta] = useState<Peserta | null>(null);
   const [jawaban, setJawaban] = useState<Jawaban[]>([]);
+  const [scrollPos, setScrollPos] = useState(0);
 
-  useEffect(() => {
-    fetch("/api/admin/peserta")
-      .then(res => res.json())
-      .then(setPesertaList);
-  }, []);
+  // ambil semua peserta
+ useEffect(() => {
+  fetch("/api/admin/peserta")
+    .then(async (res) => {
+      if (!res.ok) {
+        const text = await res.text();
+        console.error("API error:", text);
+        throw new Error("Gagal fetch peserta");
+      }
+      return res.json();
+    })
+    .then((data) => setPesertaList(data))
+    .catch((err) => {
+      console.error("Fetch error:", err);
+    });
+}, []);
 
+  // pilih peserta
   const handleSelectPeserta = async (id: number) => {
-    Swal.fire({ title: "Loading...", didOpen: () => Swal.showLoading() });
-    const res = await fetch(`/api/admin/peserta/${id}`);
-    const data = await res.json();
-    setSelectedPeserta(data);
-    setJawaban(data.jawaban.sort((a: Jawaban, b: Jawaban) => a.id - b.id));
-    Swal.close();
-  };
+  try {
+    Swal.fire({
+      title: "Loading...",
+      allowOutsideClick: false,
+      didOpen: () => Swal.showLoading(),
+    });
 
+    await loadPeserta(id);
+
+    Swal.close();
+  } catch (error) {
+    Swal.fire({
+      icon: "error",
+      title: "Error!",
+      text: "Gagal mengambil data peserta",
+    });
+  }
+};
+
+
+const loadPeserta = async (id: number) => {
+  const res = await fetch(`/api/admin/peserta/${id}`);
+  const data = await res.json();
+
+  const sortedJawaban = data.jawaban.sort(
+    (a: Jawaban, b: Jawaban) => a.id - b.id
+  );
+
+  setSelectedPeserta(data);
+  setJawaban(sortedJawaban);
+};
+
+
+  // ubah skor
   const handleSkorChange = (id: number, skor: number) => {
     setJawaban(prev =>
-      prev.map(j => (j.id === id ? { ...j, skor } : j))
+      prev.map(j =>
+        j.id === id ? { ...j, skor } : j
+      )
     );
   };
 
-  const simpanSemuaSkor = async () => {
-    Swal.fire({ title: "Menyimpan skor...", didOpen: () => Swal.showLoading() });
+  // simpan semua skor
+ const simpanSemuaSkor = async () => {
+  const currentScroll = window.scrollY;
 
-    try {
-      for (const j of jawaban) {
-        await fetch("/api/admin/update-skor", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ jawabanId: j.id, skor: j.skor }),
-        });
-      }
+  Swal.fire({
+    title: "Menyimpan skor...",
+    allowOutsideClick: false,
+    didOpen: () => Swal.showLoading(),
+  });
 
-      Swal.fire("Berhasil", "Semua skor tersimpan", "success");
-    } catch {
-      Swal.fire("Error", "Gagal menyimpan skor", "error");
+  try {
+    for (const j of jawaban) {
+      const res = await fetch("/api/admin/update-skor", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          jawabanId: j.id,
+          skor: j.skor,
+        }),
+      });
+
+      if (!res.ok) throw new Error("Gagal update skor");
     }
-  };
 
-  const JUMLAH_SOAL = jawaban.length;
-  const skorPerSoal = JUMLAH_SOAL ? 100 / JUMLAH_SOAL : 0;
-  const totalSkor = jawaban.reduce((t, j) => t + (Number(j.skor) || 0), 0);
-  const nilaiAkhir = (totalSkor * skorPerSoal).toFixed(2);
+    if (selectedPeserta?.id) {
+      await loadPeserta(selectedPeserta.id);
+    }
 
-  return (
-    <div className="min-h-screen bg-gray-50 p-4">
-      <div className="max-w-6xl mx-auto">
+    Swal.close();
 
-        <h1 className="text-2xl font-bold mb-4">Admin Penilaian</h1>
+    await Swal.fire({
+      icon: "success",
+      title: "Berhasil!",
+      text: "Semua skor berhasil disimpan!",
+    });
 
-        {/* pilih peserta */}
+    window.scrollTo({
+      top: currentScroll,
+      behavior: "instant",
+    });
+
+  } catch (error) {
+    Swal.fire({
+      icon: "error",
+      title: "Error!",
+      text: "Terjadi error saat menyimpan skor",
+    });
+  }
+};
+
+
+
+const JUMLAH_SOAL = jawaban.length; // harusnya 40
+const skorPerSoal = 100 / JUMLAH_SOAL;
+
+const totalSkor = jawaban.reduce((total, j) => {
+  return total + (Number(j.skor) || 0);
+}, 0);
+
+const nilaiAkhir = (totalSkor * skorPerSoal).toFixed(2);
+
+ return (
+  <div className="min-h-screen bg-gray-50 p-6">
+    <div className="max-w-6xl mx-auto">
+
+      <h1 className="text-3xl font-bold mb-6 text-gray-800">
+        Admin Penilaian Psikotes
+      </h1>
+
+      {/* pilih peserta */}
+      <div className="mb-6">
+        <label className="block mb-2 font-semibold text-gray-700">
+          Pilih Peserta
+        </label>
         <select
-          className="w-full md:w-1/2 border p-2 rounded mb-4"
+          className="w-full md:w-1/2 border rounded-lg p-3 focus:ring focus:ring-blue-200"
           onChange={(e) => handleSelectPeserta(Number(e.target.value))}
         >
           <option value="">-- Pilih Peserta --</option>
@@ -98,99 +183,164 @@ export default function AdminPage() {
             <option key={p.id} value={p.id}>{p.nama}</option>
           ))}
         </select>
+      </div>
 
-        {/* identitas */}
-        {selectedPeserta && (
-          <div className="bg-white p-4 rounded shadow mb-4 grid grid-cols-1 md:grid-cols-2 gap-2 text-sm">
-            <div><b>Nama:</b> {selectedPeserta.nama}</div>
-            <div><b>Umur:</b> {selectedPeserta.umur}</div>
-            <div><b>Tgl Lahir:</b> {new Date(selectedPeserta.tanggal_lahir).toLocaleDateString("id-ID")}</div>
-            <div><b>JK:</b> {selectedPeserta.jenis_kelamin}</div>
-            <div><b>Pendidikan:</b> {selectedPeserta.tingkat_pendidikan}</div>
-            <div><b>Instansi:</b> {selectedPeserta.instansi}</div>
-            <div><b>Kontak:</b> {selectedPeserta.kontak}</div>
+      {/* identitas peserta */}
+      {selectedPeserta && (
+        <div className="bg-white shadow rounded-lg p-6 mb-6">
+          <h2 className="text-xl font-bold mb-4 text-yellow-600">
+            Identitas Peserta
+          </h2>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-gray-700">
+            <p><b>Nama <span style={{ marginLeft: 70 }}>: </span></b> {selectedPeserta.nama}</p>
+            <p><b>Umur <span style={{ marginLeft: 73 }}>: </span></b> {selectedPeserta.umur}</p>
+            <p><b>Tanggal Lahir <span style={{ marginLeft: 14 }}>: </span></b> {new Date(selectedPeserta.tanggal_lahir).toLocaleDateString("id-ID")}</p>
+            <p><b>Jenis Kelamin <span style={{ marginLeft: 13 }}>: </span></b> {selectedPeserta.jenis_kelamin}</p>
+            <p><b>Pendidikan <span style={{ marginLeft: 31 }}>: </span></b> {selectedPeserta.tingkat_pendidikan}</p>
+            <p><b>Instansi <span style={{ marginLeft: 57 }}>: </span></b> {selectedPeserta.instansi}</p>
+            <p><b>Kontak <span style={{ marginLeft: 62 }}>: </span></b> {selectedPeserta.kontak}</p>
+              {selectedPeserta.portofolio && ( 
+              <p><b>Portofolio <span style={{ marginLeft: 43 }}>: </span></b> 
+              <a
+                href={selectedPeserta.portofolio}
+                target="_blank"
+                className="text-blue-600 underline"
+              >
+                {selectedPeserta.portofolio.split("/").pop()}
+              </a>
+
+              </p> )}
           </div>
-        )}
+        </div>
+      )}
 
-        {/* DESKTOP TABLE */}
-        <div className="hidden md:block overflow-x-auto bg-white rounded shadow">
-          <table className="w-full border text-sm">
-            <thead className="bg-gray-700 text-white">
-              <tr>
-                <th className="p-2 border">No</th>
-                <th className="p-2 border">Pertanyaan</th>
-                <th className="p-2 border">Jawaban</th>
-                <th className="p-2 border">Kunci</th>
-                <th className="p-2 border">Skor</th>
+      {/* tabel jawaban */}
+      {jawaban.length > 0 && (
+        <div className="bg-white shadow rounded-lg p-4">
+
+          <table className="w-full border-collapse">
+            <thead>
+              <tr className="bg-gray-600 text-white">
+                <th className="p-3 border">No</th>
+                <th className="p-3 border">Pertanyaan</th>
+                <th className="p-3 border">Jawaban Peserta</th>
+                <th className="p-3 border">Kunci Jawaban</th>
+                <th className="p-3 border">Skor</th>
               </tr>
             </thead>
             <tbody>
-              {jawaban.map((j, i) => (
-                <tr key={j.id} className="border">
-                  <td className="p-2 text-center">{i + 1}</td>
-                  <td className="p-2">{j.soal.pertanyaan}</td>
-                  <td className="p-2">
-                    {j.soal.tipe === "UPLOAD" ? (
-                      j.jawaban_gambar && <img src={j.jawaban_gambar} className="w-32" />
-                    ) : j.jawaban_text}
-                  </td>
-                  <td className="p-2 text-green-600">{j.soal.kunci_jawaban}</td>
-                  <td className="p-2 text-center">
+              {jawaban.map((j, index) => (
+                <tr
+                  key={j.id}
+                  className="odd:bg-gray-50 hover:bg-yellow-50 transition"
+                >
+                  <td className="p-3 border text-center">{index + 1}</td>
+                  <td className="p-3 border">
+                  <div className="space-y-2">
+                    {/* Pertanyaan */}
+                    <p className="font-semibold">{j.soal.pertanyaan}</p>
+
+                    {/* Gambar soal */}
+                    {j.soal.gambar && (
+                    <img
+                      src={j.soal.gambar}
+                      alt="Gambar Soal"
+                      className="mt-2 w-40 rounded shadow"
+                    />
+                  )}
+
+              {/* Pilihan jawaban */}
+              {j.soal.tipe === "PILIHAN" && j.soal.pilihan?.length > 0 && (
+              <ul className="mt-2 space-y-1">
+                {j.soal.pilihan.map((p) => (
+              <li
+                key={p.id}
+                className="px-2 py-1 rounded text-gray-700"
+              >
+                {p.label}. {p.teks}
+              </li>
+
+            ))}
+          </ul>
+        )}
+        </div>
+        </td>
+
+
+        <td className="p-3 border">
+          {j.soal.tipe === "UPLOAD" ? (
+          j.jawaban_gambar ? (
+        <div className="flex flex-col gap-2">
+          {/* Tampilkan gambar */}
+        <img
+          src={j.jawaban_gambar}
+          alt="Jawaban Gambar"
+          className="w-40 rounded shadow"
+        />
+          {/* Link download */}
+          <a
+            href={j.jawaban_gambar}
+            target="_blank"
+            download
+            className="text-blue-600 underline"
+          >
+            Lihat Jawaban
+          </a>
+        </div>
+        ) : (
+        <span className="text-red-500">Tidak ada gambar</span>
+        )
+      ) : (
+      j.jawaban_text
+      )}
+    </td>
+    <td className="p-3 border">
+  {j.soal.kunci_jawaban ? (
+    <p className="font-semibold text-green-700">
+      {j.soal.kunci_jawaban}
+    </p>
+  ) : (
+    <span className="text-gray-400">Belum ada kunci jawaban</span>
+  )}
+</td>
+
+                  <td className="p-3 border text-center">
                     <input
                       type="number"
-                      value={j.skor}
-                      onChange={(e) => handleSkorChange(j.id, Number(e.target.value))}
-                      className="border w-16 text-center"
+                      min={0}
+                      max={5}
+                      value={Number(j.skor) || 0}
+                      onChange={(e) =>
+                      handleSkorChange(j.id, Number(e.target.value))
+                    }
+                      className="border rounded px-2 py-1 w-20 text-center"
                     />
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
-        </div>
 
-        {/* MOBILE CARD */}
-        <div className="block md:hidden space-y-4">
-          {jawaban.map((j, i) => (
-            <div key={j.id} className="bg-white p-4 rounded shadow space-y-2">
-              <p className="font-bold text-yellow-600">Soal {i + 1}</p>
-              <p>{j.soal.pertanyaan}</p>
-
-              {j.soal.tipe === "UPLOAD" ? (
-                j.jawaban_gambar && <img src={j.jawaban_gambar} className="w-full rounded" />
-              ) : (
-                <p><b>Jawaban:</b> {j.jawaban_text}</p>
-              )}
-
-              <p><b>Kunci:</b> <span className="text-green-600">{j.soal.kunci_jawaban}</span></p>
-
-              <input
-                type="number"
-                value={j.skor}
-                onChange={(e) => handleSkorChange(j.id, Number(e.target.value))}
-                className="border w-full p-2 rounded"
-              />
-            </div>
-          ))}
-        </div>
-
-        {/* footer */}
-        {jawaban.length > 0 && (
-          <div className="flex flex-col md:flex-row justify-between items-center mt-6 gap-4">
-            <div className="bg-green-100 px-4 py-2 rounded font-bold">
+          {/* total skor */}
+          <div className="flex justify-between items-center mt-6">
+            <div className="bg-green-100 text-green-800 px-5 py-3 rounded-lg text-lg font-bold shadow">
               Total Skor: {nilaiAkhir}
             </div>
 
             <button
               onClick={simpanSemuaSkor}
-              className="bg-blue-600 text-white px-6 py-2 rounded"
+              className="bg-blue-600 hover:bg-blue-700 transition text-white px-6 py-3 rounded-lg font-semibold shadow"
             >
               Simpan Semua Skor
             </button>
           </div>
-        )}
 
-      </div>
+        </div>
+      )}
+
     </div>
-  );
+  </div>
+);
+
 }
