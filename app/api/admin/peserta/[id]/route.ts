@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
-import { Prisma } from "@prisma/client";
+import type { Prisma } from "@prisma/client";
 
 type JawabanWithSoal = Prisma.JawabanGetPayload<{
   include: {
