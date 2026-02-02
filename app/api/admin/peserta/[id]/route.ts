@@ -1,18 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
-import type { Prisma } from "@prisma/client";
-
-type JawabanWithSoal = Prisma.JawabanGetPayload<{
-  include: {
-    soal: {
-      include: {
-        pilihan: true;
-      };
-    };
-  };
-}>;
-
 export async function GET(
   req: Request,
   context: { params: Promise<{ id: string }> } // params adalah Promise
@@ -39,18 +27,17 @@ export async function GET(
     }
 
     // fix path gambar soal
-    const jawabanWithGambar = peserta.jawaban.map((j: JawabanWithSoal) => ({
-  ...j,
-  soal: {
-    ...j.soal,
-    gambar: j.soal.gambar
-      ? j.soal.gambar.startsWith("/")
-        ? j.soal.gambar
-        : `/soal-images/${j.soal.gambar}`
-      : null,
-  },
-}));
-
+    const jawabanWithGambar = peserta.jawaban.map((j) => ({
+      ...j,
+      soal: {
+        ...j.soal,
+        gambar: j.soal.gambar
+          ? j.soal.gambar.startsWith("/")
+            ? j.soal.gambar
+            : `/soal-images/${j.soal.gambar}`
+          : null,
+      },
+    }));
 
     return NextResponse.json({
       ...peserta,
