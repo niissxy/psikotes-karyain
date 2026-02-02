@@ -402,7 +402,7 @@ export default function SoalPage() {
           <div className="flex justify-center mt-6">
             <button
               onClick={submitTest}
-              className="mt-6 bg-green-600 text-white px-6 py-2 rounded"
+              className="mt-6 bg-green-500 text-white px-6 py-2 rounded hover:bg-green-600"
             >
               Submit Jawaban
             </button>
