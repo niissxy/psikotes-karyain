@@ -78,12 +78,13 @@ export const authOptions: AuthOptions = {
       return token;
     },
 
-    async session({ session, token }) {
-      if (session.user) {
-        session.user.role = token.role as "ADMIN" | "USER";
-      }
-      return session;
-    },
+  async session({ session, token }) {
+  if (session.user) {
+    session.user.role = token.role as "ADMIN" | "USER";
+  }
+  return session;
+},
+
 
     async redirect({ url, baseUrl }) {
       return url.startsWith(baseUrl) ? url : baseUrl;
