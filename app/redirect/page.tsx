@@ -3,33 +3,20 @@
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-import Swal from "sweetalert2";
-
-export const dynamic = "force-dynamic";
 
 export default function RedirectPage() {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
   const router = useRouter();
 
   useEffect(() => {
-    if (!session) return;
+    if (status === "loading") return;
 
-    Swal.fire({
-      title: "Loading...",
-      allowOutsideClick: false,
-      didOpen: () => Swal.showLoading(),
-    });
-
-    if (session.user.role === "ADMIN") {
+    if (session?.user.role === "ADMIN") {
       router.push("/admin");
-    } else {
+    } else if (session?.user.role === "USER") {
       router.push("/soal");
     }
-  }, [session, router]);
+  }, [session, status, router]);
 
-  return (
-    <div className="min-h-screen flex items-center justify-center">
-      <p>Redirecting...</p>
-    </div>
-  );
+  return <p>Redirecting...</p>;
 }
