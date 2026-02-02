@@ -38,32 +38,52 @@ export default function SoalPage() {
 
   const [jawabanFile, setJawabanFile] = useState<Record<number, File>>({});
 
-  const TOTAL_TIME = 25 * 60; // 25 menit (detik)
+  const TOTAL_TIME = 25 * 60;
   const [timeLeft, setTimeLeft] = useState<number>(TOTAL_TIME);
   const [isSubmitted, setIsSubmitted] = useState(false);
+
+  const menit = Math.floor(timeLeft / 60);
+  const detik = timeLeft % 60;
 
 useEffect(() => {
   if (step !== "soal") return;
 
-  const savedEndTime = localStorage.getItem("endTime");
-  let endTime: number;
+  let endTime = localStorage.getItem("endTime");
 
-  if (!savedEndTime) {
-    endTime = Date.now() + TOTAL_TIME * 1000;
-    localStorage.setItem("endTime", endTime.toString());
-  } else {
-    endTime = Number(savedEndTime);
+  if (!endTime) {
+    const newEndTime = Date.now() + TOTAL_TIME * 1000;
+    localStorage.setItem("endTime", newEndTime.toString());
+    endTime = newEndTime.toString();
   }
 
-  const remaining = Math.floor((endTime - Date.now()) / 1000);
+  const remaining = Math.floor((Number(endTime) - Date.now()) / 1000);
+  setTimeLeft(remaining > 0 ? remaining : 0);
 
-  if (remaining <= 0) {
-    setTimeLeft(0);
-    handleAutoSubmit();
-  } else {
-    setTimeLeft(remaining);
-  }
+  const interval = setInterval(() => {
+    const remaining = Math.floor((Number(endTime) - Date.now()) / 1000);
+
+    if (remaining <= 0) {
+      clearInterval(interval);
+      handleAutoSubmit();
+    } else {
+      setTimeLeft(remaining);
+    }
+  }, 1000);
+
+  return () => clearInterval(interval);
 }, [step]);
+
+// useEffect(() => {
+//   if (step !== "soal") return;
+//   if (isSubmitted) return;
+//   if (timeLeft <= 0) return;
+
+//   const timer = setInterval(() => {
+//     setTimeLeft((prev) => prev - 1);
+//   }, 1000);
+
+//   return () => clearInterval(timer);
+// }, [timeLeft, step, isSubmitted]);
 
 const handleAutoSubmit = async () => {
   if (isSubmitted) return;
@@ -78,10 +98,8 @@ const handleAutoSubmit = async () => {
     allowOutsideClick: false,
   });
 
-  submitTest();
+  submitTest(true); 
 };
-
-
 
   // Ambil soal dari API
   useEffect(() => {
@@ -113,15 +131,17 @@ const handleAutoSubmit = async () => {
   };
 
   // Submit jawaban
-  const submitTest = async () => {
+ const submitTest = async (isAuto = false) => {
+  localStorage.removeItem("endTime");
+  setIsSubmitted(true);
+
   try {
-    if (Object.keys(jawaban).length === 0) {
+    if (!isAuto && Object.keys(jawaban).length === 0) {
       Swal.fire({
         icon: "warning",
         title: "Jawaban belum lengkap",
         text: "Harap isi jawaban terlebih dahulu",
-        confirmButtonText: "OK",
-      })
+      });
       return;
     }
 
@@ -320,6 +340,10 @@ const handleAutoSubmit = async () => {
 
         {step === "soal" && (
         <>
+        <p className="text-red-600 font-bold mb-2">
+          Sisa waktu: {menit}:{detik.toString().padStart(2,"0")}
+        </p>
+
         <h2 className="text-2xl font-bold text-start mb-4">Soal Psikotes</h2>
 
           {soals.map((s, index) => (
@@ -396,7 +420,7 @@ const handleAutoSubmit = async () => {
 
           <div className="flex justify-center mt-6">
             <button
-              onClick={submitTest}
+              onClick={() => submitTest(false)}
               className="mt-6 bg-green-600 text-white px-6 py-2 rounded"
             >
               Submit Jawaban
