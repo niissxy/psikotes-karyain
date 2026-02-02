@@ -51,11 +51,11 @@ export const authOptions: AuthOptions = {
     async signIn({ user, account }) {
       if (!user.email) return false;
 
-      // REGISTER GOOGLE jika user belum ada
       if (account?.provider === "google") {
         const existingUser = await prisma.user.findUnique({
           where: { email: user.email },
         });
+
         if (!existingUser) {
           await prisma.user.create({
             data: {
@@ -72,17 +72,20 @@ export const authOptions: AuthOptions = {
     },
 
     async jwt({ token, user }) {
-      if (user) token.role = (user as any).role;
+      if (user) {
+        token.role = (user as any).role;
+      }
       return token;
     },
 
     async session({ session, token }) {
-      session.user.role = token.role as "ADMIN" | "USER";
+      if (session.user) {
+        session.user.role = token.role as "ADMIN" | "USER";
+      }
       return session;
     },
 
     async redirect({ url, baseUrl }) {
-      // redirect setelah login
       return url.startsWith(baseUrl) ? url : baseUrl;
     },
   },
