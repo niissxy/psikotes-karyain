@@ -27,7 +27,7 @@ export async function GET(
     }
 
     // fix path gambar soal
-    const jawabanWithGambar = peserta.jawaban.map((j) => ({
+    const jawabanWithGambar = peserta.jawaban.map((j: any) => ({
       ...j,
       soal: {
         ...j.soal,
