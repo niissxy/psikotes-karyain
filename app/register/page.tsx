@@ -85,7 +85,7 @@ export default function RegisterPage() {
 
         <button
           onClick={handleRegister}
-          className="w-full bg-green-600 text-white py-2 rounded mb-3"
+          className="w-full bg-green-500 text-white py-2 rounded mb-3 hover:bg-green-800"
         >
           Register
         </button>

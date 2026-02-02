@@ -91,15 +91,16 @@ const handleAutoSubmit = async () => {
   setIsSubmitted(true);
   localStorage.removeItem("endTime");
 
-  await Swal.fire({
+  await submitTest(true);
+
+  Swal.fire({
     icon: "warning",
     title: "Waktu Habis!",
     text: "Jawaban otomatis dikumpulkan",
     allowOutsideClick: false,
   });
-
-  submitTest(true); 
 };
+
 
   // Ambil soal dari API
   useEffect(() => {
@@ -132,9 +133,6 @@ const handleAutoSubmit = async () => {
 
   // Submit jawaban
  const submitTest = async (isAuto = false) => {
-  localStorage.removeItem("endTime");
-  setIsSubmitted(true);
-
   try {
     if (!isAuto && Object.keys(jawaban).length === 0) {
       Swal.fire({
@@ -144,6 +142,7 @@ const handleAutoSubmit = async () => {
       });
       return;
     }
+
 
     const formData = new FormData();
 
