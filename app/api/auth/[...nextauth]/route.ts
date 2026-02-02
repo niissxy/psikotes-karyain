@@ -4,7 +4,9 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { prisma } from "@/lib/prisma";
 import bcrypt from "bcryptjs";
 
-export const runtime = "nodejs"
+export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+
 export const authOptions: AuthOptions = {
   providers: [
     CredentialsProvider({
@@ -18,6 +20,13 @@ export const authOptions: AuthOptions = {
 
         const user = await prisma.user.findUnique({
           where: { email: credentials.email },
+          select: {
+            id: true,
+            name: true,
+            email: true,
+            password: true,
+            role: true,
+          },
         });
 
         if (!user || !user.password) return null;
@@ -40,52 +49,41 @@ export const authOptions: AuthOptions = {
     }),
   ],
 
-  session: {
-    strategy: "jwt",
-  },
+  session: { strategy: "jwt" },
 
-  pages: {
-    signIn: "/login",
-  },
+  pages: { signIn: "/login" },
 
   callbacks: {
     async signIn({ user, account }) {
       if (!user.email) return false;
 
       if (account?.provider === "google") {
-        const existingUser = await prisma.user.findUnique({
+        await prisma.user.upsert({
           where: { email: user.email },
+          update: {},
+          create: {
+            name: user.name,
+            email: user.email,
+            image: user.image,
+            role: "USER",
+          },
         });
-
-        if (!existingUser) {
-          await prisma.user.create({
-            data: {
-              name: user.name,
-              email: user.email,
-              image: user.image,
-              role: "USER",
-            },
-          });
-        }
       }
 
       return true;
     },
 
     async jwt({ token, user }) {
-      if (user) {
-        token.role = (user as any).role;
-      }
+      if (user) token.role = (user as any).role;
       return token;
     },
 
-  async session({ session, token }) {
-  if (session.user) {
-    session.user.role = token.role as "ADMIN" | "USER";
-  }
-  return session;
-},
-
+    async session({ session, token }) {
+      if (session.user) {
+        session.user.role = token.role as "ADMIN" | "USER";
+      }
+      return session;
+    },
 
     async redirect({ url, baseUrl }) {
       return url.startsWith(baseUrl) ? url : baseUrl;
