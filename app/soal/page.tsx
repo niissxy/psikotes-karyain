@@ -42,6 +42,10 @@ export default function SoalPage() {
   // const [timeLeft, setTimeLeft] = useState<number>(TOTAL_TIME);
   // const [isSubmitted, setIsSubmitted] = useState(false);
 
+  // const menit = Math.floor(timeLeft / 60);
+  // const detik = timeLeft % 60;
+
+
 // useEffect(() => {
 //   if (step !== "soal") return;
 
@@ -318,6 +322,9 @@ export default function SoalPage() {
 
         {step === "soal" && (
         <>
+        {/* <p className="text-red-600 font-bold mb-2">
+          Sisa waktu: {menit}:{detik.toString().padStart(2,"0")}
+        </p> */}
         <h2 className="text-2xl font-bold text-start mb-4">Soal Psikotes</h2>
 
           {soals.map((s, index) => (
