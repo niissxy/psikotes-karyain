@@ -8,6 +8,15 @@ export async function POST(req: NextRequest) {
   try {
     const { name, email, password } = await req.json();
 
+    const existingUser = await prisma.user.findUnique({
+      where: { email },
+      select: { id: true }, // lebih ringan
+    });
+
+    if (existingUser) {
+      return NextResponse.json({ success: false, message: "Email sudah terdaftar" });
+    }
+
     const hashedPassword = await bcrypt.hash(password, 8);
 
     await prisma.user.create({
@@ -15,12 +24,7 @@ export async function POST(req: NextRequest) {
     });
 
     return NextResponse.json({ success: true });
-
-  } catch (err: any) {
-    if (err.code === "P2002") {
-      return NextResponse.json({ success: false, message: "Email sudah terdaftar" });
-    }
-
+  } catch (err) {
     return NextResponse.json({ success: false, message: "Terjadi kesalahan" });
   }
 }
