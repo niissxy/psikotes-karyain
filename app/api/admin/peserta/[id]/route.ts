@@ -3,36 +3,38 @@ import { prisma } from "@/lib/prisma";
 
 export async function GET(
   req: Request,
-  context: { params: Promise<{ id: string }> } // params adalah Promise
+  { params }: { params: { id: string } }
 ) {
   try {
-    const { id } = await context.params;
     const peserta = await prisma.peserta.findUnique({
-      where: { id: Number(id) }, // prisma harus Number
+      where: { id: Number(params.id) },
       include: {
         jawaban: {
-          include: { 
+          include: {
             soal: {
               include: {
                 pilihan: true,
-              }
-            }
-           }
+              },
+            },
+          },
         },
       },
     });
 
     if (!peserta) {
-      return NextResponse.json({ error: "Peserta tidak ditemukan" }, { status: 404 });
+      return NextResponse.json(
+        { error: "Peserta tidak ditemukan" },
+        { status: 404 }
+      );
     }
 
     // fix path gambar soal
-    const jawabanWithGambar = peserta.jawaban.map((j: any) => ({
+    const jawabanWithGambar = peserta.jawaban.map((j) => ({
       ...j,
       soal: {
         ...j.soal,
         gambar: j.soal.gambar
-          ? j.soal.gambar.startsWith("/")
+          ? j.soal.gambar.startsWith("http")
             ? j.soal.gambar
             : `/soal-images/${j.soal.gambar}`
           : null,
