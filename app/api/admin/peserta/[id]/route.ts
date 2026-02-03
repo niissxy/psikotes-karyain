@@ -34,10 +34,9 @@ export async function GET(
   soal: {
     ...j.soal,
     gambar: j.soal.gambar
-      ? j.soal.gambar.startsWith("http")
-        ? j.soal.gambar
-        : `/soal-images/${j.soal.gambar}`
-      : null,
+  ? `/soal-images/${j.soal.gambar.replace(/^\/+/, "")}`
+  : null,
+
   },
 }));
 
