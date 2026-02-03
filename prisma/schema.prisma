@@ -12,6 +12,7 @@ datasource db {
   provider = "postgresql"
 }
 
+
 enum JenisKelamin {
   LAKI_LAKI
   PEREMPUAN
