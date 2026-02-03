@@ -350,9 +350,10 @@ const nilaiAkhir = ((totalSkor / totalSoal) * 100).toFixed(2);
 
           {/* total skor */}
           <div className="flex justify-between items-center mt-6">
-            <div className="bg-green-100 text-green-800 px-5 py-3 rounded-lg text-lg font-bold shadow">
-              Total Skor: {nilaiAkhir} %
+           <div className="bg-green-100 text-green-800 px-5 py-3 rounded-lg text-lg font-bold shadow">
+            Total Skor: <span className="text-2xl">{nilaiAkhir}%</span>
             </div>
+
 
             <button
               onClick={simpanSemuaSkor}
