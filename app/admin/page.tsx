@@ -247,8 +247,10 @@ const nilaiAkhir = (totalSkor * skorPerSoal).toFixed(2);
                       src={j.soal.gambar}
                       alt="Gambar Soal"
                       className="mt-2 w-40 rounded shadow"
+                      onError={(e) => console.log("Gambar error:", j.soal.gambar)}
                     />
                   )}
+
 
               {/* Pilihan jawaban */}
               {j.soal.tipe === "PILIHAN" && j.soal.pilihan?.length > 0 && (

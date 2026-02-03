@@ -30,16 +30,16 @@ export async function GET(
 
     // fix path gambar soal
     const jawabanWithGambar = peserta.jawaban.map((j) => ({
-      ...j,
-      soal: {
-        ...j.soal,
-        gambar: j.soal.gambar
-          ? j.soal.gambar.startsWith("http")
-            ? j.soal.gambar
-            : `/soal-images/${j.soal.gambar}`
-          : null,
-      },
-    }));
+  ...j,
+  soal: {
+    ...j.soal,
+    gambar: j.soal.gambar
+      ? j.soal.gambar.startsWith("http")
+        ? j.soal.gambar
+        : `/soal-images/${j.soal.gambar}`
+      : null,
+  },
+}));
 
     return NextResponse.json({
       ...peserta,
