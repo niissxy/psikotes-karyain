@@ -90,6 +90,30 @@ const loadPeserta = async (id: number) => {
   setJawaban(sortedJawaban);
 };
 
+useEffect(() => {
+  if (jawaban.length === 0) return;
+
+  const updatedJawaban = jawaban.map((j) => {
+    // jika soal pilihan → auto nilai
+    if (j.soal.tipe === "PILIHAN") {
+      const benar =
+        j.jawaban_text?.trim().toLowerCase() ===
+        j.soal.kunci_jawaban?.trim().toLowerCase();
+
+      return {
+        ...j,
+        skor: benar ? 1 : 0,
+      };
+    }
+
+    // jika UPLOAD (gambar) → biarkan manual
+    return j;
+  });
+
+  setJawaban(updatedJawaban);
+}, [selectedPeserta]);
+
+
 
   // ubah skor
   const handleSkorChange = (id: number, skor: number) => {
@@ -152,14 +176,13 @@ const loadPeserta = async (id: number) => {
 
 
 
-const JUMLAH_SOAL = jawaban.length; // harusnya 40
-const skorPerSoal = 100 / JUMLAH_SOAL;
+const totalSoal = jawaban.length;
 
 const totalSkor = jawaban.reduce((total, j) => {
   return total + (Number(j.skor) || 0);
 }, 0);
 
-const nilaiAkhir = (totalSkor * skorPerSoal).toFixed(2);
+const nilaiAkhir = ((totalSkor / totalSoal) * 100).toFixed(2);
 
  return (
   <div className="min-h-screen bg-gray-50 p-6">
@@ -251,7 +274,6 @@ const nilaiAkhir = (totalSkor * skorPerSoal).toFixed(2);
                     />
                   )}
 
-
               {/* Pilihan jawaban */}
               {j.soal.tipe === "PILIHAN" && j.soal.pilihan?.length > 0 && (
               <ul className="mt-2 space-y-1">
@@ -311,13 +333,15 @@ const nilaiAkhir = (totalSkor * skorPerSoal).toFixed(2);
                     <input
                       type="number"
                       min={0}
-                      max={5}
+                      max={1}
                       value={Number(j.skor) || 0}
+                      disabled={j.soal.tipe === "PILIHAN"}
                       onChange={(e) =>
                       handleSkorChange(j.id, Number(e.target.value))
                     }
                       className="border rounded px-2 py-1 w-20 text-center"
                     />
+
                   </td>
                 </tr>
               ))}
