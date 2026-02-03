@@ -555,6 +555,10 @@ async function main() {
         { label: "B"},
         { label: "C"},
         { label: "D"},
+        { label: "E"},
+        { label: "F"},
+        { label: "G"},
+        { label: "H"},
       ],
       kunci_jawaban: "A"
     },
