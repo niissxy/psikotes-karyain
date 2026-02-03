@@ -291,7 +291,7 @@ async function main() {
 
     {
       // 21
-      pertanyaan: "52. 21, 18, 15, 12, …",
+      pertanyaan: "21, 18, 15, 12, …",
       gambar: null,
       tipe: "PILIHAN",
       pilihan: [
@@ -305,7 +305,7 @@ async function main() {
 
     {
       // 22
-      pertanyaan: "53. 13, 26, 52, …",
+      pertanyaan: "13, 26, 52, …",
       gambar: null,
       tipe: "PILIHAN",
       pilihan: [
