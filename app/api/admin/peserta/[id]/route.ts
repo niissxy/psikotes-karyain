@@ -29,16 +29,22 @@ export async function GET(
     }
 
     // fix path gambar soal
-    const jawabanWithGambar = peserta.jawaban.map((j) => ({
-  ...j,
-  soal: {
-    ...j.soal,
-    gambar: j.soal.gambar
-  ? `/soal-images/${j.soal.gambar.replace(/^\/+/, "")}`
-  : null,
+  const jawabanWithGambar = peserta.jawaban.map((j) => {
+  let gambar = null;
 
-  },
-}));
+  if (j.soal.gambar) {
+    const filename = j.soal.gambar.split("/").pop(); // ambil nama file saja
+    gambar = `/soal-images/${filename}`;
+  }
+
+  return {
+    ...j,
+    soal: {
+      ...j.soal,
+      gambar,
+    },
+  };
+});
 
     return NextResponse.json({
       ...peserta,
