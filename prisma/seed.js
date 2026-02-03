@@ -169,16 +169,17 @@ async function main() {
 
     {
       // 12
-      pertanyaan: "Jika hari ini hari Kamis, maka 100 hari ke depan adalah hari…",
+      pertanyaan: "Suatu seri : 100-4-90-7-80",
       gambar: null,
       tipe: "PILIHAN",
       pilihan: [
-        { label: "A", teks: "Jumat" },
-        { label: "B", teks: "Senin" },
-        { label: "C", teks:"Sabtu" },
-        { label: "D", teks:"Minggu" },
+        { label: "A", teks: "8" },
+        { label: "B", teks: "9" },
+        { label: "C", teks:"10" },
+        { label: "D", teks:"11" },
+        { label: "D", teks:"12" },
       ],
-      kunci_jawaban: "C. Sabtu"
+      kunci_jawaban: "C. 10"
     },
 
      {
@@ -560,7 +561,7 @@ async function main() {
         { label: "G"},
         { label: "H"},
       ],
-      kunci_jawaban: "A"
+      kunci_jawaban: "E"
     },
 
     {
