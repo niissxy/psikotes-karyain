@@ -24,7 +24,7 @@ async function main() {
         { label: "C", teks: "Konkrit" },
         { label: "D", teks: "Teoretis" }
       ],
-      kunci_jawaban: "D. Teoretis",
+      kunci_jawaban: "D",
     },
 
     {
@@ -38,7 +38,7 @@ async function main() {
         { label: "C", teks: "50%" },
         { label: "D", teks: "60%" }
       ],
-      kunci_jawaban: "B. 30%"
+      kunci_jawaban: "B"
     },
 
     {
@@ -52,7 +52,7 @@ async function main() {
         { label: "C", teks:"Rp 50.000" },
         { label: "D", teks:"Rp 55.000" },
       ],
-      kunci_jawaban: "C. Rp. 50.000"
+      kunci_jawaban: "C"
     },
 
     {
@@ -66,7 +66,7 @@ async function main() {
         { label: "C", teks:"14 hari" },
         { label: "D", teks:"16 hari" },
       ],
-      kunci_jawaban: "B. 12 hari"
+      kunci_jawaban: "B"
     },
 
      {
@@ -80,7 +80,7 @@ async function main() {
         { label: "C", teks:"4" },
         { label: "D", teks:"10" },
       ],
-      kunci_jawaban: "A. 8"
+      kunci_jawaban: "A"
     },
 
     {
@@ -94,7 +94,7 @@ async function main() {
         { label: "C", teks:"Andi mungkin lebih tua dari Citra" },
         { label: "D", teks:"Tidak bisa disimpulkan" },
       ],
-      kunci_jawaban: "C. Andi mungkin lebih tua dari Citra"
+      kunci_jawaban: "C"
     },
 
     {
@@ -108,7 +108,7 @@ async function main() {
         { label: "C", teks:"Santi pergi ke toko buku" },
         { label: "D", teks:"Tidak bisa disimpulkan" },
       ],
-      kunci_jawaban: "B. Santi tidak suka buku"
+      kunci_jawaban: "B"
     },
 
     {
@@ -122,7 +122,7 @@ async function main() {
         { label: "C", teks:"Sabtu" },
         { label: "D", teks:"Minggu" },
       ],
-      kunci_jawaban: "C. Sabtu"
+      kunci_jawaban: "C"
     },
 
     {
@@ -136,7 +136,7 @@ async function main() {
         { label: "C", teks:"Tidak semua alat tulis adalah pensil" },
         { label: "D", teks:"Tidak dapat disimpulkan" },
       ],
-      kunci_jawaban: "D. Tidak dapat disimpulkan"
+      kunci_jawaban: "D"
     },
 
     {
@@ -150,7 +150,7 @@ async function main() {
         { label: "C", teks:"Tika-Rani-Dina" },
         { label: "D", teks:"Dina-Tika-Rani" },
       ],
-      kunci_jawaban: "A. Dina-Rani-Tika"
+      kunci_jawaban: "A"
     },
 
     {
@@ -164,7 +164,7 @@ async function main() {
         { label: "C", teks:"Semua kucing adalah burung" },
         { label: "D", teks:"Tidak dapat disimpulkan" },
       ],
-      kunci_jawaban: "D. Tidak dapat disimpulkan"
+      kunci_jawaban: "D"
     },
 
     {
@@ -179,7 +179,7 @@ async function main() {
         { label: "D", teks:"11" },
         { label: "D", teks:"12" },
       ],
-      kunci_jawaban: "C. 10"
+      kunci_jawaban: "C"
     },
 
      {
@@ -202,7 +202,7 @@ async function main() {
         { label: "C", teks:"Sekolah" },
         { label: "D", teks:"Pelajaran" },
       ],
-      kunci_jawaban: "A. Murid"
+      kunci_jawaban: "A"
     },
     
     {
@@ -216,7 +216,7 @@ async function main() {
         { label: "C", teks:"Ringan" },
         { label: "D", teks:"Kecil" },
       ],
-      kunci_jawaban: "B. Lembut"
+      kunci_jawaban: "B"
     },
 
     {
@@ -230,7 +230,7 @@ async function main() {
         { label: "C", teks:"Laut" },
         { label: "D", teks:"Dermaga" },
       ],
-      kunci_jawaban: "C. Laut"
+      kunci_jawaban: "C"
     },
 
     {
@@ -244,7 +244,7 @@ async function main() {
         { label: "C", teks:"Cair" },
         { label: "D", teks:"Air" },
       ],
-      kunci_jawaban: "A. Dingin"
+      kunci_jawaban: "A"
     },
 
     {
@@ -258,7 +258,7 @@ async function main() {
         { label: "C", teks:"Bintang" },
         { label: "D", teks:"Awan" },
       ],
-      kunci_jawaban: "B. Malam"
+      kunci_jawaban: "B"
     },
 
     {
@@ -272,7 +272,7 @@ async function main() {
         { label: "C", teks:"Sapi" },
         { label: "D", teks:"Singa" },
       ],
-      kunci_jawaban: "C. Sapi"
+      kunci_jawaban: "C"
     },
 
     {
@@ -286,7 +286,7 @@ async function main() {
         { label: "C", teks:"Tajam" },
         { label: "D", teks:"Indah" },
       ],
-      kunci_jawaban: "A. Merah"
+      kunci_jawaban: "A"
     },
 
     {
@@ -300,7 +300,7 @@ async function main() {
         { label: "C", teks:"8" },
         { label: "D", teks:"6" },
       ],
-      kunci_jawaban: "B. 9"
+      kunci_jawaban: "B"
     },
 
     {
@@ -314,7 +314,7 @@ async function main() {
         { label: "C", teks:"100" },
         { label: "D", teks:"104" },
       ],
-      kunci_jawaban: "D. 104"
+      kunci_jawaban: "D"
     },
 
     {
