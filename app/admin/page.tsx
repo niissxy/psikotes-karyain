@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { cache, useEffect, useState } from "react";
 import Swal from "sweetalert2";
 
 type Soal = {
@@ -40,8 +40,10 @@ export default function AdminPage() {
   const [scrollPos, setScrollPos] = useState(0);
 
   // ambil semua peserta
- useEffect(() => {
-  fetch("/api/admin/peserta")
+useEffect(() => {
+  fetch("/api/admin/peserta", {
+    cache: "no-store",
+  })
     .then(async (res) => {
       if (!res.ok) {
         const text = await res.text();
@@ -50,11 +52,15 @@ export default function AdminPage() {
       }
       return res.json();
     })
-    .then((data) => setPesertaList(data))
+    .then((data) => {
+      console.log("DATA PESERTA:", data); // debug
+      setPesertaList(data);
+    })
     .catch((err) => {
       console.error("Fetch error:", err);
     });
 }, []);
+
 
   // pilih peserta
   const handleSelectPeserta = async (id: number) => {
