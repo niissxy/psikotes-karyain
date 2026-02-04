@@ -297,7 +297,7 @@ export default function SoalPage() {
             </div>
 
              <div className="mb-2">
-              <p>Posisi</p>
+              <p>Posisi yang dilamar</p>
               <input
                 className="w-full mb-3 px-4 py-2 border border-gray-300 rounded-md" 
                 type="text" 
