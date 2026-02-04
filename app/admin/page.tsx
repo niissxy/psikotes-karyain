@@ -28,6 +28,7 @@ type Peserta = {
   jenis_kelamin: string;
   tingkat_pendidikan: string;
   instansi: string;
+  posisi: string;
   kontak: string;
   portofolio: string;
   jawaban: Jawaban[];
@@ -228,6 +229,7 @@ const nilaiAkhir = ((totalSkor / totalSoal) * 100).toFixed(2);
             <p><b>Jenis Kelamin <span style={{ marginLeft: 13 }}>: </span></b> {selectedPeserta.jenis_kelamin}</p>
             <p><b>Pendidikan <span style={{ marginLeft: 31 }}>: </span></b> {selectedPeserta.tingkat_pendidikan}</p>
             <p><b>Instansi <span style={{ marginLeft: 57 }}>: </span></b> {selectedPeserta.instansi}</p>
+            <p><b>Posisi <span style={{ marginLeft: 57 }}>: </span></b> {selectedPeserta.posisi}</p>
             <p><b>Kontak <span style={{ marginLeft: 62 }}>: </span></b> {selectedPeserta.kontak}</p>
               {selectedPeserta.portofolio && ( 
               <p><b>Portofolio <span style={{ marginLeft: 43 }}>: </span></b> 
