@@ -241,7 +241,7 @@ const nilaiAkhir = ((totalSkor / totalSoal) * 100).toFixed(2);
               </a>
 
               </p> )}
-              <p><b>Posisi <span style={{ marginLeft: 80 }}>: </span></b> {selectedPeserta.posisi}</p>
+              <p><b>Posisi <span style={{ marginLeft: 70 }}>: </span></b> {selectedPeserta.posisi}</p>
           </div>
         </div>
       )}
