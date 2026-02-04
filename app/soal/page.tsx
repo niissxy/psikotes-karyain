@@ -303,7 +303,7 @@ export default function SoalPage() {
                 type="text" 
                 placeholder="Posisi"
                 value={posisi}
-                onChange={(e) => setInstansi(e.target.value)}
+                onChange={(e) => setPosisi(e.target.value)}
               />
             </div>
 
