@@ -31,6 +31,7 @@ export default function SoalPage() {
   const [jenis_kelamin, setJenisKelamin] = useState("");
   const [tingkat_pendidikan, setTingkatPendidikan] = useState("");
   const [instansi, setInstansi] = useState("");
+  const [posisi, setPosisi] = useState("");
   const [kontak, setKontak] = useState("");
   const [portofolio, setPortofolio] = useState<File | null>(null);
   const [jawaban, setJawaban] = useState<Record<number, string>>({});
@@ -103,6 +104,7 @@ export default function SoalPage() {
         !jenis_kelamin.trim() || 
         !tingkat_pendidikan.trim() || 
         !instansi.trim() || 
+        !posisi.trim() || 
         !kontak.trim()) {
       Swal.fire ({
         icon: "warning",
@@ -135,6 +137,7 @@ export default function SoalPage() {
     formData.append("jenis_kelamin", jenis_kelamin);
     formData.append("tingkat_pendidikan", tingkat_pendidikan);
     formData.append("instansi", instansi);
+    formData.append("posisi", posisi);
     formData.append("kontak", kontak);
 
     formData.append(
@@ -191,6 +194,7 @@ export default function SoalPage() {
       setJenisKelamin("");
       setTingkatPendidikan("");
       setInstansi("");
+      setPosisi("");
       setKontak("");
       setJawaban({});
       setPortofolio(null);
@@ -288,6 +292,17 @@ export default function SoalPage() {
                 type="text" 
                 placeholder="Instansi"
                 value={instansi}
+                onChange={(e) => setInstansi(e.target.value)}
+              />
+            </div>
+
+             <div className="mb-2">
+              <p>Posisi</p>
+              <input
+                className="w-full mb-3 px-4 py-2 border border-gray-300 rounded-md" 
+                type="text" 
+                placeholder="Posisi"
+                value={posisi}
                 onChange={(e) => setInstansi(e.target.value)}
               />
             </div>
