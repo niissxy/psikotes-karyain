@@ -486,8 +486,9 @@ async function main() {
         { label: "B"},
         { label: "C"},
         { label: "D"},
+        { label: "E"},
       ],
-      kunci_jawaban: "C"
+      kunci_jawaban: "E"
     },
 
      {
@@ -500,6 +501,7 @@ async function main() {
         { label: "B"},
         { label: "C"},
         { label: "D"},
+        { label: "E"},
       ],
       kunci_jawaban: "B"
     },
