@@ -36,6 +36,7 @@ model Peserta {
   jenis_kelamin JenisKelamin
   tingkat_pendidikan String
   instansi String
+  posisi String
   kontak String
   portofolio String?
   jawaban Jawaban[]
