@@ -339,7 +339,7 @@ export default function SoalPage() {
                 type="text" 
                 placeholder="Domisili tempat tinggal"
                 value={domisili}
-                onChange={(e) => setKontak(e.target.value)}
+                onChange={(e) => setDomisili(e.target.value)}
               />
             </div>
 
@@ -350,7 +350,7 @@ export default function SoalPage() {
                 type="text" 
                 placeholder="Kendaraan pribadi"
                 value={kendaraan}
-                onChange={(e) => setKontak(e.target.value)}
+                onChange={(e) => setKendaraan(e.target.value)}
               />
             </div>
 
@@ -361,7 +361,7 @@ export default function SoalPage() {
                 type="text" 
                 placeholder="Kegiatan saat ini"
                 value={kesibukan}
-                onChange={(e) => setKontak(e.target.value)}
+                onChange={(e) => setKesibukan(e.target.value)}
               />
             </div>
 
