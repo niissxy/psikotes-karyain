@@ -233,7 +233,7 @@ const nilaiAkhir = ((totalSkor / totalSoal) * 100).toFixed(2);
             <p><b>Pendidikan <span style={{ marginLeft: 78 }}>: </span></b> {selectedPeserta.tingkat_pendidikan}</p>
             <p><b>Instansi <span style={{ marginLeft: 57 }}>: </span></b> {selectedPeserta.instansi}</p>
             <p><b>Kontak <span style={{ marginLeft: 109 }}>: </span></b> {selectedPeserta.kontak}</p>
-            <p><b>Domisili <span style={{ marginLeft: 70 }}>: </span></b> {selectedPeserta.domisili}</p>
+            <p><b>Domisili <span style={{ marginLeft: 90 }}>: </span></b> {selectedPeserta.domisili}</p>
             <p><b>Kendaraan Pribadi <span style={{ marginLeft: 25 }}>: </span></b> {selectedPeserta.kendaraan}</p>
             <p><b>Kegiatan saat ini <span style={{ marginLeft: 20 }}>: </span></b> {selectedPeserta.kesibukan}</p>
               {selectedPeserta.portofolio && ( 
