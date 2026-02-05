@@ -38,6 +38,9 @@ model Peserta {
   instansi String
   posisi String
   kontak String
+  domisili String?
+  kendaraan String?
+  kesibukan String?
   portofolio String?
   jawaban Jawaban[]
   hasil Hasil?
