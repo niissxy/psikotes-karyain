@@ -33,6 +33,9 @@ export default function SoalPage() {
   const [instansi, setInstansi] = useState("");
   const [posisi, setPosisi] = useState("");
   const [kontak, setKontak] = useState("");
+  const [domisili, setDomisili] = useState("");
+  const [kendaraan, setKendaraan] = useState("");
+  const [kesibukan, setKesibukan] = useState("");
   const [portofolio, setPortofolio] = useState<File | null>(null);
   const [jawaban, setJawaban] = useState<Record<number, string>>({});
   const [step, setStep] = useState<"identitas" | "soal">("identitas");
@@ -105,7 +108,12 @@ export default function SoalPage() {
         !tingkat_pendidikan.trim() || 
         !instansi.trim() || 
         !posisi.trim() || 
-        !kontak.trim()) {
+        !kontak.trim() ||
+        !domisili.trim() ||
+        !kendaraan.trim() ||
+        !kesibukan.trim()
+      )
+        {
       Swal.fire ({
         icon: "warning",
         title: "Data belum lengkap",
@@ -139,6 +147,9 @@ export default function SoalPage() {
     formData.append("instansi", instansi);
     formData.append("posisi", posisi);
     formData.append("kontak", kontak);
+    formData.append("domisili", domisili);
+    formData.append("kendaraan", kendaraan);
+    formData.append("kesibukan", kesibukan);
 
     formData.append(
       "jawaban",
@@ -196,6 +207,9 @@ export default function SoalPage() {
       setInstansi("");
       setPosisi("");
       setKontak("");
+      setDomisili("");
+      setKendaraan("");
+      setKesibukan("");
       setJawaban({});
       setPortofolio(null);
     } else {
@@ -286,7 +300,7 @@ export default function SoalPage() {
             </div>
 
             <div className="mb-2">
-              <p>Instansi yang dilamar</p>
+              <p>Instansi asal</p>
               <input
                 className="w-full mb-3 px-4 py-2 border border-gray-300 rounded-md" 
                 type="text" 
@@ -317,6 +331,40 @@ export default function SoalPage() {
                 onChange={(e) => setKontak(e.target.value)}
               />
             </div>
+
+            <div className="mb-2">
+              <p>Domisili tempat tinggal</p>
+              <input
+                className="w-full mb-3 px-4 py-2 border border-gray-300 rounded-md" 
+                type="text" 
+                placeholder="Domisili tempat tinggal"
+                value={domisili}
+                onChange={(e) => setKontak(e.target.value)}
+              />
+            </div>
+
+            <div className="mb-2">
+              <p>Kendaraan Pribadi</p>
+              <input
+                className="w-full mb-3 px-4 py-2 border border-gray-300 rounded-md" 
+                type="text" 
+                placeholder="Kendaraan pribadi"
+                value={kendaraan}
+                onChange={(e) => setKontak(e.target.value)}
+              />
+            </div>
+
+            <div className="mb-2">
+              <p>Kesibukan saat ini</p>
+              <input
+                className="w-full mb-3 px-4 py-2 border border-gray-300 rounded-md" 
+                type="text" 
+                placeholder="Kesibukan saat ini"
+                value={kesibukan}
+                onChange={(e) => setKontak(e.target.value)}
+              />
+            </div>
+
             <div className="mb-2">
               <p>Portofolio (max 10 MB)</p>
               <input 

@@ -27,6 +27,9 @@ export async function POST(req: Request) {
       instansi: formData.get("instansi") as string,
       posisi: formData.get("posisi") as string,
       kontak: formData.get("kontak") as string,
+      domisili: formData.get("domisili") as string,
+      kendaraan: formData.get("kendaraan") as string,
+      kesibukan: formData.get("kesibukan") as string,
       portofolio: portofolioUrl,
     },
   });
