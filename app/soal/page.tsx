@@ -355,11 +355,11 @@ export default function SoalPage() {
             </div>
 
             <div className="mb-2">
-              <p>Kesibukan saat ini</p>
+              <p>Kegiatan saat ini</p>
               <input
                 className="w-full mb-3 px-4 py-2 border border-gray-300 rounded-md" 
                 type="text" 
-                placeholder="Kesibukan saat ini"
+                placeholder="Kegiatan saat ini"
                 value={kesibukan}
                 onChange={(e) => setKontak(e.target.value)}
               />
