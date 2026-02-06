@@ -23,6 +23,18 @@ enum TipeSoal {
   UPLOAD
 }
 
+enum Posisi {
+  ACCOUNTING
+  DESIGN_GRAFIS
+  ADMIN
+  CONTENT_CREATOR
+  STAFF_LAUNDRY
+  KURIR
+  WEB_DEVELOPMENT
+  PRODUKSI_TEKNISI
+  CUSTOMER_SERVICE
+}
+
 enum Role {
   ADMIN
   USER
@@ -36,7 +48,7 @@ model Peserta {
   jenis_kelamin JenisKelamin
   tingkat_pendidikan String
   instansi String
-  posisi String
+  posisi Posisi?
   kontak String
   domisili String?
   kendaraan String?

@@ -23,6 +23,18 @@ const jenisKelaminOption = [
   { value: "PEREMPUAN", label: "Perempuan" }
 ]
 
+const posisiOption = [
+  { value: "ACCOUNTING", label: "Accounting" },
+  { value: "DESIGN_GRAFIS", label: "Design Grafis" },
+  { value: "ADMIN", label: "Admin" },
+  { value: "CONTENT_CREATOR", label: "Content Creator" },
+  { value: "STAFF_LAUNDRY", label: "Staff Laundry"},
+  { value: "KURIR", label: "Kurir" },
+  { value: "WEB_DEVELOPMENT", label: "Web Development" },
+  { value: "PRODUKSI_TEKNISI", label: "Produksi/Teknisi" },
+  { value: "CUSTOMER_SERVICE", label: "Customer Service" }
+]
+
 export default function SoalPage() {
   const [soals, setSoals] = useState<Soal[]>([]);
   const [nama, setNama] = useState("");
@@ -310,7 +322,23 @@ export default function SoalPage() {
               />
             </div>
 
-             <div className="mb-2">
+            <div className="mb-2">
+              <p>Posisi yang dilamar</p>
+              <select
+                value={posisi}
+                onChange={(e) => setPosisi(e.target.value)}
+                className="w-full mb-3 px-4 py-2 border border-gray-300 rounded-md"
+              >
+              <option value="">Pilih Posisi yang dilamar</option>
+                {posisiOption.map((j) => (
+              <option key={j.value} value={j.value}>
+                {j.label}
+              </option>
+              ))}
+              </select>
+            </div>
+
+             {/* <div className="mb-2">
               <p>Posisi yang dilamar</p>
               <input
                 className="w-full mb-3 px-4 py-2 border border-gray-300 rounded-md" 
@@ -319,7 +347,7 @@ export default function SoalPage() {
                 value={posisi}
                 onChange={(e) => setPosisi(e.target.value)}
               />
-            </div>
+            </div> */}
 
             <div className="mb-2">
               <p>Kontak</p>
