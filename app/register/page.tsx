@@ -53,7 +53,7 @@ export default function RegisterPage() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-yellow-600 to-black">
-      <div className="bg-[var(--background)] text-[var(--foreground)] p-6 rounded shadow-md w-[320px]">
+      <div className="bg-white p-6 rounded shadow-md w-[320px]">
 
          <div className="flex justify-center mb-4">
                   <Image
@@ -69,14 +69,14 @@ export default function RegisterPage() {
 
         <input
           placeholder="Nama"
-          className="w-full mb-3 px-4 py-2 border rounded bg-[var(--background)] text-[var(--foreground)] border-gray-400"
+          className="w-full mb-3 px-4 py-2 border rounded"
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
         <input
           type="email"
           placeholder="Email"
-          className="w-full mb-3 px-4 py-2 border rounded bg-[var(--background)] text-[var(--foreground)] border-gray-400"
+          className="w-full mb-3 px-4 py-2 border rounded"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
@@ -85,7 +85,7 @@ export default function RegisterPage() {
           <input
           type={showPassword ? "text" : "password"}
           placeholder="Password"
-          className="w-full mb-3 px-4 py-2 border rounded bg-[var(--background)] text-[var(--foreground)] border-gray-400"
+          className="w-full mb-3 px-4 py-2 border rounded"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
@@ -99,7 +99,8 @@ export default function RegisterPage() {
             <EyeIcon className="w-5 h-5" />
           ) : (
             <EyeSlashIcon className="w-5 h-5" />
-          )}
+          )
+          }
         </button>
         </div>
 
