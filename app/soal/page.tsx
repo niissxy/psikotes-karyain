@@ -430,7 +430,7 @@ export default function SoalPage() {
     {s.pilihan.map((p) => (
       <label
         key={p.id}
-        className="flex items-center gap-3 border-sm rounded-lg p-3 cursor-pointer hover:bg-gray-100 font-sm"
+        className="flex items-center gap-3 border-sm rounded-lg p-3 cursor-pointer hover:bg-gray-100"
       >
         <input
           type="radio"
@@ -441,7 +441,7 @@ export default function SoalPage() {
             setJawaban({ ...jawaban, [s.id]: e.target.value })
           }
         />
-        <span className="text-sm sm:text-base">
+        <span className="text-sm">
           {p.label}. {p.teks}
         </span>
       </label>
