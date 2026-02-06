@@ -317,6 +317,7 @@ export default function SoalPage() {
                 onChange={(e) => setPosisi(e.target.value)}
                 className="w-full mb-3 px-4 py-2 border border-gray-300 rounded-md"
               >
+                <option value="">--Pilih Posisi--</option>
                 <option value="Accounting">Accounting</option>
                 <option value="Design Grafis">Design Grafis</option>
                 <option value="Admin">Admin</option>
