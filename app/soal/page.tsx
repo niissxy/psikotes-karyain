@@ -324,7 +324,7 @@ export default function SoalPage() {
                 <option value="Content Creator">Content Creator</option>
                 <option value="Staff Laundry">Staff Laundry</option>
                 <option value="Kurir">Kurir</option>
-                <option value="Accounting">Web Development</option>
+                <option value="Web Development">Web Development</option>
                 <option value="Produksi/Teknisi">Produksi/Teknisi</option>
                 <option value="Customer Service">Customer Service</option>
               </select>
