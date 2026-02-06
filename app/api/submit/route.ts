@@ -25,7 +25,7 @@ export async function POST(req: Request) {
       jenis_kelamin: formData.get("jenis_kelamin") as any,
       tingkat_pendidikan: formData.get("tingkat_pendidikan") as string,
       instansi: formData.get("instansi") as string,
-      posisi: formData.get("posisi") as any,
+      posisi: formData.get("posisi") as string,
       kontak: formData.get("kontak") as string,
       domisili: formData.get("domisili") as string,
       kendaraan: formData.get("kendaraan") as string,
