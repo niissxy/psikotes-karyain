@@ -408,7 +408,7 @@ export default function SoalPage() {
 
           {soals.map((s, index) => (
             
-            <div key={s.id} className="bg-white shadow-md rounded-lg p-4 mb-4">
+            <div key={s.id} className="bg-white shadow-lg rounded-xl p-8 mb-6 max-w-3xl mx-auto">
               
               <h3 className="font-semibold text-yellow-700 mb-2">
                 Pertanyaan {index + 1}
@@ -426,7 +426,7 @@ export default function SoalPage() {
 
               {/* ===== TIPE PILIHAN ===== */}
               {s.tipe === "PILIHAN" && (
-  <div className="grid grid-cols-4 gap-2">
+  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
     {s.pilihan.map((p) => (
       <label
         key={p.id}
