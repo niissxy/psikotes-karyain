@@ -426,25 +426,29 @@ export default function SoalPage() {
 
               {/* ===== TIPE PILIHAN ===== */}
               {s.tipe === "PILIHAN" && (
-                <div className="space-y-2">
-                  {s.pilihan.map((p) => (
-                    <label key={p.id} className="flex items-center gap-2">
-                      <input
-                        type="radio"
-                        name={`soal-${s.id}`}
-                        value={p.label}
-                        checked={jawaban[s.id] === p.label}
-                        onChange={(e) =>
-                          setJawaban({ ...jawaban, [s.id]: e.target.value })
-                        }
-                      />
-                      <span>
-                        {p.label}. {p.teks ?? ""}
-                      </span>
-                    </label>
-                  ))}
-                </div>
-              )}
+              <div className="flex flex-col gap-3">
+                {s.pilihan.map((p) => (
+              <label
+                key={p.id}
+                className="flex items-start gap-2 cursor-pointer"
+              >
+              <input
+                type="radio"
+                name={`soal-${s.id}`}
+                value={p.label}
+                checked={jawaban[s.id] === p.label}
+                onChange={(e) =>
+                setJawaban({ ...jawaban, [s.id]: e.target.value })
+              }
+              />
+            <span>
+              {p.label}. {p.teks ?? ""}
+            </span>
+      </label>
+    ))}
+  </div>
+)}
+
 
               {/* ===== TIPE UPLOAD ===== */}
               {s.tipe === "UPLOAD" && (
