@@ -227,7 +227,7 @@ const nilaiAkhir = ((totalSkor / totalSoal) * 100).toFixed(2);
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-gray-700">
             <p><b>Nama <span style={{ marginLeft: 104 }}>: </span></b> {selectedPeserta.nama}</p>
-            <p><b>Umur <span style={{ marginLeft: 73 }}>: </span></b> {selectedPeserta.umur}</p>
+            <p><b>Umur <span style={{ marginLeft: 100 }}>: </span></b> {selectedPeserta.umur}</p>
             <p><b>Posisi <span style={{ marginLeft: 103 }}>: </span></b> {selectedPeserta.posisi}</p>
             <p><b>Tanggal Lahir <span style={{ marginLeft: 62 }}>: </span></b> {new Date(selectedPeserta.tanggal_lahir).toLocaleDateString("id-ID")}</p>
             <p><b>Jenis Kelamin <span style={{ marginLeft: 43 }}>: </span></b> {selectedPeserta.jenis_kelamin}</p>
