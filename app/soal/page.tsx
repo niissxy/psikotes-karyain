@@ -426,11 +426,11 @@ export default function SoalPage() {
 
               {/* ===== TIPE PILIHAN ===== */}
               {s.tipe === "PILIHAN" && (
-  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+  <div className="grid grid-cols-4 gap-2">
     {s.pilihan.map((p) => (
       <label
         key={p.id}
-        className="flex items-center gap-3 border-sm rounded-lg p-3 cursor-pointer hover:bg-gray-100"
+        className="flex items-center gap-2 border-sm rounded p-2 cursor-pointer"
       >
         <input
           type="radio"
@@ -441,13 +441,13 @@ export default function SoalPage() {
             setJawaban({ ...jawaban, [s.id]: e.target.value })
           }
         />
-        <span className="text-sm">
-          {p.label}. {p.teks}
-        </span>
+        <span>{p.label}. {p.teks}</span>
       </label>
     ))}
   </div>
 )}
+
+
 
               {/* ===== TIPE UPLOAD ===== */}
               {s.tipe === "UPLOAD" && (
