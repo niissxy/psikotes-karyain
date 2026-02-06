@@ -213,7 +213,7 @@ const nilaiAkhir = ((totalSkor / totalSoal) * 100).toFixed(2);
         >
           <option value="">-- Pilih Peserta --</option>
           {pesertaList.map(p => (
-            <option key={p.id} value={p.id}>{p.nama}</option>
+            <option key={p.id} value={p.id}>{p.nama} ({p.posisi})</option>
           ))}
         </select>
       </div>
