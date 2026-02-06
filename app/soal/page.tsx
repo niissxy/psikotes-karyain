@@ -312,13 +312,28 @@ export default function SoalPage() {
 
              <div className="mb-2">
               <p>Posisi yang dilamar</p>
-              <input
+              <select
+                value={posisi}
+                onChange={(e) => setPosisi(e.target.value)}
+                className="w-full mb-3 px-4 py-2 border border-gray-300 rounded-md"
+              >
+                <option value="Accounting">Accounting</option>
+                <option value="Design Grafis">Design Grafis</option>
+                <option value="Admin">Admin</option>
+                <option value="Content Creator">Content Creator</option>
+                <option value="Staff Laundry">Staff Laundry</option>
+                <option value="Kurir">Kurir</option>
+                <option value="Accounting">Web Development</option>
+                <option value="Produksi/Teknisi">Produksi/Teknisi</option>
+                <option value="Customer Service">Customer Service</option>
+              </select>
+              {/* <input
                 className="w-full mb-3 px-4 py-2 border border-gray-300 rounded-md" 
                 type="text" 
                 placeholder="Posisi"
                 value={posisi}
                 onChange={(e) => setPosisi(e.target.value)}
-              />
+              /> */}
             </div>
 
             <div className="mb-2">

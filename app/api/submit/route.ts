@@ -9,6 +9,12 @@ export const dynamic = "force-dynamic";
 export async function POST(req: Request) {
   const formData = await req.formData();
 
+  // const allowedPosisi = ["Accounting", "Design Grafis", "Admin", "Content Creator", "Staff Laundry", "Kurir", "Web Development", "Produksi/Teknisi", "Customer Service"];
+
+  // if (!allowedPosisi.includes(posisi)) {
+  //   return NextResponse.json({ success: false, message: "Posisi tidak valid"});
+  // }
+  
   // PORTOFOLIO
   const portofolio = formData.get("portofolio") as File | null;
   let portofolioUrl: string | null = null;
