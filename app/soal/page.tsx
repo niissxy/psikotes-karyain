@@ -426,7 +426,7 @@ export default function SoalPage() {
 
               {/* ===== TIPE PILIHAN ===== */}
               {s.tipe === "PILIHAN" && (
-  <div className="grid grid-cols-4 gap-2">
+  <div className="grid grid-cols-4 gap-4">
     {s.pilihan.map((p) => (
       <label
         key={p.id}
