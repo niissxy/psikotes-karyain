@@ -177,7 +177,7 @@ async function main() {
         { label: "B", teks: "9" },
         { label: "C", teks:"10" },
         { label: "D", teks:"11" },
-        { label: "D", teks:"12" },
+        { label: "E", teks:"12" },
       ],
       kunci_jawaban: "C"
     },
