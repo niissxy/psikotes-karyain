@@ -430,7 +430,7 @@ export default function SoalPage() {
     {s.pilihan.map((p) => (
       <label
         key={p.id}
-        className="flex items-center gap-2 border rounded p-2 cursor-pointer"
+        className="flex items-center gap-2 border-sm rounded p-2 cursor-pointer"
       >
         <input
           type="radio"
