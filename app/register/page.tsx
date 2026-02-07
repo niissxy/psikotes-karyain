@@ -82,27 +82,25 @@ export default function RegisterPage() {
         />
 
         <div className="relative">
-          <input
-          type={showPassword ? "text" : "password"}
-          placeholder="Password"
-          className="w-full mb-3 px-4 py-2 border rounded"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
+  <input
+    type={showPassword ? "text" : "password"}
+    placeholder="Password"
+    className="w-full px-3 mb-3 py-2 pr-10 border rounded"
+  />
 
-        <button
-          type="button"
-          onClick={() => setShowPassword(!showPassword)}
-          className="absolute right-3 inset-y-0 flex items-center text-gray-600 hover:text-black"
-        >
-          {showPassword ? (
-            <EyeIcon className="w-5 h-5" />
-          ) : (
-            <EyeSlashIcon className="w-5 h-5" />
-          )
-          }
-        </button>
-        </div>
+  <button
+    type="button"
+    onClick={() => setShowPassword(!showPassword)}
+    className="absolute right-3 inset-y-0 flex items-center text-gray-500 hover:text-black"
+  >
+    {showPassword ? (
+      <EyeIcon className="w-5 h-5" />
+    ) : (
+      <EyeSlashIcon className="w-5 h-5" />
+    )}
+  </button>
+</div>
+
 
         <button
           onClick={handleRegister}
