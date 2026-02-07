@@ -81,7 +81,7 @@ export default function RegisterPage() {
           onChange={(e) => setEmail(e.target.value)}
         />
 
-        <div className="relative mb-3">
+        <div className="relative">
           <input
           type={showPassword ? "text" : "password"}
           placeholder="Password"
@@ -93,7 +93,7 @@ export default function RegisterPage() {
         <button
           type="button"
           onClick={() => setShowPassword(!showPassword)}
-          className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-600 hover:text-black"
+          className="absolute right-3 inset-y-0 flex items-center text-gray-600 hover:text-black"
         >
           {showPassword ? (
             <EyeIcon className="w-5 h-5" />
