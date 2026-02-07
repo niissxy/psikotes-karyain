@@ -99,6 +99,8 @@ export default function LoginPage() {
             type={showPassword ? "text" : "password"}
             placeholder="Password"
             className="w-full px-3 py-2 pr-10 border rounded"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
           />
 
           <button

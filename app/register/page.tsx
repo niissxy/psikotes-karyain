@@ -84,8 +84,10 @@ export default function RegisterPage() {
         <div className="relative">
           <input
             type={showPassword ? "text" : "password"}
+            value={password}
             placeholder="Password"
             className="w-full px-3 py-2 pr-10 border rounded"
+            onChange={(e) => setPassword(e.target.value)}
           />
 
           <button
