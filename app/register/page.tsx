@@ -85,7 +85,7 @@ export default function RegisterPage() {
   <input
     type={showPassword ? "text" : "password"}
     placeholder="Password"
-    className="w-full px-3 mb-3 py-2 pr-10 border rounded"
+    className="w-full px-3 py-2 pr-10 border rounded"
   />
 
   <button
