@@ -94,32 +94,29 @@ export default function LoginPage() {
           onChange={(e) => setEmail(e.target.value)}
         />
 
-        <div className="relative mb-3">
+        <div className="relative">
           <input
-          type={showPassword ? "text" : "password"}
-          placeholder="Password"
-          className="w-full mb-3 px-4 py-2 border rounded"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
+            type={showPassword ? "text" : "password"}
+            placeholder="Password"
+            className="w-full px-3 py-2 pr-10 border rounded"
+          />
 
-        <button
-          type="button"
-          onClick={() => setShowPassword(!showPassword)}
-          className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-600 hover:text-black"
-        >
-          {showPassword ? (
+          <button
+            type="button"
+            onClick={() => setShowPassword(!showPassword)}
+            className="absolute right-3 inset-y-0 flex items-center text-gray-500 hover:text-black"
+          >
+            {showPassword ? (
             <EyeIcon className="w-5 h-5" />
-          ) : (
+              ) : (
             <EyeSlashIcon className="w-5 h-5" />
-          )
-          }
-        </button>
+            )}
+          </button>
         </div>
 
         <button
           onClick={handleLogin}
-          className="w-full bg-blue-500 text-white py-2 rounded mb-3 hover:bg-blue-600"
+          className="w-full bg-blue-500 text-white py-2 rounded mb-3 mt-3 hover:bg-blue-600"
         >
           Login
         </button>
