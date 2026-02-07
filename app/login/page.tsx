@@ -72,7 +72,7 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-yellow-600 to-black">
-      <div className="bg-white p-6 rounded shadow-md w-[320px]">
+      <div className="bg-black color-white p-6 rounded shadow-md w-[320px]">
 
         <div className="flex justify-center mb-4">
           <Image
