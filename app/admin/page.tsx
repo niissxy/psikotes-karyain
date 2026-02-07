@@ -408,7 +408,6 @@ const nilaiAkhir = ((totalSkor / totalSoal) * 100).toFixed(2);
     <span className="text-gray-400">Belum ada kunci jawaban</span>
   )}
 </td>
-
                   <td className="p-3 border-b border-neutral-700 text-center">
                     <input
                       type="number"
