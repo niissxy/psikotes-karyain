@@ -13,54 +13,69 @@ export default function RegisterPage() {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleRegister = async () => {
+ const handleRegister = async () => {
+  if (!name || !email || !password) {
     Swal.fire({
-      title: "Loading...",
-      allowOutsideClick: false,
-      didOpen() {
-        Swal.showLoading();
-      },
-    })
-    const res = await fetch("/api/register", {
-      method: "POST",
-      body: JSON.stringify({ name, email, password }),
-      headers: { "Content-Type": "application/json" },
+      icon: "warning",
+      title: "Form belum lengkap",
+      text: "Nama, Email, dan Password wajib diisi!",
+      confirmButtonText: "OK",
+      theme: "dark"
+    });
+    return; // stop proses register
+  }
+
+  Swal.fire({
+    title: "Loading...",
+    allowOutsideClick: false,
+    didOpen() {
+      Swal.showLoading();
+    },
+    theme: "dark"
+  });
+
+  const res = await fetch("/api/register", {
+    method: "POST",
+    body: JSON.stringify({ name, email, password }),
+    headers: { "Content-Type": "application/json" },
+  });
+
+  const data = await res.json();
+
+  Swal.close();
+
+  if (data.success) {
+    Swal.fire({
+      icon: "success",
+      title: "Berhasil!",
+      text: "Register berhasil, silakan login!",
+      showConfirmButton: false,
+      timer: 3000,
+      theme: "dark"
     });
 
-    const data = await res.json();
+    router.push("/login");
+  } else {
+    Swal.fire({
+      icon: "error",
+      title: "Register Gagal!",
+      text: data.message,
+      theme: "dark"
+    });
+  }
+};
 
-    Swal.close();
-    
-    if (data.success) {
-      Swal.fire({
-        icon: "success",
-        title: "Berhasil!",
-        text: "Register berhasil, silakan login!",
-        showConfirmButton: false,
-        timer: 3000,
-      });
-      // alert("Register berhasil, silakan login!");
-      router.push("/login");
-    } else {
-      Swal.fire({
-        icon: "success",
-        title: "Berhasil!",
-        text: (data.message),
-      });
-      // alert(data.message);
-    }
-  };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-yellow-600 to-black">
-      <div className="bg-white p-6 rounded shadow-md w-[320px]">
+      <div className="bg-neutral-800 text-[var(--foreground)] p-6 rounded shadow-md w-[320px]">
 
          <div className="flex justify-center mb-4">
                   <Image
                     src="/logo.png"
                     alt="Logo"
-                    width={100}
-                    height={100}
+                    width={120}
+                    height={120}
                     unoptimized
                   />
                 </div>
@@ -93,7 +108,7 @@ export default function RegisterPage() {
           <button
             type="button"
             onClick={() => setShowPassword(!showPassword)}
-            className="absolute right-3 inset-y-0 flex items-center text-gray-500 hover:text-black"
+            className="absolute right-3 inset-y-0 flex items-center text-gray-400 hover:text-white"
           >
             {showPassword ? (
             <EyeIcon className="w-5 h-5" />
@@ -111,7 +126,7 @@ export default function RegisterPage() {
         </button>
 
         <p className="text-center text-sm">
-          Sudah punya akun? <a href="/login" className="text-blue-600">Login</a>
+          Sudah punya akun? <a href="/login" className="text-blue-400">Login</a>
         </p>
       </div>
     </div>

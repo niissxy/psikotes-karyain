@@ -20,6 +20,7 @@ export default function LoginPage() {
       didOpen: () => {
         Swal.showLoading();
       },
+      theme: "dark"
     });
 
     const res = await signIn("credentials", {
@@ -41,6 +42,7 @@ export default function LoginPage() {
         showConfirmButton: false,
         text: "Anda akan diarahkan dalam 3 detik",
         timer: 3000,
+        theme: "dark"
       });
 
       if (session?.user.role === "ADMIN") router.push("/admin");
@@ -49,7 +51,8 @@ export default function LoginPage() {
       // alert("Email atau password salah!");
       Swal.fire({
         icon: "error",
-        title: "Email atau password salah"
+        title: "Email atau password salah",
+        theme: "dark"
       });
     }
   };
@@ -71,15 +74,15 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-yellow-600 to-black">
-      <div className="bg-white p-6 rounded shadow-md w-[320px]">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-yellow-700 to-black">
+      <div className="bg-neutral-800 text-[var(--foreground)] p-6 rounded shadow-md w-[320px]">
 
         <div className="flex justify-center mb-4">
           <Image
             src="/logo.png"
             alt="Logo"
-            width={100}
-            height={100}
+            width={120}
+            height={120}
             unoptimized
           />
         </div>
@@ -106,7 +109,7 @@ export default function LoginPage() {
           <button
             type="button"
             onClick={() => setShowPassword(!showPassword)}
-            className="absolute right-3 inset-y-0 flex items-center text-gray-500 hover:text-black"
+            className="absolute right-3 inset-y-0 flex items-center text-gray-400 hover:text-white"
           >
             {showPassword ? (
             <EyeIcon className="w-5 h-5" />
@@ -131,7 +134,7 @@ export default function LoginPage() {
         </button> */}
 
         <p className="text-center text-sm">
-          Belum punya akun? <a href="/register" className="text-blue-600">Register</a>
+          Belum punya akun? <a href="/register" className="text-blue-400">Register</a>
         </p>
       </div>
     </div>

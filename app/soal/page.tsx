@@ -118,6 +118,7 @@ export default function SoalPage() {
         icon: "warning",
         title: "Data belum lengkap",
         text: "Harap isi identitas terlebih dahulu",
+        theme: "dark"
       });
       return;
     }
@@ -133,9 +134,24 @@ export default function SoalPage() {
         title: "Jawaban belum lengkap",
         text: "Harap isi jawaban terlebih dahulu",
         confirmButtonText: "OK",
+        theme: "dark"
       })
       return;
     }
+
+    // Validasi semua soal harus dijawab
+const unanswered = soals.filter((s) => !jawaban[s.id]);
+
+if (unanswered.length > 0) {
+  Swal.fire({
+    icon: "warning",
+    title: "Jawaban belum lengkap",
+    text: `Masih ada ${unanswered.length} soal yang belum dijawab`,
+    confirmButtonText: "OK",
+    theme: "dark"
+  });
+  return;
+}
 
     const formData = new FormData();
 
@@ -175,6 +191,7 @@ export default function SoalPage() {
       didOpen: () => {
         Swal.showLoading();
       },
+      theme: "dark"
     });
 
     const res = await fetch("/api/submit", {
@@ -196,6 +213,7 @@ export default function SoalPage() {
         title: "Berhasil!",
         text: "Jawaban berhasil disimpan",
         confirmButtonText: "OK",
+        theme: "dark"
       });
 
       setStep("identitas");
@@ -217,6 +235,7 @@ export default function SoalPage() {
         icon: "error",
         title: "Gagal",
         text: "Gagal menyimpan jawaban",
+        theme: "dark"
       });
     }
   } catch (error) {
@@ -226,6 +245,7 @@ export default function SoalPage() {
       icon: "error",
       title: "Server Error",
       text: "Terjadi kesalahan saat submit jawaban",
+      theme: "dark"
     });
   }
 };
@@ -233,8 +253,8 @@ export default function SoalPage() {
 
   return (
     
-    <div className="flex items-center justify-center min-h-screen bg-white text-black p-4 font-sans">
-      <div className="w-full max-w-xl bg-white shadow-md rounded-lg p-8">
+    <div className="flex items-center justify-center min-h-screen bg-[var(--background)] p-4 font-sans">
+      <div className="w-full max-w-xl bg-neutral-800 text-[var(--foreground)] shadow-md rounded-lg p-8">
         {step === "identitas" && (
           <>
           <div className="max-w-3xl mx-auto p-6">
@@ -253,7 +273,7 @@ export default function SoalPage() {
             <div className="mb-2">
               <p>Umur</p>
             <input
-              className="w-full mb-3 px-4 py-2 border border-gray-300 rounded-md"
+              className="w-full mb-3 px-4 py-2 border border-gray-300 rounded-md bg-neutral-800 text-[var(--foreground)]"
               type="number"
               placeholder="Umur"
               value={umur}
@@ -264,7 +284,7 @@ export default function SoalPage() {
             <div className="mb-2">
               <p>Tanggal Lahir</p>
             <input 
-              className="w-full mb-3 px-4 py-2 border border-gray-300 rounded-md"
+              className="w-full mb-3 px-4 py-2 border border-gray-300 rounded-md bg-neutral-800 text-[var(--foreground)]"
               type="date"
               placeholder="Tanggal Lahir"
               value={tanggal_lahir}
@@ -277,7 +297,7 @@ export default function SoalPage() {
               <select
                 value={jenis_kelamin}
                 onChange={(e) => setJenisKelamin(e.target.value)}
-                className="w-full mb-3 px-4 py-2 border border-gray-300 rounded-md"
+                className="w-full mb-3 px-4 py-2 bg-neutral-800 text-[var(--foreground)] border border-gray-300 rounded-md"
               >
               <option value="">Pilih Jenis Kelamin</option>
                 {jenisKelaminOption.map((j) => (
@@ -315,7 +335,7 @@ export default function SoalPage() {
               <select
                 value={posisi}
                 onChange={(e) => setPosisi(e.target.value)}
-                className="w-full mb-3 px-4 py-2 border border-gray-300 rounded-md"
+                className="w-full bg-neutral-800 text-[var(--foreground)] mb-3 px-4 py-2 border border-gray-300 rounded-md"
               >
                 <option value="">--Pilih Posisi--</option>
                 <option value="Accounting">Accounting</option>
@@ -408,13 +428,13 @@ export default function SoalPage() {
 
           {soals.map((s, index) => (
             
-            <div key={s.id} className="bg-white shadow-lg rounded-xl p-8 mb-6 max-w-3xl mx-auto">
+            <div key={s.id} className="bg-neutral-700 text-[var(--foreground)] shadow-lg rounded-xl p-8 mb-6 max-w-3xl mx-auto">
               
-              <h3 className="font-semibold text-yellow-700 mb-2">
+              <h3 className="font-semibold text-yellow-500 mb-2">
                 Pertanyaan {index + 1}
               </h3>
 
-              <p className="text-gray-800 mb-3">{s.pertanyaan}</p>
+              <p className="text-white-800 mb-3">{s.pertanyaan}</p>
 
               {s.gambar && (
                 <img
@@ -474,7 +494,7 @@ export default function SoalPage() {
             }}
               className="w-full px-3 py-2 border rounded"
             />
-            <p className="text-sm text-gray-500 mt-1">
+            <p className="text-sm text-gray-400 mt-1">
               Upload jawaban berupa gambar
             </p>
             </div>

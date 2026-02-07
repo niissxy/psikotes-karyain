@@ -73,6 +73,7 @@ useEffect(() => {
       title: "Loading...",
       allowOutsideClick: false,
       didOpen: () => Swal.showLoading(),
+      theme: "dark"
     });
 
     await loadPeserta(id);
@@ -83,6 +84,7 @@ useEffect(() => {
       icon: "error",
       title: "Error!",
       text: "Gagal mengambil data peserta",
+      theme: "dark"
     });
   }
 };
@@ -142,6 +144,7 @@ useEffect(() => {
     title: "Menyimpan skor...",
     allowOutsideClick: false,
     didOpen: () => Swal.showLoading(),
+    theme: "dark"
   });
 
   try {
@@ -168,6 +171,7 @@ useEffect(() => {
       icon: "success",
       title: "Berhasil!",
       text: "Semua skor berhasil disimpan!",
+      theme: "dark"
     });
 
     window.scrollTo({
@@ -180,6 +184,7 @@ useEffect(() => {
       icon: "error",
       title: "Error!",
       text: "Terjadi error saat menyimpan skor",
+      theme: "dark"
     });
   }
 };
@@ -195,20 +200,20 @@ const totalSkor = jawaban.reduce((total, j) => {
 const nilaiAkhir = ((totalSkor / totalSoal) * 100).toFixed(2);
 
  return (
-  <div className="min-h-screen bg-gray-50 p-6">
+  <div className="min-h-screen bg-[var(--background)] text-[var(--foreground)] p-6">
     <div className="max-w-6xl mx-auto">
 
-      <h1 className="text-3xl font-bold mb-6 text-gray-800">
+      <h1 className="text-3xl font-bold mb-6 text-white">
         Admin Penilaian Psikotes
       </h1>
 
       {/* pilih peserta */}
       <div className="mb-6">
-        <label className="block mb-2 font-semibold text-gray-700">
+        <label className="block mb-2 font-semibold text-white">
           Pilih Peserta
         </label>
         <select
-          className="w-full md:w-1/2 border rounded-lg p-3 focus:ring focus:ring-blue-200"
+          className="w-full md:w-1/2 border rounded-lg p-3 focus:ring focus:ring-blue-200 bg-[var(--background)] text-[var(--foreground)]"
           onChange={(e) => handleSelectPeserta(Number(e.target.value))}
         >
           <option value="">-- Pilih Peserta --</option>
@@ -220,61 +225,122 @@ const nilaiAkhir = ((totalSkor / totalSoal) * 100).toFixed(2);
 
       {/* identitas peserta */}
       {selectedPeserta && (
-        <div className="bg-white shadow rounded-lg p-6 mb-6">
+        <div className="bg-neutral-800 shadow rounded-lg p-6 mb-6">
           <h2 className="text-xl font-bold mb-4 text-yellow-600">
             Identitas Peserta
           </h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-gray-700">
-            <p><b>Nama <span style={{ marginLeft: 104 }}>: </span></b> {selectedPeserta.nama}</p>
-            <p><b>Umur <span style={{ marginLeft: 121 }}>: </span></b> {selectedPeserta.umur}</p>
-            <p><b>Posisi <span style={{ marginLeft: 103 }}>: </span></b> {selectedPeserta.posisi}</p>
-            <p><b>Tanggal Lahir <span style={{ marginLeft: 62 }}>: </span></b> {new Date(selectedPeserta.tanggal_lahir).toLocaleDateString("id-ID")}</p>
-            <p><b>Jenis Kelamin <span style={{ marginLeft: 43 }}>: </span></b> {selectedPeserta.jenis_kelamin}</p>
-            <p><b>Pendidikan <span style={{ marginLeft: 78 }}>: </span></b> {selectedPeserta.tingkat_pendidikan}</p>
-            <p><b>Instansi <span style={{ marginLeft: 87 }}>: </span></b> {selectedPeserta.instansi}</p>
-            <p><b>Kontak <span style={{ marginLeft: 109 }}>: </span></b> {selectedPeserta.kontak}</p>
-            <p><b>Domisili <span style={{ marginLeft: 84 }}>: </span></b> {selectedPeserta.domisili}</p>
-            <p><b>Kendaraan Pribadi <span style={{ marginLeft: 25 }}>: </span></b> {selectedPeserta.kendaraan}</p>
-            <p><b>Kegiatan saat ini <span style={{ marginLeft: 21 }}>: </span></b> {selectedPeserta.kesibukan}</p>
-              {selectedPeserta.portofolio && ( 
-              <p><b>Portofolio <span style={{ marginLeft: 89 }}>: </span></b> 
-              <a
-                href={selectedPeserta.portofolio}
-                target="_blank"
-                className="text-blue-600 underline"
-              >
-                {selectedPeserta.portofolio.split("/").pop()}
-              </a>
-
-              </p> )}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-white">
+          <div className="grid grid-cols-[150px_10px_1fr]">
+            <span className="font-bold">Nama</span>
+            <span>:</span>
+            <span>{selectedPeserta.nama}</span>
           </div>
+
+          <div className="grid grid-cols-[150px_10px_1fr]">
+            <span className="font-bold">Umur</span>
+            <span>:</span>
+            <span>{selectedPeserta.umur}</span>
+          </div>
+
+          <div className="grid grid-cols-[150px_10px_1fr]">
+            <span className="font-bold">Posisi</span>
+            <span>:</span>
+            <span>{selectedPeserta.posisi}</span>
+          </div>
+
+          <div className="grid grid-cols-[150px_10px_1fr]">
+            <span className="font-bold">Tanggal Lahir</span>
+            <span>:</span>
+            <span>
+              {new Date(selectedPeserta.tanggal_lahir).toLocaleDateString("id-ID")}
+            </span>
+          </div>
+
+          <div className="grid grid-cols-[150px_10px_1fr]">
+            <span className="font-bold">Jenis Kelamin</span>
+            <span>:</span>
+            <span>{selectedPeserta.jenis_kelamin}</span>
+          </div>
+
+          <div className="grid grid-cols-[150px_10px_1fr]">
+            <span className="font-bold">Pendidikan</span>
+            <span>:</span>
+            <span>{selectedPeserta.tingkat_pendidikan}</span>
+          </div>
+
+          <div className="grid grid-cols-[150px_10px_1fr]">
+            <span className="font-bold">Instansi</span>
+            <span>:</span>
+            <span>{selectedPeserta.instansi}</span>
+          </div>
+
+          <div className="grid grid-cols-[150px_10px_1fr]">
+            <span className="font-bold">Kontak</span>
+            <span>:</span>
+            <span>{selectedPeserta.kontak}</span>
+          </div>
+
+          <div className="grid grid-cols-[150px_10px_1fr]">
+            <span className="font-bold">Domisili</span>
+            <span>:</span>
+            <span>{selectedPeserta.domisili}</span>
+          </div>
+
+          <div className="grid grid-cols-[150px_10px_1fr]">
+            <span className="font-bold">Kendaraan Pribadi</span>
+            <span>:</span>
+            <span>{selectedPeserta.kendaraan}</span>
+          </div>
+
+          <div className="grid grid-cols-[150px_10px_1fr]">
+            <span className="font-bold">Kegiatan saat ini</span>
+            <span>:</span>
+            <span>{selectedPeserta.kesibukan}</span>
+          </div>
+
+          {selectedPeserta.portofolio && (
+          <div className="grid grid-cols-[150px_10px_1fr]">
+            <span className="font-bold">Portofolio</span>
+            <span>:</span>
+            <a
+              href={selectedPeserta.portofolio}
+              target="_blank"
+              className="text-blue-300 underline"
+            >
+              Lihat Portofolio
+            </a>
+          </div>
+        )}
+
+      </div>
+
         </div>
       )}
 
       {/* tabel jawaban */}
       {jawaban.length > 0 && (
-        <div className="bg-white shadow rounded-lg p-4">
+        <div className="bg-neutral-800 shadow rounded-lg p-4">
 
-          <table className="w-full border-collapse">
+          <table className="w-full border-b border-neutral-700 bg-neutral-600">
             <thead>
-              <tr className="bg-gray-600 text-white">
-                <th className="p-3 border">No</th>
-                <th className="p-3 border">Pertanyaan</th>
-                <th className="p-3 border">Jawaban Peserta</th>
-                <th className="p-3 border">Kunci Jawaban</th>
-                <th className="p-3 border">Skor</th>
+              <tr className="bg-neutral-700 text-white">
+                <th className="p-3 border-collapse">No</th>
+                <th className="p-3 border-collapse">Pertanyaan</th>
+                <th className="p-3 border-collapse">Jawaban Peserta</th>
+                <th className="p-3 border-collapse">Kunci Jawaban</th>
+                <th className="p-3 border-collapse">Skor</th>
               </tr>
             </thead>
             <tbody>
               {jawaban.map((j, index) => (
                 <tr
                   key={j.id}
-                  className="odd:bg-gray-50 hover:bg-yellow-50 transition"
+                  className="odd:bg-neutral-600 hover:bg-neutral-500 transition"
                 >
-                  <td className="p-3 border text-center">{index + 1}</td>
-                  <td className="p-3 border">
-                  <div className="space-y-2">
+                  <td className="p-3 border-b border-neutral-700 text-center text-white">{index + 1}</td>
+                  <td className="border-b border-neutral-700">
+                  <div className="space-y-2 mt-2 mb-2">
                     {/* Pertanyaan */}
                     <p className="font-semibold">{j.soal.pertanyaan}</p>
 
@@ -294,7 +360,7 @@ const nilaiAkhir = ((totalSkor / totalSoal) * 100).toFixed(2);
                 {j.soal.pilihan.map((p) => (
               <li
                 key={p.id}
-                className="px-2 py-1 rounded text-gray-700"
+                className="px-2 py-1 rounded text-white"
               >
                 {p.label}. {p.teks}
               </li>
@@ -306,7 +372,7 @@ const nilaiAkhir = ((totalSkor / totalSoal) * 100).toFixed(2);
         </td>
 
 
-        <td className="p-3 border">
+        <td className="p-3 border-b border-neutral-700">
           {j.soal.tipe === "UPLOAD" ? (
           j.jawaban_gambar ? (
         <div className="flex flex-col gap-2">
@@ -333,9 +399,9 @@ const nilaiAkhir = ((totalSkor / totalSoal) * 100).toFixed(2);
       j.jawaban_text
       )}
     </td>
-    <td className="p-3 border">
+    <td className="p-3 border-b border-neutral-700">
   {j.soal.kunci_jawaban ? (
-    <p className="font-semibold text-green-700">
+    <p className="font-semibold text-green-500">
       {j.soal.kunci_jawaban}
     </p>
   ) : (
@@ -343,7 +409,7 @@ const nilaiAkhir = ((totalSkor / totalSoal) * 100).toFixed(2);
   )}
 </td>
 
-                  <td className="p-3 border text-center">
+                  <td className="p-3 border-b border-neutral-700 text-center">
                     <input
                       type="number"
                       min={0}
