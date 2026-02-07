@@ -5,11 +5,13 @@ import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Swal from "sweetalert2";
 import Image from "next/image";
+import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
 
 export default function LoginPage() {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleLogin = async () => {
     Swal.fire({
@@ -91,13 +93,29 @@ export default function LoginPage() {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
-        <input
-          type="password"
+
+        <div className="relative mb-3">
+          <input
+          type={showPassword ? "text" : "password"}
           placeholder="Password"
           className="w-full mb-3 px-4 py-2 border rounded"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
+
+        <button
+          type="button"
+          onClick={() => setShowPassword(!showPassword)}
+          className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-600 hover:text-black"
+        >
+          {showPassword ? (
+            <EyeIcon className="w-5 h-5" />
+          ) : (
+            <EyeSlashIcon className="w-5 h-5" />
+          )
+          }
+        </button>
+        </div>
 
         <button
           onClick={handleLogin}
