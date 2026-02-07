@@ -15,6 +15,23 @@ export async function POST(req: Request) {
   //   return NextResponse.json({ success: false, message: "Posisi tidak valid"});
   // }
   
+  const posisi = formData.get("posisi")?.toString();
+  const nama = formData.get("nama")?.toString();
+
+if (!posisi) {
+  return NextResponse.json({
+    success: false,
+    message: "Posisi wajib dipilih",
+  }, { status: 400 });
+}
+
+if (!nama) {
+  return NextResponse.json({
+    success: false,
+    message: "Nama wajib diisi",
+  }, { status: 400 });
+}
+
   // PORTOFOLIO
   const portofolio = formData.get("portofolio") as File | null;
   let portofolioUrl: string | null = null;
@@ -23,22 +40,25 @@ export async function POST(req: Request) {
     portofolioUrl = await uploadToSupabase(portofolio, "portofolio");
   }
 
-  const peserta = await prisma.peserta.create({
-    data: {
-      nama: formData.get("nama") as string,
-      umur: Number(formData.get("umur")),
-      tanggal_lahir: new Date(formData.get("tanggal_lahir") as string),
-      jenis_kelamin: formData.get("jenis_kelamin") as any,
-      tingkat_pendidikan: formData.get("tingkat_pendidikan") as string,
-      instansi: formData.get("instansi") as string,
-      posisi: formData.get("posisi") as string,
-      kontak: formData.get("kontak") as string,
-      domisili: formData.get("domisili") as string,
-      kendaraan: formData.get("kendaraan") as string,
-      kesibukan: formData.get("kesibukan") as string,
-      portofolio: portofolioUrl,
-    },
-  });
+ const peserta = await prisma.peserta.create({
+  data: {
+    nama: formData.get("nama")!.toString(),
+    umur: Number(formData.get("umur")),
+    tanggal_lahir: new Date(formData.get("tanggal_lahir")!.toString()),
+    jenis_kelamin: formData.get("jenis_kelamin") as any,
+    tingkat_pendidikan: formData.get("tingkat_pendidikan")!.toString(),
+    instansi: formData.get("instansi")!.toString(),
+    posisi: posisi, // hasil validasi di atas
+    kontak: formData.get("kontak")!.toString(),
+
+    domisili: formData.get("domisili")?.toString() || null,
+    kendaraan: formData.get("kendaraan")?.toString() || null,
+    kesibukan: formData.get("kesibukan")?.toString() || null,
+
+    portofolio: portofolioUrl,
+  },
+});
+
 
   const jawabanList = JSON.parse(formData.get("jawaban") as string);
 
