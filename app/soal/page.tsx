@@ -441,7 +441,8 @@ export default function SoalPage() {
             setJawaban({ ...jawaban, [s.id]: e.target.value })
           }
         />
-        <span>{p.label}. {p.teks}</span>
+        <span>{p.label}. </span>
+        <span>{p.teks}</span>
       </label>
     ))}
   </div>
