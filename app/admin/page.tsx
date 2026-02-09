@@ -400,14 +400,14 @@ const nilaiAkhir = ((totalSkor / totalSoal) * 100).toFixed(2);
       )}
     </td>
     <td className="p-3 border-b border-neutral-700">
-  {j.soal.kunci_jawaban ? (
-    <p className="font-semibold text-green-500">
-      {j.soal.kunci_jawaban}
-    </p>
-  ) : (
-    <span className="text-gray-400">Belum ada kunci jawaban</span>
-  )}
-</td>
+      {j.soal.kunci_jawaban ? (
+        <p className="font-semibold text-green-500">
+          {j.soal.kunci_jawaban}
+        </p>
+      ) : (
+        <span className="text-gray-400">Belum ada kunci jawaban</span>
+      )}
+    </td>
                   <td className="p-3 border-b border-neutral-700 text-center">
                     <input
                       type="number"
