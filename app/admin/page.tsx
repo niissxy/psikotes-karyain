@@ -392,22 +392,22 @@ const nilaiAkhir = ((totalSkor / totalSoal) * 100).toFixed(2);
             Lihat Jawaban
           </a>
         </div>
-        ) : (
-        <span className="text-red-500">Tidak ada gambar</span>
-        )
-      ) : (
-      j.jawaban_text
-      )}
+          ) : (
+            <span className="text-red-500">Tidak ada gambar</span>
+          )
+          ) : (
+          j.jawaban_text
+        )}
     </td>
-    <td className="p-3 border-b border-neutral-700">
-      {j.soal.kunci_jawaban ? (
+      <td className="p-3 border-b border-neutral-700">
+        {j.soal.kunci_jawaban ? (
         <p className="font-semibold text-green-500">
           {j.soal.kunci_jawaban}
         </p>
-      ) : (
-        <span className="text-gray-400">Belum ada kunci jawaban</span>
-      )}
-    </td>
+        ) : (
+          <span className="text-gray-400">Belum ada kunci jawaban</span>
+        )}
+      </td>
                   <td className="p-3 border-b border-neutral-700 text-center">
                     <input
                       type="number"

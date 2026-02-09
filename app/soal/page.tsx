@@ -428,7 +428,7 @@ if (unanswered.length > 0) {
 
           {soals.map((s, index) => (
             
-            <div key={s.id} className="bg-neutral-700 text-[var(--foreground)] shadow-lg rounded-xl p-8 mb-6 max-w-3xl mx-auto">
+            <div key={s.id} className="bg-neutral-700 text-[var(--foreground)] shadow-lg rounded-xl p-10 mb-6 max-w-3xl mx-auto">
               
               <h3 className="font-semibold text-yellow-500 mb-2">
                 Pertanyaan {index + 1}
@@ -446,29 +446,27 @@ if (unanswered.length > 0) {
 
               {/* ===== TIPE PILIHAN ===== */}
               {s.tipe === "PILIHAN" && (
-  <div className="grid grid-cols-2 gap-4">
-    {s.pilihan.map((p) => (
-      <label
-        key={p.id}
-        className="flex items-center gap-2 border-sm rounded p-2 cursor-pointer"
-      >
-        <input
-          type="radio"
-          name={`soal-${s.id}`}
-          value={p.label}
-          checked={jawaban[s.id] === p.label}
-          onChange={(e) =>
-            setJawaban({ ...jawaban, [s.id]: e.target.value })
-          }
-        />
-        <span>{p.label}. </span>
-        <span>{p.teks}</span>
-      </label>
-    ))}
-  </div>
-)}
-
-
+              <div className="grid grid-cols-2 gap-4">
+                {s.pilihan.map((p) => (
+                <label
+                  key={p.id}
+                  className="flex items-center gap-2 border-sm rounded p-2 cursor-pointer"
+                >
+                <input
+                  type="radio"
+                  name={`soal-${s.id}`}
+                  value={p.label}
+                  checked={jawaban[s.id] === p.label}
+                  onChange={(e) =>
+                  setJawaban({ ...jawaban, [s.id]: e.target.value })
+                  }
+                />
+                <span>{p.label}. </span>
+                <span>{p.teks}</span>
+                </label>
+              ))}
+              </div>
+            )}
 
               {/* ===== TIPE UPLOAD ===== */}
               {s.tipe === "UPLOAD" && (

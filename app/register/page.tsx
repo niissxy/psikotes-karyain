@@ -71,14 +71,14 @@ export default function RegisterPage() {
       <div className="bg-neutral-800 text-[var(--foreground)] p-6 rounded shadow-md w-[320px]">
 
          <div className="flex justify-center mb-4">
-                  <Image
-                    src="/logo.png"
-                    alt="Logo"
-                    width={120}
-                    height={120}
-                    unoptimized
-                  />
-                </div>
+          <Image
+            src="/logo.png"
+            alt="Logo"
+            width={120}
+            height={120}
+            unoptimized
+          />
+          </div>
 
         <h2 className="text-2xl font-bold text-center mb-4">Register</h2>
 
