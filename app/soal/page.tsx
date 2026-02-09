@@ -446,7 +446,7 @@ if (unanswered.length > 0) {
 
               {/* ===== TIPE PILIHAN ===== */}
               {s.tipe === "PILIHAN" && (
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-2 gap-4" style={{ fontSize: 12 }}>
                 {s.pilihan.map((p) => (
                 <label
                   key={p.id}
@@ -503,7 +503,7 @@ if (unanswered.length > 0) {
           <div className="flex justify-center mt-6">
             <button
               onClick={submitTest}
-              className="mt-6 bg-green-500 text-white px-6 py-2 rounded hover:bg-green-600"
+              className="mt-6 bg-green-500 text-white px-6 py-2 rounded hover:bg-green-600 cursor-pointer"
             >
               Submit Jawaban
             </button>

@@ -65,7 +65,6 @@ useEffect(() => {
     });
 }, []);
 
-
   // pilih peserta
   const handleSelectPeserta = async (id: number) => {
   try {
@@ -88,7 +87,6 @@ useEffect(() => {
     });
   }
 };
-
 
 const loadPeserta = async (id: number) => {
   const res = await fetch(`/api/admin/peserta/${id}`);
@@ -117,15 +115,11 @@ useEffect(() => {
         skor: benar ? 1 : 0,
       };
     }
-
-    // jika UPLOAD (gambar) → biarkan manual
     return j;
   });
 
   setJawaban(updatedJawaban);
 }, [selectedPeserta]);
-
-
 
   // ubah skor
   const handleSkorChange = (id: number, skor: number) => {
@@ -189,8 +183,6 @@ useEffect(() => {
   }
 };
 
-
-
 const totalSoal = jawaban.length;
 
 const totalSkor = jawaban.reduce((total, j) => {
@@ -244,7 +236,7 @@ const nilaiAkhir = ((totalSkor / totalSoal) * 100).toFixed(2);
           </div>
 
           <div className="grid grid-cols-[150px_10px_1fr]">
-            <span className="font-bold">Posisi</span>
+            <span className="font-bold">Posisi yang dilamar</span>
             <span>:</span>
             <span>{selectedPeserta.posisi}</span>
           </div>
@@ -270,7 +262,7 @@ const nilaiAkhir = ((totalSkor / totalSoal) * 100).toFixed(2);
           </div>
 
           <div className="grid grid-cols-[150px_10px_1fr]">
-            <span className="font-bold">Instansi</span>
+            <span className="font-bold">Sekolah asal</span>
             <span>:</span>
             <span>{selectedPeserta.instansi}</span>
           </div>
@@ -356,7 +348,7 @@ const nilaiAkhir = ((totalSkor / totalSoal) * 100).toFixed(2);
 
               {/* Pilihan jawaban */}
               {j.soal.tipe === "PILIHAN" && j.soal.pilihan?.length > 0 && (
-              <ul className="mt-2 space-y-1">
+              <ul className="mt-2 space-y-1 flex flex-row flex-wrap gap-3">
                 {j.soal.pilihan.map((p) => (
               <li
                 key={p.id}
@@ -370,7 +362,6 @@ const nilaiAkhir = ((totalSkor / totalSoal) * 100).toFixed(2);
         )}
         </div>
         </td>
-
 
         <td className="p-3 border-b border-neutral-700">
           {j.soal.tipe === "UPLOAD" ? (
@@ -387,7 +378,7 @@ const nilaiAkhir = ((totalSkor / totalSoal) * 100).toFixed(2);
             href={j.jawaban_gambar}
             target="_blank"
             download
-            className="text-blue-600 underline"
+            className="text-blue-300 underline"
           >
             Lihat Jawaban
           </a>
@@ -401,7 +392,7 @@ const nilaiAkhir = ((totalSkor / totalSoal) * 100).toFixed(2);
     </td>
       <td className="p-3 border-b border-neutral-700">
         {j.soal.kunci_jawaban ? (
-        <p className="font-semibold text-green-500">
+        <p className="font-semibold text-green-600">
           {j.soal.kunci_jawaban}
         </p>
         ) : (
@@ -418,7 +409,7 @@ const nilaiAkhir = ((totalSkor / totalSoal) * 100).toFixed(2);
                       onChange={(e) =>
                       handleSkorChange(j.id, Number(e.target.value))
                     }
-                      className="border rounded px-2 py-1 w-20 text-center"
+                      className="border rounded px-2 py-1 w-20 text-center bg-neutral-600 text-[var(--foreground)]"
                     />
 
                   </td>
@@ -429,7 +420,7 @@ const nilaiAkhir = ((totalSkor / totalSoal) * 100).toFixed(2);
 
           {/* total skor */}
           <div className="flex justify-between items-center mt-6">
-           <div className="bg-green-100 text-green-800 px-5 py-3 rounded-lg text-lg font-bold shadow">
+           <div className="bg-green-400 text-green-900 px-5 py-3 rounded-lg text-lg font-bold shadow">
             Total Skor: <span className="text-2xl">{nilaiAkhir}%</span>
             </div>
 
