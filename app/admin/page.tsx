@@ -314,7 +314,7 @@ const nilaiAkhir = ((totalSkor / totalSoal) * 100).toFixed(2);
       {jawaban.length > 0 && (
         <div className="bg-neutral-800 shadow rounded-lg p-4">
 
-          <table className="w-full border-b border-neutral-700 bg-neutral-600">
+          <table className="w-full border-b border-neutral-700 bg-neutral-500">
             <thead>
               <tr className="bg-neutral-700 text-white">
                 <th className="p-3 border-collapse">No</th>
@@ -328,7 +328,7 @@ const nilaiAkhir = ((totalSkor / totalSoal) * 100).toFixed(2);
               {jawaban.map((j, index) => (
                 <tr
                   key={j.id}
-                  className="odd:bg-neutral-600 hover:bg-neutral-500 transition"
+                  className="odd:bg-neutral-500 hover:bg-neutral-600 transition"
                 >
                   <td className="p-3 border-b border-neutral-700 text-center text-white">{index + 1}</td>
                   <td className="border-b border-neutral-700">
@@ -392,7 +392,7 @@ const nilaiAkhir = ((totalSkor / totalSoal) * 100).toFixed(2);
     </td>
       <td className="p-3 border-b border-neutral-700">
         {j.soal.kunci_jawaban ? (
-        <p className="font-semibold text-green-600">
+        <p className="font-semibold text-green-900">
           {j.soal.kunci_jawaban}
         </p>
         ) : (
@@ -409,7 +409,7 @@ const nilaiAkhir = ((totalSkor / totalSoal) * 100).toFixed(2);
                       onChange={(e) =>
                       handleSkorChange(j.id, Number(e.target.value))
                     }
-                      className="border rounded px-2 py-1 w-20 text-center bg-neutral-600 text-[var(--foreground)]"
+                      className="border rounded px-2 py-1 w-20 text-center bg-neutral-500 text-[var(--foreground)]"
                     />
 
                   </td>
